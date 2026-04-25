@@ -12,8 +12,6 @@ icse_lib/temp_probe/
 icse_lib/temp_workspaces/
 icse_lib/Results/
 
-Results/*.log
-
 .env
 .env.*
 .DS_Store
