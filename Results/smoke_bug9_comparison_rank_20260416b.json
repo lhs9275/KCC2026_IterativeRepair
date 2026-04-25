@@ -1,0 +1,57 @@
+{
+  "9": {
+    "bug_id": "9",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \"<title>\" + toolTipText + \"</title>\";\n    }",
+        "best_candidate_hash": "75474d4759f7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 67.7,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.chart.imagemap.junit.StandardToolTipTagFragmentGeneratorTests::testGenerateURLFragment"
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + toolTipText + \"\\\"\"\n            + \"\\\" alt=\\\"\\\"\";\n    }",
+        "best_candidate_hash": "a4b7c6b6615b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 23.784,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.chart.imagemap.junit.StandardToolTipTagFragmentGeneratorTests::testGenerateURLFragment"
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n    return \" title=\\\"\" + toolTipText + \"\\\"\"\n        + \"\\\" alt=\\\"\";\n}",
+        "best_candidate_hash": "cd280657906b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 12.705,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.chart.imagemap.junit.StandardToolTipTagFragmentGeneratorTests::testGenerateURLFragment"
+      }
+    ],
+    "final_code": "public String generateToolTipFragment(String toolTipText) {\n    return \" title=\\\"\" + toolTipText + \"\\\"\"\n        + \"\\\" alt=\\\"\";\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 104.19
+  }
+}

@@ -1,0 +1,202 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ================================================================ -->
+    <!-- TITLE -->
+    <!-- ================================================================ -->
+    <mxCell id="title" value="KCC 2026 — Error-Type-Aware Iterative Repair Pipeline" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="300" y="20" width="900" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ================================================================ -->
+    <!-- LANE: PREPROCESSING (gray, already done) -->
+    <!-- ================================================================ -->
+    <mxCell id="lane_pre_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;opacity=50;" vertex="1" parent="1">
+      <mxGeometry x="40" y="80" width="1560" height="160" as="geometry" />
+    </mxCell>
+    <mxCell id="lane_pre_label" value="전처리 단계 (완료 — 재실행 불필요)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="55" y="85" width="320" height="25" as="geometry" />
+    </mxCell>
+
+    <!-- Step 0 -->
+    <mxCell id="s0" value="&lt;b&gt;0. EnrichContext.py&lt;/b&gt;&lt;br&gt;sibling signatures&lt;br&gt;imports / class fields 추가" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="60" y="120" width="200" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Step 1 -->
+    <mxCell id="s1" value="&lt;b&gt;1. ASTReasonAnalyzer.py&lt;/b&gt;&lt;br&gt;AST 힌트 추출&lt;br&gt;buggy line 국소화" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="300" y="120" width="200" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Step 2 -->
+    <mxCell id="s2" value="&lt;b&gt;2. Bm25.py&lt;/b&gt;&lt;br&gt;BM25 컨텍스트 랭킹&lt;br&gt;관련 코드 스니펫 추가" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="540" y="120" width="200" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Step 3 -->
+    <mxCell id="s3" value="&lt;b&gt;3. GenerateBugfixPrompt.py&lt;/b&gt;&lt;br&gt;프롬프트 템플릿 생성&lt;br&gt;컨텍스트 조합" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="780" y="120" width="200" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Step 4 -->
+    <mxCell id="s4" value="&lt;b&gt;4. PlanAgent.py&lt;/b&gt;&lt;br&gt;최종 prompt 필드 완성&lt;br&gt;→ Results/4/4.defects4j.PlanAgent.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="120" width="240" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Dataset -->
+    <mxCell id="dataset" value="&lt;b&gt;defects4j_255_bugs_meta_data.json&lt;/b&gt;&lt;br&gt;255 bugs · 1.5 MB&lt;br&gt;D4J.json (60 MB)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1310" y="110" width="240" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- Preprocessing arrows -->
+    <mxCell id="e01" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s0" target="s1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s1" target="s2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s2" target="s3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e34" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s3" target="s4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e4d" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s4" target="dataset" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- ================================================================ -->
+    <!-- PROMPT JSON artifact -->
+    <!-- ================================================================ -->
+    <mxCell id="prompt_json" value="&lt;b&gt;Results/4/4.defects4j.PlanAgent.json&lt;/b&gt;&lt;br&gt;255 bugs · prompt 완성본 · 21 MB" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="600" y="290" width="300" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- arrow from step4 down to prompt_json -->
+    <mxCell id="e4pj" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#d6b656;strokeWidth=2;dashed=1;" edge="1" source="s4" target="prompt_json" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ================================================================ -->
+    <!-- LANE: CORE EXECUTION -->
+    <!-- ================================================================ -->
+    <mxCell id="lane_core_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fff8;strokeColor=#82b366;opacity=30;" vertex="1" parent="1">
+      <mxGeometry x="40" y="410" width="1560" height="420" as="geometry" />
+    </mxCell>
+    <mxCell id="lane_core_label" value="핵심 실행 단계 — 5.IterativeRepair.py" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=13;fontColor=#2d7600;" vertex="1" parent="1">
+      <mxGeometry x="55" y="415" width="400" height="25" as="geometry" />
+    </mxCell>
+
+    <!-- Config YAML -->
+    <mxCell id="config" value="&lt;b&gt;config/*.yaml&lt;/b&gt;&lt;br&gt;strategy / max_iterations&lt;br&gt;temperature_schedule / top_k" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="60" y="450" width="200" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- 5.IterativeRepair.py main box -->
+    <mxCell id="s5" value="&lt;b&gt;5.IterativeRepair.py&lt;/b&gt;&lt;br&gt;엔트리포인트 · 병렬 실행 조율&lt;br&gt;체크포인트 저장/재개" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="320" y="455" width="260" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows into s5 -->
+    <mxCell id="epj5" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;strokeWidth=2;" edge="1" source="prompt_json" target="s5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="ecfg5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="config" target="s5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- core modules group -->
+    <mxCell id="core_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;opacity=50;" vertex="1" parent="1">
+      <mxGeometry x="640" y="430" width="680" height="170" as="geometry" />
+    </mxCell>
+    <mxCell id="core_label" value="core/" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=11;fontColor=#2d7600;" vertex="1" parent="1">
+      <mxGeometry x="650" y="435" width="60" height="20" as="geometry" />
+    </mxCell>
+
+    <mxCell id="iterative_repair" value="&lt;b&gt;iterative_repair.py&lt;/b&gt;&lt;br&gt;반복 루프 · top-K 메모리&lt;br&gt;stagnation rotation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="660" y="455" width="180" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="error_classifier" value="&lt;b&gt;error_classifier.py&lt;/b&gt;&lt;br&gt;오류 유형 분류&lt;br&gt;10개 error family" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="860" y="455" width="180" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="feedback_prompt" value="&lt;b&gt;feedback_prompt.py&lt;/b&gt;&lt;br&gt;유형별 피드백 빌더&lt;br&gt;11개 전략 라우팅" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="455" width="180" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="patch_generator" value="&lt;b&gt;patch_generator.py&lt;/b&gt;&lt;br&gt;LLM 호출 · 코드 블록 추출&lt;br&gt;후보 정규화" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="860" y="550" width="180" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- core internal edges -->
+    <mxCell id="eir_ec" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="iterative_repair" target="error_classifier" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="eec_fp" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="error_classifier" target="feedback_prompt" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="eir_pg" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="iterative_repair" target="patch_generator" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- s5 → iterative_repair -->
+    <mxCell id="e5ir" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" source="s5" target="iterative_repair" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- llm_backend -->
+    <mxCell id="llm_backend" value="&lt;b&gt;llm_backend.py&lt;/b&gt; (루트)&lt;br&gt;vLLM / OpenAI 백엔드&lt;br&gt;prompt truncation (max 4096)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="660" y="560" width="190" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="epg_llm" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="patch_generator" target="llm_backend" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- evaluation -->
+    <mxCell id="eval_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff0f0;strokeColor=#ae4132;opacity=50;" vertex="1" parent="1">
+      <mxGeometry x="60" y="580" width="540" height="140" as="geometry" />
+    </mxCell>
+    <mxCell id="eval_label" value="evaluation/ + icse_lib/icse_eval/" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=11;fontColor=#ae4132;" vertex="1" parent="1">
+      <mxGeometry x="70" y="585" width="300" height="20" as="geometry" />
+    </mxCell>
+    <mxCell id="eval_iterative" value="&lt;b&gt;eval_iterative.py&lt;/b&gt;&lt;br&gt;Defects4J 체크아웃 · 컴파일 · 테스트&lt;br&gt;평가 결과 반환" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="80" y="610" width="220" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="icse_eval" value="&lt;b&gt;icse_eval/&lt;/b&gt;&lt;br&gt;dataset_adapter.py&lt;br&gt;defects4j_command.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="330" y="610" width="200" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="eeval_icse" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="eval_iterative" target="icse_eval" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- s5 → eval -->
+    <mxCell id="e5ev" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;" edge="1" source="s5" target="eval_iterative" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- ================================================================ -->
+    <!-- OUTPUT -->
+    <!-- ================================================================ -->
+    <mxCell id="results_json" value="&lt;b&gt;Results/iterative_*_20260418.json&lt;/b&gt;&lt;br&gt;error_aware 44/255 (17.3%)&lt;br&gt;blind_retry 40/255 (15.7%)&lt;br&gt;one_shot 33/255 (12.9%)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1310" y="450" width="260" height="110" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e5res" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" source="s5" target="results_json" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- ================================================================ -->
+    <!-- LANE: ANALYSIS -->
+    <!-- ================================================================ -->
+    <mxCell id="lane_analysis_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f0ff;strokeColor=#9673a6;opacity=30;" vertex="1" parent="1">
+      <mxGeometry x="40" y="860" width="1560" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="lane_analysis_label" value="분석 및 논문 산출물" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=13;fontColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="55" y="865" width="280" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="paper_gen" value="&lt;b&gt;paper_artifacts/generate_paper_artifacts.py&lt;/b&gt;&lt;br&gt;Table 1/2 (LaTeX) · Figure 1 (bar chart)&lt;br&gt;Case study · McNemar 통계" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="400" y="900" width="340" height="80" as="geometry" />
+    </mxCell>
+
+    <mxCell id="paper_out" value="&lt;b&gt;paper_artifacts/&lt;/b&gt;&lt;br&gt;PAPER_SUMMARY.md&lt;br&gt;fig_breakdown.pdf · table*.tex&lt;br&gt;case_study_bug153.md" style="shape=folder;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="820" y="900" width="220" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="eres_pa" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;strokeWidth=2;" edge="1" source="results_json" target="paper_gen" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="epa_po" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;strokeWidth=2;" edge="1" source="paper_gen" target="paper_out" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- ================================================================ -->
+    <!-- LEGEND -->
+    <!-- ================================================================ -->
+    <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;" vertex="1" parent="1">
+      <mxGeometry x="1100" y="870" width="480" height="130" as="geometry" />
+    </mxCell>
+    <mxCell id="legend_title" value="범례" style="text;html=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1110" y="875" width="60" height="20" as="geometry" />
+    </mxCell>
+    <mxCell id="l1" value="" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="1115" y="900" width="30" height="20" as="geometry" /></mxCell>
+    <mxCell id="l1t" value="전처리 (완료)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1"><mxGeometry x="1155" y="900" width="100" height="20" as="geometry" /></mxCell>
+    <mxCell id="l2" value="" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="1115" y="928" width="30" height="20" as="geometry" /></mxCell>
+    <mxCell id="l2t" value="핵심 실행 (core/)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1"><mxGeometry x="1155" y="928" width="120" height="20" as="geometry" /></mxCell>
+    <mxCell id="l3" value="" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="1115" y="956" width="30" height="20" as="geometry" /></mxCell>
+    <mxCell id="l3t" value="평가 (Defects4J 실행)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1"><mxGeometry x="1155" y="956" width="140" height="20" as="geometry" /></mxCell>
+    <mxCell id="l4" value="" style="rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1"><mxGeometry x="1310" y="900" width="30" height="20" as="geometry" /></mxCell>
+    <mxCell id="l4t" value="LLM 백엔드 (vLLM)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1"><mxGeometry x="1350" y="900" width="130" height="20" as="geometry" /></mxCell>
+    <mxCell id="l5" value="" style="shape=cylinder3;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1"><mxGeometry x="1310" y="928" width="30" height="20" as="geometry" /></mxCell>
+    <mxCell id="l5t" value="데이터 / JSON 파일" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1"><mxGeometry x="1350" y="928" width="130" height="20" as="geometry" /></mxCell>
+    <mxCell id="l6" value="" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1"><mxGeometry x="1310" y="956" width="30" height="20" as="geometry" /></mxCell>
+    <mxCell id="l6t" value="논문 산출물" style="text;html=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1"><mxGeometry x="1350" y="956" width="100" height="20" as="geometry" /></mxCell>
+
+  </root>
+</mxGraphModel>

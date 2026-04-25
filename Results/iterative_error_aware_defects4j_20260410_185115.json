@@ -1,0 +1,8 @@
+{
+  "1": {
+    "bug_id": "1",
+    "status": "error",
+    "error": "n must be 1 when using greedy sampling, got 5.",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/selab/KCC2026_IterativeRepair/5.IterativeRepair.py\", line 131, in repair_one_bug\n    result = run_iterative_repair(\n  File \"/home/selab/KCC2026_IterativeRepair/core/iterative_repair.py\", line 150, in run_iterative_repair\n    candidates = generate_candidates(\n  File \"/home/selab/KCC2026_IterativeRepair/core/patch_generator.py\", line 130, in generate_candidates\n    records = backend.generate_records(\n  File \"/home/selab/KCC2026_IterativeRepair/icse_lib/llm_backend.py\", line 311, in generate_records\n    sampling_params = build_sampling_params(sampling_kwargs)\n  File \"/home/selab/KCC2026_IterativeRepair/icse_lib/llm_backend.py\", line 136, in build_sampling_params\n    return SamplingParams(**params_kwargs)\n  File \"/home/selab/miniconda3/envs/kcc/lib/python3.10/site-packages/vllm/sampling_params.py\", line 372, in __post_init__\n    self._verify_greedy_sampling()\n  File \"/home/selab/miniconda3/envs/kcc/lib/python3.10/site-packages/vllm/sampling_params.py\", line 481, in _verify_greedy_sampling\n    raise ValueError(f\"n must be 1 when using greedy sampling, got {self.n}.\")\nValueError: n must be 1 when using greedy sampling, got 5.\n"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "9": {
+    "bug_id": "9",
+    "status": "error",
+    "error": "bad operand type for unary -: 'NoneType'",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/selab/KCC2026_IterativeRepair/5.IterativeRepair.py\", line 135, in repair_one_bug\n    result = run_iterative_repair(\n  File \"/home/selab/KCC2026_IterativeRepair/core/iterative_repair.py\", line 283, in run_iterative_repair\n    if _is_better_feedback_candidate(eval_result, best_eval):\n  File \"/home/selab/KCC2026_IterativeRepair/core/iterative_repair.py\", line 114, in _is_better_feedback_candidate\n    -_normalize_failing_tests_count(current_eval),\nTypeError: bad operand type for unary -: 'NoneType'\n"
+  }
+}

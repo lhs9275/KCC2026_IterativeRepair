@@ -1,0 +1,198 @@
+{
+  "9": {
+    "bug_id": "9",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \"<title>\" + toolTipText + \"</title>\";\n    }",
+        "best_candidate_hash": "75474d4759f7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 62.826
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + htmlEscape(toolTipText) + \"\\\" alt=\\\"\\\"\";\n    }",
+        "best_candidate_hash": "135bc360313a",
+        "fail_reason": "compile_fail",
+        "error_family": "cannot_find_symbol",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_10_2346094_1776244885810/Chart_10 && /home/selab/EMSE/defects4j/major/bin/ant -f /home/selab/EMSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/EMSE/defects4j -Dd4j.dir.projects=/home/selab/EMSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_10_2346094_1776244885",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 2.921
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + toolTipText + \"\\\" alt=\\\"\\\"\";\n    }",
+        "best_candidate_hash": "aedef2f29f38",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "symbol_feedback",
+        "elapsed_sec": 8.597
+      }
+    ],
+    "final_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + toolTipText + \"\\\" alt=\\\"\\\"\";\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 74.345
+  },
+  "11": {
+    "bug_id": "11",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        this.dataset = dataset;\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "aa5908dd5cfb",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 18.519
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        this.dataset = dataset;\n        PiePlot piePlot = new PiePlot(dataset);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "358cc8c60acb",
+        "fail_reason": "compile_fail",
+        "error_family": "type_mismatch",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_2346094_1776244963605/Chart_12 && /home/selab/EMSE/defects4j/major/bin/ant -f /home/selab/EMSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/EMSE/defects4j -Dd4j.dir.projects=/home/selab/EMSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_2346094_1776244963",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 6.009
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    this.dataset = dataset;\n    PiePlot piePlot = new PiePlot((PieDataset) dataset);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+        "best_candidate_hash": "67e1c6079783",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "type_feedback",
+        "elapsed_sec": 16.021
+      }
+    ],
+    "final_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    this.dataset = dataset;\n    PiePlot piePlot = new PiePlot((PieDataset) dataset);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 40.549
+  },
+  "214": {
+    "bug_id": "214",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int compareTo(Fraction object) {\n        double nOd = doubleValue();\n        double dOn = object.doubleValue();\n        return Double.compare(nOd, dOn);\n    }",
+        "best_candidate_hash": "59bf99be4798",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.388
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int compareTo(Fraction object) {\n    double nOd = doubleValue();\n    double dOn = object.doubleValue();\n    return Double.compare(nOd, dOn);\n}",
+        "best_candidate_hash": "2a4cf2e90f91",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 7.815
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public int compareTo(Fraction object) {\n        double nOd = doubleValue();\n        double dOn = object.doubleValue();\n        if (Double.compare(nOd, dOn) == 0) {\n            return 0;\n        } else {\n            return (nOd < dOn) ? -1 : +1;\n        }\n    }",
+        "best_candidate_hash": "6d72d07f80da",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 30.142
+      }
+    ],
+    "final_code": "public int compareTo(Fraction object) {\n        double nOd = doubleValue();\n        double dOn = object.doubleValue();\n        if (Double.compare(nOd, dOn) == 0) {\n            return 0;\n        } else {\n            return (nOd < dOn) ? -1 : +1;\n        }\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 54.346
+  },
+  "242": {
+    "bug_id": "242",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n        DateTimeParser parser = requireParser();\n        if (instant == null) {\n            throw new IllegalArgumentException(\"Instant must not be null\");\n        }\n\n        long instantMillis = instant.getMillis();\n        Chronology chrono = instant.getChronology();\n        long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n        chrono = selectChronology(chrono);\n        int defaultYear = chrono.year().get(instantLocal);\n\n        DateTimeParserBucket bucket = new DateTimeParserBucket(\n            instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n        int newPos = parser.parseInto(bucket, text, position);\n        instant.setMillis(bucket.computeMillis(false, text));\n        if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n            int parsedOffset = bucket.getOffsetInteger();\n            DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n            chrono = chrono.withZone(parsedZone);\n        } else if (bucket.getZone() != null) {\n            chrono = chrono.withZone(bucket.getZone());\n        }\n        instant.setChronology(chrono);\n        if (iZone != null) {\n            instant.setZone(iZone);\n        }\n        return newPos;\n    }",
+        "best_candidate_hash": "77ca3359f283",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 23.937
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    chrono = selectChronology(chrono);\n    int defaultYear = chrono.year().get(instantLocal);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+        "best_candidate_hash": "76b65c2b9c7b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 28.334
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    if (instantLocal < 0) {\n        instantLocal = 0; // Clamp negative values to 0\n    }\n    chrono = selectChronology(chrono);\n    int defaultYear = chrono.year().get(instantLocal);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+        "best_candidate_hash": "805d6ca74350",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 40.427
+      }
+    ],
+    "final_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    if (instantLocal < 0) {\n        instantLocal = 0; // Clamp negative values to 0\n    }\n    chrono = selectChronology(chrono);\n    int defaultYear = chrono.year().get(instantLocal);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 92.7
+  }
+}

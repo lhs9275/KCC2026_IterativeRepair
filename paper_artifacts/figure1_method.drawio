@@ -1,0 +1,112 @@
+<mxGraphModel dx="1200" dy="600" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ===== CONTRIBUTION HIGHLIGHT BOX ===== -->
+    <mxCell id="contrib_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#f0a500;strokeWidth=2;dashed=1;opacity=60;" vertex="1" parent="1">
+      <mxGeometry x="480" y="330" width="430" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="contrib_label" value="제안 기법" style="text;html=1;strokeColor=none;fillColor=#f0a500;align=center;verticalAlign=middle;fontStyle=1;fontSize=10;fontColor=#ffffff;rounded=1;" vertex="1" parent="1">
+      <mxGeometry x="640" y="320" width="70" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- ===== MAIN FLOW ROW (y=190) ===== -->
+
+    <!-- Buggy Function Input -->
+    <mxCell id="input" value="&lt;b&gt;Buggy Function&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;+ imports&lt;br&gt;+ sibling signatures&lt;br&gt;+ buggy line hint&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="30" y="180" width="140" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Prompt Construction -->
+    <mxCell id="prompt" value="&lt;b&gt;Prompt&lt;br&gt;Construction&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;repair template&lt;br&gt;+ context&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="220" y="180" width="140" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- LLM -->
+    <mxCell id="llm" value="&lt;b&gt;LLM Generation&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;Qwen2.5-Coder-7B&lt;br&gt;k candidates&lt;br&gt;temp: 0.0 → 0.4 → 0.8&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="410" y="180" width="150" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Evaluation -->
+    <mxCell id="eval" value="&lt;b&gt;Test Evaluation&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;Defects4J&lt;br&gt;compile + test suite&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="620" y="180" width="140" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Output -->
+    <mxCell id="output" value="&lt;b&gt;Patched Function&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;test suite pass&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="830" y="190" width="140" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- ===== FAIL PATH ROW (y=360) ===== -->
+
+    <!-- Error Classifier (CONTRIBUTION) -->
+    <mxCell id="classifier" value="&lt;b&gt;Error Classifier&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;test_fail&lt;br&gt;cannot_find_symbol&lt;br&gt;type_mismatch · ...&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="650" y="350" width="150" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Typed Feedback Builder (CONTRIBUTION) -->
+    <mxCell id="feedback_builder" value="&lt;b&gt;Typed Feedback Builder&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;test_feedback&lt;br&gt;symbol_feedback&lt;br&gt;type_feedback · ...&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="480" y="350" width="150" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- ===== ARROWS ===== -->
+
+    <!-- Input → Prompt -->
+    <mxCell id="e_in_pr" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#555555;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="input" target="prompt" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Prompt → LLM -->
+    <mxCell id="e_pr_llm" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#555555;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="prompt" target="llm" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- LLM → Eval -->
+    <mxCell id="e_llm_ev" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#555555;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="llm" target="eval" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Eval → Output (PASS) -->
+    <mxCell id="e_ev_out" value="PASS" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;fontStyle=1;fontSize=10;fontColor=#2d7600;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="eval" target="output" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Eval → Error Classifier (FAIL) -->
+    <mxCell id="e_ev_cls" value="FAIL" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;fontStyle=1;fontSize=10;fontColor=#b85450;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" source="eval" target="classifier" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Error Classifier → Feedback Builder -->
+    <mxCell id="e_cls_fb" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;strokeWidth=2;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" source="classifier" target="feedback_builder" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Feedback Builder → Prompt (loop back, curved over top) -->
+    <mxCell id="e_fb_pr" value="&lt;font style=&apos;font-size:10px;&apos;&gt;next iteration&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;strokeWidth=2;exitX=0;exitY=0.5;entryX=0.5;entryY=1;curved=1;fontStyle=2;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" source="feedback_builder" target="prompt" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="555" y="500" />
+          <mxPoint x="290" y="500" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- ===== ITERATION BRACKET ===== -->
+    <mxCell id="iter_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#aaaaaa;strokeWidth=1.5;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="200" y="155" width="600" height="360" as="geometry" />
+    </mxCell>
+    <mxCell id="iter_label" value="반복 (max 3회)" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=center;verticalAlign=middle;fontStyle=2;fontSize=11;fontColor=#888888;" vertex="1" parent="1">
+      <mxGeometry x="430" y="148" width="130" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- ===== TOP-K MEMORY NOTE ===== -->
+    <mxCell id="topk" value="&lt;b&gt;Top-K Memory&lt;/b&gt;&lt;br&gt;&lt;font style=&apos;font-size:10px;&apos;&gt;최우수 후보 보존&lt;br&gt;stagnation rotation&lt;/font&gt;" style="shape=callout;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;fontSize=10;align=center;direction=south;" vertex="1" parent="1">
+      <mxGeometry x="430" y="60" width="130" height="75" as="geometry" />
+    </mxCell>
+    <mxCell id="e_topk" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#aaaaaa;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" source="topk" target="llm" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

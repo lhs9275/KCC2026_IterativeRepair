@@ -1,0 +1,164 @@
+{
+  "4": {
+    "bug_id": "4",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 1,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 15,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n        if (x == null) {\n            throw new IllegalArgumentException(\"Null 'x' argument.\");\n        }\n\n        XYDataItem overwritten = null;\n        int index = indexOf(x);\n        if (index >= 0 && !this.allowDuplicateXValues) {\n            XYDataItem existing = (XYDataItem) this.data.get(index);\n            try {\n                overwritten = (XYDataItem) existing.clone();\n            }\n            catch (CloneNotSupportedException e) {\n                throw new SeriesException(\"Couldn't clone XYDataItem!\");\n            }\n            existing.setY(y);\n        }\n        else {\n            // if the series is sorted, the negative index is a result from\n            // Collections.binarySearch() and tells us where to insert the\n            // new item...otherwise it will be just -1 and we should just\n            // append the value to the list...\n            if (this.autoSort) {\n                this.data.add(-index - 1, new XYDataItem(x, y));\n            }\n            else {\n                this.data.add(new XYDataItem(x, y));\n            }\n            // check if this addition will exceed the maximum item count...\n            if (getItemCount() > this.maximumItemCount) {\n                this.data.remove(0);\n            }\n        }\n        fireSeriesChanged();\n        return overwritten;\n    }",
+        "best_candidate_hash": "f84ead04a460",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 89.439,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.data.xy.junit.XYSeriesTests::testBug1955483"
+      }
+    ],
+    "final_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n        if (x == null) {\n            throw new IllegalArgumentException(\"Null 'x' argument.\");\n        }\n\n        XYDataItem overwritten = null;\n        int index = indexOf(x);\n        if (index >= 0 && !this.allowDuplicateXValues) {\n            XYDataItem existing = (XYDataItem) this.data.get(index);\n            try {\n                overwritten = (XYDataItem) existing.clone();\n            }\n            catch (CloneNotSupportedException e) {\n                throw new SeriesException(\"Couldn't clone XYDataItem!\");\n            }\n            existing.setY(y);\n        }\n        else {\n            // if the series is sorted, the negative index is a result from\n            // Collections.binarySearch() and tells us where to insert the\n            // new item...otherwise it will be just -1 and we should just\n            // append the value to the list...\n            if (this.autoSort) {\n                this.data.add(-index - 1, new XYDataItem(x, y));\n            }\n            else {\n                this.data.add(new XYDataItem(x, y));\n            }\n            // check if this addition will exceed the maximum item count...\n            if (getItemCount() > this.maximumItemCount) {\n                this.data.remove(0);\n            }\n        }\n        fireSeriesChanged();\n        return overwritten;\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 89.442
+  },
+  "6": {
+    "bug_id": "6",
+    "solved": true,
+    "solving_iteration": 1,
+    "total_iterations": 1,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 15,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "private void updateBounds(TimePeriod period, int index) {\n\n    long start = period.getStart().getTime();\n    long end = period.getEnd().getTime();\n    long middle = start + ((end - start) / 2);\n\n    if (this.minStartIndex >= 0) {\n        long minStart = getDataItem(this.minStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start < minStart) {\n            this.minStartIndex = index;\n        }\n    }\n    else {\n        this.minStartIndex = index;\n    }\n\n    if (this.maxStartIndex >= 0) {\n        long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start > maxStart) {\n            this.maxStartIndex = index;\n        }\n    }\n    else {\n        this.maxStartIndex = index;\n    }\n\n    if (this.minMiddleIndex >= 0) {\n        long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long minMiddle = s + (e - s) / 2;\n        if (middle < minMiddle) {\n            this.minMiddleIndex = index;\n        }\n    }\n    else {\n        this.minMiddleIndex = index;\n    }\n\n    if (this.maxMiddleIndex >= 0) {\n        long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long maxMiddle = s + (e - s) / 2;\n        if (middle > maxMiddle) {\n            this.maxMiddleIndex = index;\n        }\n    }\n    else {\n        this.maxMiddleIndex = index;\n    }\n\n    if (this.minEndIndex >= 0) {\n        long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end < minEnd) {\n            this.minEndIndex = index;\n        }\n    }\n    else {\n        this.minEndIndex = index;\n    }\n\n    if (this.maxEndIndex >= 0) {\n        long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end > maxEnd) {\n            this.maxEndIndex = index;\n        }\n    }\n    else {\n        this.maxEndIndex = index;\n    }\n\n}",
+        "best_candidate_hash": "4dbf2f049529",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 20.049,
+        "failing_tests_count": 0,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "private void updateBounds(TimePeriod period, int index) {\n\n    long start = period.getStart().getTime();\n    long end = period.getEnd().getTime();\n    long middle = start + ((end - start) / 2);\n\n    if (this.minStartIndex >= 0) {\n        long minStart = getDataItem(this.minStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start < minStart) {\n            this.minStartIndex = index;\n        }\n    }\n    else {\n        this.minStartIndex = index;\n    }\n\n    if (this.maxStartIndex >= 0) {\n        long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start > maxStart) {\n            this.maxStartIndex = index;\n        }\n    }\n    else {\n        this.maxStartIndex = index;\n    }\n\n    if (this.minMiddleIndex >= 0) {\n        long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long minMiddle = s + (e - s) / 2;\n        if (middle < minMiddle) {\n            this.minMiddleIndex = index;\n        }\n    }\n    else {\n        this.minMiddleIndex = index;\n    }\n\n    if (this.maxMiddleIndex >= 0) {\n        long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long maxMiddle = s + (e - s) / 2;\n        if (middle > maxMiddle) {\n            this.maxMiddleIndex = index;\n        }\n    }\n    else {\n        this.maxMiddleIndex = index;\n    }\n\n    if (this.minEndIndex >= 0) {\n        long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end < minEnd) {\n            this.minEndIndex = index;\n        }\n    }\n    else {\n        this.minEndIndex = index;\n    }\n\n    if (this.maxEndIndex >= 0) {\n        long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end > maxEnd) {\n            this.maxEndIndex = index;\n        }\n    }\n    else {\n        this.maxEndIndex = index;\n    }\n\n}",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 20.049
+  },
+  "10": {
+    "bug_id": "10",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 1,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 15,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.613,
+        "failing_tests_count": null,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": null,
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 0.614
+  },
+  "11": {
+    "bug_id": "11",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 1,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 15,
+        "num_valid_candidates": 10,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    if (dataset != null) {\n        this.dataset = dataset;\n    } else {\n        this.dataset = null;\n    }\n    PiePlot piePlot = new PiePlot(null);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+        "best_candidate_hash": "48c5cdf029b3",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 58.12,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.chart.plot.junit.MultiplePiePlotTests::testConstructor"
+      }
+    ],
+    "final_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    if (dataset != null) {\n        this.dataset = dataset;\n    } else {\n        this.dataset = null;\n    }\n    PiePlot piePlot = new PiePlot(null);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 58.12
+  },
+  "13": {
+    "bug_id": "13",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 1,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 15,
+        "num_valid_candidates": 5,
+        "best_candidate_code": "public Object clone() throws CloneNotSupportedException {\n    Object clone = createCopy(0, getItemCount() - 1);\n    return clone;\n}",
+        "best_candidate_hash": "60efc960962a",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 47.23,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.data.time.junit.TimeSeriesTests::testBug1832432"
+      }
+    ],
+    "final_code": "public Object clone() throws CloneNotSupportedException {\n    Object clone = createCopy(0, getItemCount() - 1);\n    return clone;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 47.231
+  },
+  "14": {
+    "bug_id": "14",
+    "solved": true,
+    "solving_iteration": 1,
+    "total_iterations": 1,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 15,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(paint, stroke, outlinePaint, outlineStroke, alpha);\n        this.value = value;\n    }",
+        "best_candidate_hash": "b7c96d79e238",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 24.239,
+        "failing_tests_count": 0,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(paint, stroke, outlinePaint, outlineStroke, alpha);\n        this.value = value;\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 24.239
+  }
+}

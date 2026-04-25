@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\caption{초기 실패 유형별 해결률 분포. 각 버그는 첫 시도(iter 0)의 실패 유형으로 분류되었다.}
+\label{tab:breakdown}
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+초기 실패 유형 & \#버그 & One-shot & Blind-retry & \textbf{Error-aware} \\
+\midrule
+1-shot 통과 (쉬움) & 17 & 17 (100.0\%) & 17 (100.0\%) & \textbf{17 (100.0\%)} \\
+Test-fail & 139 & 11 (7.9\%) & 14 (10.1\%) & \textbf{19 (13.7\%)} \\
+Parse-fail & 55 & 1 (1.8\%) & 4 (7.3\%) & \textbf{5 (9.1\%)} \\
+Compile: cannot-find-symbol & 18 & 2 (11.1\%) & 2 (11.1\%) & \textbf{1 (5.6\%)} \\
+Compile: syntax/parse & 11 & 0 (0.0\%) & 0 (0.0\%) & \textbf{0 (0.0\%)} \\
+Compile: type-mismatch & 3 & 2 (66.7\%) & 1 (33.3\%) & \textbf{1 (33.3\%)} \\
+Compile: method-signature & 3 & 0 (0.0\%) & 0 (0.0\%) & \textbf{0 (0.0\%)} \\
+Compile: other & 5 & 0 (0.0\%) & 1 (20.0\%) & \textbf{1 (20.0\%)} \\
+Timeout & 2 & 0 (0.0\%) & 1 (50.0\%) & \textbf{0 (0.0\%)} \\
+\midrule
+전체 & 255 & 33 (12.9\%) & 40 (15.7\%) & \textbf{44 (17.3\%)} \\
+\bottomrule
+\end{tabular}
+\end{table*}

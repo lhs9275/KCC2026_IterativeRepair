@@ -1,0 +1,56 @@
+{
+  "4": {
+    "bug_id": "4",
+    "original_final_fail_reason": "compile_fail",
+    "reeval_fail_reason": "test_fail",
+    "compile_ok": true,
+    "failing_tests_count": 1,
+    "first_failing_test": "org.jfree.data.xy.junit.XYSeriesTests::testBug1955483",
+    "first_failure_message": "java.lang.IndexOutOfBoundsException: Index: -1, Size: 1"
+  },
+  "6": {
+    "bug_id": "6",
+    "original_final_fail_reason": "compile_fail",
+    "reeval_fail_reason": "pass",
+    "compile_ok": true,
+    "failing_tests_count": 0,
+    "first_failing_test": "",
+    "first_failure_message": ""
+  },
+  "10": {
+    "bug_id": "10",
+    "original_final_fail_reason": "compile_fail",
+    "reeval_fail_reason": "pass",
+    "compile_ok": true,
+    "failing_tests_count": 0,
+    "first_failing_test": "",
+    "first_failure_message": ""
+  },
+  "11": {
+    "bug_id": "11",
+    "original_final_fail_reason": "compile_fail",
+    "reeval_fail_reason": "compile_fail",
+    "compile_ok": false,
+    "failing_tests_count": null,
+    "first_failing_test": "",
+    "first_failure_message": ""
+  },
+  "13": {
+    "bug_id": "13",
+    "original_final_fail_reason": "compile_fail",
+    "reeval_fail_reason": "test_fail",
+    "compile_ok": true,
+    "failing_tests_count": 1,
+    "first_failing_test": "org.jfree.data.time.junit.TimeSeriesTests::testBug1832432",
+    "first_failure_message": "java.lang.IllegalArgumentException: Requires start <= end."
+  },
+  "14": {
+    "bug_id": "14",
+    "original_final_fail_reason": "compile_fail",
+    "reeval_fail_reason": "pass",
+    "compile_ok": true,
+    "failing_tests_count": 0,
+    "first_failing_test": "",
+    "first_failure_message": ""
+  }
+}

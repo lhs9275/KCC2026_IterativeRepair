@@ -1,0 +1,290 @@
+{
+  "4": {
+    "bug_id": "4",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    }\n    else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        if (this.autoSort) {\n            this.data.add(-index - 1, new XYDataItem(x, y));\n        }\n        else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+        "best_candidate_hash": "f793e58a8c5d",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 80.199,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.data.xy.junit.XYSeriesTests::testBug1955483"
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    // if we get to here, we know that duplicate X values are not permitted\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    } else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        if (this.autoSort) {\n            if (index < 0) {\n                index = -index - 1;\n            }\n            this.data.add(index, new XYDataItem(x, y));\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+        "best_candidate_hash": "5ab711167f2c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 30.001,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.data.xy.junit.XYSeriesTests::testBug1955483"
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    // if we get to here, we know that duplicate X values are not permitted\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    }\n    else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        if (this.autoSort) {\n            if (index < 0) {\n                index = -index - 1;\n            }\n            this.data.add(index, new XYDataItem(x, y));\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+        "best_candidate_hash": "71bf4d96c54c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 12.566,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.data.xy.junit.XYSeriesTests::testBug1955483"
+      }
+    ],
+    "final_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    // if we get to here, we know that duplicate X values are not permitted\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    }\n    else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        if (this.autoSort) {\n            if (index < 0) {\n                index = -index - 1;\n            }\n            this.data.add(index, new XYDataItem(x, y));\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 122.767
+  },
+  "6": {
+    "bug_id": "6",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.533,
+        "failing_tests_count": null,
+        "first_failing_test": ""
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "private void updateBounds(TimePeriod period, int index) {\n\n        long start = period.getStart().getTime();\n        long end = period.getEnd().getTime();\n        long middle = start + ((end - start) / 2);\n\n        if (this.minStartIndex >= 0) {\n            long minStart = getDataItem(this.minStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start < minStart) {\n                this.minStartIndex = index;\n            }\n        }\n        else {\n            this.minStartIndex = index;\n        }\n\n        if (this.maxStartIndex >= 0) {\n            long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start > maxStart) {\n                this.maxStartIndex = index;\n            }\n        }\n        else {\n            this.maxStartIndex = index;\n        }\n\n        if (this.minMiddleIndex >= 0) {\n            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n                .getTime();  // <--- Corrected line\n            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long minMiddle = s + (e - s) / 2;\n            if (middle < minMiddle) {\n                this.minMiddleIndex = index;\n            }\n        }\n        else {\n            this.minMiddleIndex = index;\n        }\n\n        if (this.maxMiddleIndex >= 0) {\n            long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n                .getTime();\n            long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long maxMiddle = s + (e - s) / 2;\n            if (middle > maxMiddle) {\n                this.maxMiddleIndex = index;\n            }\n        }\n        else {\n            this.maxMiddleIndex = index;\n        }\n\n        if (this.minEndIndex >= 0) {\n            long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end < minEnd) {\n                this.minEndIndex = index;\n            }\n        }\n        else {\n            this.minEndIndex = index;\n        }\n\n        if (this.maxEndIndex >= 0) {\n            long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end > maxEnd) {\n                this.maxEndIndex = index;\n            }\n        }\n        else {\n            this.maxEndIndex = index;\n        }\n\n    }",
+        "best_candidate_hash": "f24d70bccc2f",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 20.221,
+        "failing_tests_count": 0,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "private void updateBounds(TimePeriod period, int index) {\n\n        long start = period.getStart().getTime();\n        long end = period.getEnd().getTime();\n        long middle = start + ((end - start) / 2);\n\n        if (this.minStartIndex >= 0) {\n            long minStart = getDataItem(this.minStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start < minStart) {\n                this.minStartIndex = index;\n            }\n        }\n        else {\n            this.minStartIndex = index;\n        }\n\n        if (this.maxStartIndex >= 0) {\n            long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start > maxStart) {\n                this.maxStartIndex = index;\n            }\n        }\n        else {\n            this.maxStartIndex = index;\n        }\n\n        if (this.minMiddleIndex >= 0) {\n            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n                .getTime();  // <--- Corrected line\n            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long minMiddle = s + (e - s) / 2;\n            if (middle < minMiddle) {\n                this.minMiddleIndex = index;\n            }\n        }\n        else {\n            this.minMiddleIndex = index;\n        }\n\n        if (this.maxMiddleIndex >= 0) {\n            long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n                .getTime();\n            long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long maxMiddle = s + (e - s) / 2;\n            if (middle > maxMiddle) {\n                this.maxMiddleIndex = index;\n            }\n        }\n        else {\n            this.maxMiddleIndex = index;\n        }\n\n        if (this.minEndIndex >= 0) {\n            long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end < minEnd) {\n                this.minEndIndex = index;\n            }\n        }\n        else {\n            this.minEndIndex = index;\n        }\n\n        if (this.maxEndIndex >= 0) {\n            long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end > maxEnd) {\n                this.maxEndIndex = index;\n            }\n        }\n        else {\n            this.maxEndIndex = index;\n        }\n\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 20.754
+  },
+  "10": {
+    "bug_id": "10",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.532,
+        "failing_tests_count": null,
+        "first_failing_test": ""
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public static boolean equal(GeneralPath p1, GeneralPath p2) {\n        if (p1 == null) {\n            return (p2 == null);\n        }\n        if (p2 == null) {\n            return false;\n        }\n        if (p1.getWindingRule() != p2.getWindingRule()) {\n            return false;\n        }\n        PathIterator iterator1 = p1.getPathIterator(null);\n        PathIterator iterator2 = p2.getPathIterator(null);  // <--- FIXED LINE\n        double[] d1 = new double[6];\n        double[] d2 = new double[6];\n        boolean done = iterator1.isDone() && iterator2.isDone();\n        while (!done) {\n            if (iterator1.isDone() != iterator2.isDone()) {\n                return false;\n            }\n            int seg1 = iterator1.currentSegment(d1);\n            int seg2 = iterator2.currentSegment(d2);\n            if (seg1 != seg2) {\n                return false;\n            }\n            if (!Arrays.equals(d1, d2)) {\n                return false;\n            }\n            iterator1.next();\n            iterator2.next();\n            done = iterator1.isDone() && iterator2.isDone();\n        }\n        return true;\n    }",
+        "best_candidate_hash": "af4ef4d4e01b",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 21.545,
+        "failing_tests_count": 0,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "public static boolean equal(GeneralPath p1, GeneralPath p2) {\n        if (p1 == null) {\n            return (p2 == null);\n        }\n        if (p2 == null) {\n            return false;\n        }\n        if (p1.getWindingRule() != p2.getWindingRule()) {\n            return false;\n        }\n        PathIterator iterator1 = p1.getPathIterator(null);\n        PathIterator iterator2 = p2.getPathIterator(null);  // <--- FIXED LINE\n        double[] d1 = new double[6];\n        double[] d2 = new double[6];\n        boolean done = iterator1.isDone() && iterator2.isDone();\n        while (!done) {\n            if (iterator1.isDone() != iterator2.isDone()) {\n                return false;\n            }\n            int seg1 = iterator1.currentSegment(d1);\n            int seg2 = iterator2.currentSegment(d2);\n            if (seg1 != seg2) {\n                return false;\n            }\n            if (!Arrays.equals(d1, d2)) {\n                return false;\n            }\n            iterator1.next();\n            iterator2.next();\n            done = iterator1.isDone() && iterator2.isDone();\n        }\n        return true;\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 22.077
+  },
+  "11": {
+    "bug_id": "11",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        if (dataset != null) {\n            this.dataset = dataset;\n        } else {\n            this.dataset = new DefaultCategoryDataset();  // Provide a default dataset\n        }\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "f0a84ed541b6",
+        "fail_reason": "compile_fail",
+        "error_family": "cannot_find_symbol",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_2668727_1776351757730/Chart_12 && /home/selab/EMSE/defects4j/major/bin/ant -f /home/selab/EMSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/EMSE/defects4j -Dd4j.dir.projects=/home/selab/EMSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_2668727_1776351757",
+        "feedback_strategy": "",
+        "elapsed_sec": 8.053,
+        "failing_tests_count": null,
+        "first_failing_test": ""
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    this.dataset = dataset;\n    PiePlot piePlot = new PiePlot(null);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+        "best_candidate_hash": "9d95df2bc3f7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "symbol_feedback",
+        "elapsed_sec": 32.364,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.chart.plot.junit.MultiplePiePlotTests::testConstructor"
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    if (dataset == null) {\n        this.dataset = null;\n    } else {\n        this.dataset = dataset;\n    }\n    PiePlot piePlot = new PiePlot(dataset);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+        "best_candidate_hash": "a50deadd6119",
+        "fail_reason": "compile_fail",
+        "error_family": "type_mismatch",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_2668727_1776351757730/Chart_12 && /home/selab/EMSE/defects4j/major/bin/ant -f /home/selab/EMSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/EMSE/defects4j -Dd4j.dir.projects=/home/selab/EMSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_2668727_1776351757",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 8.313,
+        "failing_tests_count": null,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    if (dataset == null) {\n        this.dataset = null;\n    } else {\n        this.dataset = dataset;\n    }\n    PiePlot piePlot = new PiePlot(dataset);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 48.73
+  },
+  "13": {
+    "bug_id": "13",
+    "solved": true,
+    "solving_iteration": 3,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Object clone() throws CloneNotSupportedException {\n        Object clone = createCopy(0, getItemCount());\n        return clone;\n    }",
+        "best_candidate_hash": "f6091c17370a",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 18.04,
+        "failing_tests_count": 2,
+        "first_failing_test": "org.jfree.data.time.junit.TimeSeriesTests::testClone"
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Object clone() throws CloneNotSupportedException {\n        Object clone = createCopy(0, getItemCount() - 1);\n        return clone;\n    }",
+        "best_candidate_hash": "3d8ffca82dfb",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 15.437,
+        "failing_tests_count": 1,
+        "first_failing_test": "org.jfree.data.time.junit.TimeSeriesTests::testBug1832432"
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 5,
+        "best_candidate_code": "public Object clone() throws CloneNotSupportedException {\n    int itemCount = getItemCount();\n    if (itemCount == 0) {\n        return createCopy(0, 0);\n    } else {\n        return createCopy(0, itemCount - 1);\n    }\n}",
+        "best_candidate_hash": "394e197a820a",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 6.169,
+        "failing_tests_count": 0,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "public Object clone() throws CloneNotSupportedException {\n    int itemCount = getItemCount();\n    if (itemCount == 0) {\n        return createCopy(0, 0);\n    } else {\n        return createCopy(0, itemCount - 1);\n    }\n}",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 39.648
+  },
+  "14": {
+    "bug_id": "14",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(value, stroke, outlinePaint, outlineStroke, alpha);\n        this.value = value;\n    }",
+        "best_candidate_hash": "86e7f540ebfb",
+        "fail_reason": "compile_fail",
+        "error_family": "type_mismatch",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_2668727_1776351852684/Chart_20 && /home/selab/EMSE/defects4j/major/bin/ant -f /home/selab/EMSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/EMSE/defects4j -Dd4j.dir.projects=/home/selab/EMSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_2668727_1776351852",
+        "feedback_strategy": "",
+        "elapsed_sec": 6.389,
+        "failing_tests_count": null,
+        "first_failing_test": ""
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                   Paint outlinePaint, Stroke outlineStroke, float alpha) {\n    super(paint, stroke, outlinePaint, outlineStroke, alpha);\n    this.value = value;\n}",
+        "best_candidate_hash": "093f18b05f26",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.927,
+        "failing_tests_count": 0,
+        "first_failing_test": ""
+      }
+    ],
+    "final_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                   Paint outlinePaint, Stroke outlineStroke, float alpha) {\n    super(paint, stroke, outlinePaint, outlineStroke, alpha);\n    this.value = value;\n}",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 23.316
+  }
+}

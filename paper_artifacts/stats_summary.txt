@@ -1,0 +1,19 @@
+=== McNemar's exact test ===
+error_aware  vs one_shot    : +18/- 7  p=0.0433
+error_aware  vs blind_retry : +12/- 8  p=0.5034
+blind_retry  vs one_shot    : +11/- 4  p=0.1185
+
+=== Per-category McNemar (error_aware vs blind_retry) ===
+1-shot 통과 (쉬움)                   N= 17  EA=17, BR=17,  +0/-0  p=1.0000
+Test-fail                        N=139  EA=19, BR=14,  +10/-5  p=0.3018
+Parse-fail                       N= 55  EA=5, BR=4,  +2/-1  p=1.0000
+Compile: cannot-find-symbol      N= 18  EA=1, BR=2,  +0/-1  p=1.0000
+Compile: syntax/parse            N= 11  EA=0, BR=0,  +0/-0  p=1.0000
+Compile: type-mismatch           N=  3  EA=1, BR=1,  +0/-0  p=1.0000
+Compile: method-signature        N=  3  EA=0, BR=0,  +0/-0  p=1.0000
+Compile: other                   N=  5  EA=1, BR=1,  +0/-0  p=1.0000
+
+=== Compute cost comparison ===
+error_aware : mean 2.78 LLM calls/bug, 102.9 s/bug, total 7.29h
+blind_retry : mean 2.80 LLM calls/bug, 104.3 s/bug, total 7.39h
+one_shot    : mean 0.99 LLM calls/bug, 98.6 s/bug, total 6.99h

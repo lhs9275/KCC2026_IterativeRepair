@@ -1,0 +1,1328 @@
+{
+  "1": {
+    "bug_id": "1",
+    "solved": true,
+    "solving_iteration": 1,
+    "total_iterations": 1,
+    "total_candidates_generated": 5,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public LegendItemCollection getLegendItems() {\n        LegendItemCollection result = new LegendItemCollection();\n        if (this.plot == null) {\n            return result;\n        }\n        int index = this.plot.getIndexOf(this);\n        CategoryDataset dataset = this.plot.getDataset(index);\n        if (dataset == null) {\n            return result;\n        }\n        int seriesCount = dataset.getRowCount();\n        if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {\n            for (int i = 0; i < seriesCount; i++) {\n                if (isSeriesVisibleInLegend(i)) {\n                    LegendItem item = getLegendItem(index, i);\n                    if (item != null) {\n                        result.add(item);\n                    }\n                }\n            }\n        }\n        else {\n            for (int i = seriesCount - 1; i >= 0; i--) {\n                if (isSeriesVisibleInLegend(i)) {\n                    LegendItem item = getLegendItem(index, i);\n                    if (item != null) {\n                        result.add(item);\n                    }\n                }\n            }\n        }\n        return result;\n    }",
+        "best_candidate_hash": "fb6f8d76d3eb",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 73.191
+      }
+    ],
+    "final_code": "public LegendItemCollection getLegendItems() {\n        LegendItemCollection result = new LegendItemCollection();\n        if (this.plot == null) {\n            return result;\n        }\n        int index = this.plot.getIndexOf(this);\n        CategoryDataset dataset = this.plot.getDataset(index);\n        if (dataset == null) {\n            return result;\n        }\n        int seriesCount = dataset.getRowCount();\n        if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {\n            for (int i = 0; i < seriesCount; i++) {\n                if (isSeriesVisibleInLegend(i)) {\n                    LegendItem item = getLegendItem(index, i);\n                    if (item != null) {\n                        result.add(item);\n                    }\n                }\n            }\n        }\n        else {\n            for (int i = seriesCount - 1; i >= 0; i--) {\n                if (isSeriesVisibleInLegend(i)) {\n                    LegendItem item = getLegendItem(index, i);\n                    if (item != null) {\n                        result.add(item);\n                    }\n                }\n            }\n        }\n        return result;\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 73.191
+  },
+  "2": {
+    "bug_id": "2",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.507
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public TimeSeries createCopy(int start, int end)\n            throws CloneNotSupportedException {\n        if (start < 0) {\n            throw new IllegalArgumentException(\"Requires start >= 0.\");\n        }\n        if (end < start) {\n            throw new IllegalArgumentException(\"Requires start <= end.\");\n        }\n        TimeSeries copy = (TimeSeries) super.clone();\n        copy.data = new java.util.ArrayList<>(this.data.subList(start, end + 1));\n        return copy;\n    }",
+        "best_candidate_hash": "ed0484a9c1db",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_3_1922706_1775981773636/Chart_3 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_3_1922706_1775981773636",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.595
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public TimeSeries createCopy(int start, int end)\n            throws CloneNotSupportedException {\n        if (start < 0) {\n            throw new IllegalArgumentException(\"Requires start >= 0.\");\n        }\n        if (end < start) {\n            throw new IllegalArgumentException(\"Requires start <= end.\");\n        }\n        TimeSeries copy = (TimeSeries) super.clone();\n        copy.data = new java.util.ArrayList();\n        if (this.data.size() > 0) {\n            for (int index = start; index <= end; index++) {\n                TimeSeriesDataItem item\n                        = (TimeSeriesDataItem) this.data.get(index);\n                TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();\n                try {\n                    copy.add(clone);\n                }\n                catch (SeriesException e) {\n                    e.printStackTrace();\n                }\n            }\n        }\n        return copy;\n    }",
+        "best_candidate_hash": "de0803dc9fa8",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "generic_compile_feedback",
+        "elapsed_sec": 21.491
+      }
+    ],
+    "final_code": "public TimeSeries createCopy(int start, int end)\n            throws CloneNotSupportedException {\n        if (start < 0) {\n            throw new IllegalArgumentException(\"Requires start >= 0.\");\n        }\n        if (end < start) {\n            throw new IllegalArgumentException(\"Requires start <= end.\");\n        }\n        TimeSeries copy = (TimeSeries) super.clone();\n        copy.data = new java.util.ArrayList();\n        if (this.data.size() > 0) {\n            for (int index = start; index <= end; index++) {\n                TimeSeriesDataItem item\n                        = (TimeSeriesDataItem) this.data.get(index);\n                TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();\n                try {\n                    copy.add(clone);\n                }\n                catch (SeriesException e) {\n                    e.printStackTrace();\n                }\n            }\n        }\n        return copy;\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 24.594
+  },
+  "3": {
+    "bug_id": "3",
+    "solved": true,
+    "solving_iteration": 3,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        List includedAnnotations = new ArrayList();\n        boolean isDomainAxis = true;\n\n        // is it a domain axis?\n        int domainIndex = getDomainAxisIndex(axis);\n        if (domainIndex >= 0) {\n            isDomainAxis = true;\n            mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                    new Integer(domainIndex)));\n            if (domainIndex == 0) {\n                // grab the plot's annotations\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // or is it a range axis?\n        int rangeIndex = getRangeAxisIndex(axis);\n        if (rangeIndex >= 0) {\n            isDomainAxis = false;\n            mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                    new Integer(rangeIndex)));\n            if (rangeIndex == 0) {\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // iterate through the datasets that map to the axis and get the union\n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            XYDataset d = (XYDataset) iterator.next();\n            if (d != null) {\n                XYItemRenderer r = getRendererForDataset(d);\n                if (isDomainAxis) {\n                    if (r != null) {\n                        result = Range.combine(result, r.findDomainBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findDomainBounds(d));\n                    }\n                }\n                else {\n                    if (r != null) {\n                        result = Range.combine(result, r.findRangeBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findRangeBounds(d));\n                    }\n                }\n                \n                    Collection c = r.getAnnotations();\n                    if (c != null) {\n                        Iterator i = c.iterator();\n                        while (i.hasNext()) {\n                            XYAnnotation a = (XYAnnotation) i.next();\n                            if (a instanceof XYAnnotationBoundsInfo) {\n                                includedAnnotations.add(a);\n                            }\n                        }\n                    }\n            }\n        }\n\n        Iterator it = includedAnnotations.iterator();\n        while (it.hasNext()) {\n            XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n            if (xyabi.getIncludeInDataBounds()) {\n                if (isDomainAxis) {\n                    result = Range.combine(result, xyabi.getXRange());\n                }\n                else {\n                    result = Range.combine(result, xyabi.getYRange());\n                }\n            }\n        }\n\n        return result;\n\n    }",
+        "best_candidate_hash": "d5609297bc65",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.538
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        List includedAnnotations = new ArrayList();\n        boolean isDomainAxis = true;\n\n        // is it a domain axis?\n        int domainIndex = getDomainAxisIndex(axis);\n        if (domainIndex >= 0) {\n            isDomainAxis = true;\n            mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                    new Integer(domainIndex)));\n            if (domainIndex == 0) {\n                // grab the plot's annotations\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // or is it a range axis?\n        int rangeIndex = getRangeAxisIndex(axis);\n        if (rangeIndex >= 0) {\n            isDomainAxis = false;\n            mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                    new Integer(rangeIndex)));\n            if (rangeIndex == 0) {\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // iterate through the datasets that map to the axis and get the union\n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            XYDataset d = (XYDataset) iterator.next();\n            if (d != null) {\n                XYItemRenderer r = getRendererForDataset(d);\n                if (isDomainAxis) {\n                    if (r != null) {\n                        result = Range.combine(result, r.findDomainBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findDomainBounds(d));\n                    }\n                }\n                else {\n                    if (r != null) {\n                        result = Range.combine(result, r.findRangeBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findRangeBounds(d));\n                    }\n                }\n\n                    Collection c = r.getAnnotations();\n                    if (c != null) {\n                        Iterator i = c.iterator();\n                        while (i.hasNext()) {\n                            XYAnnotation a = (XYAnnotation) i.next();\n                            if (a instanceof XYAnnotationBoundsInfo) {\n                                includedAnnotations.add(a);\n                            }\n                        }\n                    }\n            }\n        }\n\n        Iterator it = includedAnnotations.iterator();\n        while (it.hasNext()) {\n            XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n            if (xyabi.getIncludeInDataBounds()) {\n                if (isDomainAxis) {\n                    result = Range.combine(result, xyabi.getXRange());\n                }\n                else {\n                    result = Range.combine(result, xyabi.getYRange());\n                }\n            }\n        }\n\n        return result;\n\n    }",
+        "best_candidate_hash": "040282455818",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 23.74
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        List includedAnnotations = new ArrayList();\n        boolean isDomainAxis = true;\n\n        // is it a domain axis?\n        int domainIndex = getDomainAxisIndex(axis);\n        if (domainIndex >= 0) {\n            isDomainAxis = true;\n            mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                    new Integer(domainIndex)));\n            if (domainIndex == 0) {\n                // grab the plot's annotations\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // or is it a range axis?\n        int rangeIndex = getRangeAxisIndex(axis);\n        if (rangeIndex >= 0) {\n            isDomainAxis = false;\n            mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                    new Integer(rangeIndex)));\n            if (rangeIndex == 0) {\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // iterate through the datasets that map to the axis and get the union\n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            XYDataset d = (XYDataset) iterator.next();\n            if (d != null) {\n                XYItemRenderer r = getRendererForDataset(d);\n                if (isDomainAxis) {\n                    if (r != null) {\n                        result = Range.combine(result, r.findDomainBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findDomainBounds(d));\n                    }\n                }\n                else {\n                    if (r != null) {\n                        result = Range.combine(result, r.findRangeBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findRangeBounds(d));\n                    }\n                }\n\n                    Collection c = r != null ? r.getAnnotations() : null;\n                    if (c != null) {\n                        Iterator i = c.iterator();\n                        while (i.hasNext()) {\n                            XYAnnotation a = (XYAnnotation) i.next();\n                            if (a instanceof XYAnnotationBoundsInfo) {\n                                includedAnnotations.add(a);\n                            }\n                        }\n                    }\n            }\n        }\n\n        Iterator it = includedAnnotations.iterator();\n        while (it.hasNext()) {\n            XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n            if (xyabi.getIncludeInDataBounds()) {\n                if (isDomainAxis) {\n                    result = Range.combine(result, xyabi.getXRange());\n                }\n                else {\n                    result = Range.combine(result, xyabi.getYRange());\n                }\n            }\n        }\n\n        return result;\n\n    }",
+        "best_candidate_hash": "c64b9205c4b1",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 27.546
+      }
+    ],
+    "final_code": "public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        List includedAnnotations = new ArrayList();\n        boolean isDomainAxis = true;\n\n        // is it a domain axis?\n        int domainIndex = getDomainAxisIndex(axis);\n        if (domainIndex >= 0) {\n            isDomainAxis = true;\n            mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                    new Integer(domainIndex)));\n            if (domainIndex == 0) {\n                // grab the plot's annotations\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // or is it a range axis?\n        int rangeIndex = getRangeAxisIndex(axis);\n        if (rangeIndex >= 0) {\n            isDomainAxis = false;\n            mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                    new Integer(rangeIndex)));\n            if (rangeIndex == 0) {\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // iterate through the datasets that map to the axis and get the union\n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            XYDataset d = (XYDataset) iterator.next();\n            if (d != null) {\n                XYItemRenderer r = getRendererForDataset(d);\n                if (isDomainAxis) {\n                    if (r != null) {\n                        result = Range.combine(result, r.findDomainBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findDomainBounds(d));\n                    }\n                }\n                else {\n                    if (r != null) {\n                        result = Range.combine(result, r.findRangeBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findRangeBounds(d));\n                    }\n                }\n\n                    Collection c = r != null ? r.getAnnotations() : null;\n                    if (c != null) {\n                        Iterator i = c.iterator();\n                        while (i.hasNext()) {\n                            XYAnnotation a = (XYAnnotation) i.next();\n                            if (a instanceof XYAnnotationBoundsInfo) {\n                                includedAnnotations.add(a);\n                            }\n                        }\n                    }\n            }\n        }\n\n        Iterator it = includedAnnotations.iterator();\n        while (it.hasNext()) {\n            XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n            if (xyabi.getIncludeInDataBounds()) {\n                if (isDomainAxis) {\n                    result = Range.combine(result, xyabi.getXRange());\n                }\n                else {\n                    result = Range.combine(result, xyabi.getYRange());\n                }\n            }\n        }\n\n        return result;\n\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 67.825
+  },
+  "4": {
+    "bug_id": "4",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "    public XYDataItem addOrUpdate(Number x, Number y) {\n        if (x == null) {\n            throw new IllegalArgumentException(\"Null 'x' argument.\");\n        }\n\n        // if we get to here, we know that duplicate X values are not permitted\n        XYDataItem overwritten = null;\n        int index = indexOf(x);\n        if (index >= 0 && !this.allowDuplicateXValues) {\n            XYDataItem existing = (XYDataItem) this.data.get(index);\n            try {\n                overwritten = (XYDataItem) existing.clone();\n            }\n            catch (CloneNotSupportedException e) {\n                throw new SeriesException(\"Couldn't clone XYDataItem!\");\n            }\n            existing.setY(y);\n        }\n        else {\n            // if the series is sorted, the negative index is a result from\n                    // Collections.binarySearch() and tells us where to insert the\n                    // new item...otherwise it will be just -1 and we should just\n                    // append the value to the list...\n                    if (this.autoSort) {\n                        int insertIndex = -index - 1;\n                        if (insertIndex >= 0 && insertIndex < this.data.size()) {\n                            this.data.add(insertIndex, new XYDataItem(x, y));\n                        } else {\n                            this.data.add(new XYDataItem(x, y));\n                        }\n                    } else {\n                        this.data.add(new XYDataItem(x, y));\n                    }\n                    // check if this addition will exceed the maximum item count...\n                    if (getItemCount() > this.maximumItemCount) {\n                        this.data.remove(0);\n                    }\n        }\n        fireSeriesChanged();\n        return overwritten;\n    }",
+        "best_candidate_hash": "6605e7259bf2",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_5_1922706_1775981872781/Chart_5 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_5_1922706_1775981872781",
+        "feedback_strategy": "",
+        "elapsed_sec": 10.712
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    // if we get to here, we know that duplicate X values are not permitted\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    }\n    else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        if (this.autoSort) {\n            int insertIndex = -index - 1;\n            if (insertIndex >= 0 && insertIndex < this.data.size()) {\n                this.data.add(insertIndex, new XYDataItem(x, y));\n            } else {\n                this.data.add(new XYDataItem(x, y));\n            }\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+        "best_candidate_hash": "08024570b314",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_5_1922706_1775981872781/Chart_5 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_5_1922706_1775981872781",
+        "feedback_strategy": "generic_compile_feedback",
+        "elapsed_sec": 8.007
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    // if we get to here, we know that duplicate X values are not permitted\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    }\n    else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        int insertIndex = -index - 1;\n        if (this.autoSort && insertIndex >= 0 && insertIndex < this.data.size()) {\n            this.data.add(insertIndex, new XYDataItem(x, y));\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+        "best_candidate_hash": "1914f70a5ffc",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_5_1922706_1775981872781/Chart_5 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_5_1922706_1775981872781",
+        "feedback_strategy": "generic_compile_feedback",
+        "elapsed_sec": 8.043
+      }
+    ],
+    "final_code": "public XYDataItem addOrUpdate(Number x, Number y) {\n    if (x == null) {\n        throw new IllegalArgumentException(\"Null 'x' argument.\");\n    }\n\n    // if we get to here, we know that duplicate X values are not permitted\n    XYDataItem overwritten = null;\n    int index = indexOf(x);\n    if (index >= 0 && !this.allowDuplicateXValues) {\n        XYDataItem existing = (XYDataItem) this.data.get(index);\n        try {\n            overwritten = (XYDataItem) existing.clone();\n        }\n        catch (CloneNotSupportedException e) {\n            throw new SeriesException(\"Couldn't clone XYDataItem!\");\n        }\n        existing.setY(y);\n    }\n    else {\n        // if the series is sorted, the negative index is a result from\n        // Collections.binarySearch() and tells us where to insert the\n        // new item...otherwise it will be just -1 and we should just\n        // append the value to the list...\n        int insertIndex = -index - 1;\n        if (this.autoSort && insertIndex >= 0 && insertIndex < this.data.size()) {\n            this.data.add(insertIndex, new XYDataItem(x, y));\n        } else {\n            this.data.add(new XYDataItem(x, y));\n        }\n        // check if this addition will exceed the maximum item count...\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n    }\n    fireSeriesChanged();\n    return overwritten;\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 26.762
+  },
+  "5": {
+    "bug_id": "5",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public boolean equals(Object obj) {\n\n        if (obj == this) {\n            return true;\n        }\n        if (!(obj instanceof ShapeList)) {\n            return false;\n        }\n        ShapeList that = (ShapeList) obj;\n        return super.equals(that);\n\n    }",
+        "best_candidate_hash": "38cccefcb4ca",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.327
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public boolean equals(Object obj) {\n\n    if (obj == this) {\n        return true;\n    }\n    if (!(obj instanceof ShapeList)) {\n        return false;\n    }\n    ShapeList that = (ShapeList) obj;\n    return super.equals(that);\n\n}",
+        "best_candidate_hash": "e7b393041150",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 7.466
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public boolean equals(Object obj) {\n\n        if (obj == this) {\n            return true;\n        }\n        if (!(obj instanceof ShapeList)) {\n            return false;\n        }\n        return super.equals(obj);\n\n    }",
+        "best_candidate_hash": "4621aa43b45d",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 16.278
+      }
+    ],
+    "final_code": "public boolean equals(Object obj) {\n\n        if (obj == this) {\n            return true;\n        }\n        if (!(obj instanceof ShapeList)) {\n            return false;\n        }\n        return super.equals(obj);\n\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 40.072
+  },
+  "6": {
+    "bug_id": "6",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void updateBounds(TimePeriod period, int index) {\n\n        long start = period.getStart().getTime();\n        long end = period.getEnd().getTime();\n        long middle = start + ((end - start) / 2);\n\n        if (this.minStartIndex >= 0) {\n            long minStart = getDataItem(this.minStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start < minStart) {\n                this.minStartIndex = index;\n            }\n        }\n        else {\n            this.minStartIndex = index;\n        }\n\n        if (this.maxStartIndex >= 0) {\n            long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start > maxStart) {\n                this.maxStartIndex = index;\n            }\n        }\n        else {\n            this.maxStartIndex = index;\n        }\n\n        if (this.minMiddleIndex >= 0) {\n            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n                .getTime();\n            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long minMiddle = s + (e - s) / 2;\n            if (middle < minMiddle) {\n                this.minMiddleIndex = index;\n            }\n        }\n        else {\n            this.minMiddleIndex = index;\n        }\n\n        if (this.maxMiddleIndex >= 0) {\n            long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n                .getTime();\n            long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long maxMiddle = s + (e - s) / 2;\n            if (middle > maxMiddle) {\n                this.maxMiddleIndex = index;\n            }\n        }\n        else {\n            this.maxMiddleIndex = index;\n        }\n\n        if (this.minEndIndex >= 0) {\n            long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end < minEnd) {\n                this.minEndIndex = index;\n            }\n        }\n        else {\n            this.minEndIndex = index;\n        }\n\n        if (this.maxEndIndex >= 0) {\n            long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end > maxEnd) {\n                this.maxEndIndex = index;\n            }\n        }\n        else {\n            this.maxEndIndex = index;\n        }\n\n    }",
+        "best_candidate_hash": "80e2ef9d543c",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_7_1922706_1775981946129/Chart_7 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_7_1922706_1775981946129",
+        "feedback_strategy": "",
+        "elapsed_sec": 7.523
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void updateBounds(TimePeriod period, int index) {\n\n    long start = period.getStart().getTime();\n    long end = period.getEnd().getTime();\n    long middle = start + ((end - start) / 2);\n\n    if (this.minStartIndex >= 0) {\n        long minStart = getDataItem(this.minStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start < minStart) {\n            this.minStartIndex = index;\n        }\n    }\n    else {\n        this.minStartIndex = index;\n    }\n\n    if (this.maxStartIndex >= 0) {\n        long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start > maxStart) {\n            this.maxStartIndex = index;\n        }\n    }\n    else {\n        this.maxStartIndex = index;\n    }\n\n    if (this.minMiddleIndex >= 0) {\n        long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long minMiddle = s + (e - s) / 2;\n        if (middle < minMiddle) {\n            this.minMiddleIndex = index;\n        }\n    }\n    else {\n        this.minMiddleIndex = index;\n    }\n\n    if (this.maxMiddleIndex >= 0) {\n        long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long maxMiddle = s + (e - s) / 2;\n        if (middle > maxMiddle) {\n            this.maxMiddleIndex = index;\n        }\n    }\n    else {\n        this.maxMiddleIndex = index;\n    }\n\n    if (this.minEndIndex >= 0) {\n        long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end < minEnd) {\n            this.minEndIndex = index;\n        }\n    }\n    else {\n        this.minEndIndex = index;\n    }\n\n    if (this.maxEndIndex >= 0) {\n        long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end > maxEnd) {\n            this.maxEndIndex = index;\n        }\n    }\n    else {\n        this.maxEndIndex = index;\n    }\n\n}",
+        "best_candidate_hash": "4dbf2f049529",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_7_1922706_1775981946129/Chart_7 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_7_1922706_1775981946129",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 7.315
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "private void updateBounds(TimePeriod period, int index) {\n\n    long start = period.getStart().getTime();\n    long end = period.getEnd().getTime();\n    long middle = start + ((end - start) / 2);\n\n    if (this.minStartIndex >= 0) {\n        long minStart = getDataItem(this.minStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start < minStart) {\n            this.minStartIndex = index;\n        }\n    } else {\n        this.minStartIndex = index;\n    }\n\n    if (this.maxStartIndex >= 0) {\n        long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start > maxStart) {\n            this.maxStartIndex = index;\n        }\n    } else {\n        this.maxStartIndex = index;\n    }\n\n    if (this.minMiddleIndex >= 0) {\n        long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long minMiddle = s + (e - s) / 2;\n        if (middle < minMiddle) {\n            this.minMiddleIndex = index;\n        }\n    } else {\n        this.minMiddleIndex = index;\n    }\n\n    if (this.maxMiddleIndex >= 0) {\n        long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long maxMiddle = s + (e - s) / 2;\n        if (middle > maxMiddle) {\n            this.maxMiddleIndex = index;\n        }\n    } else {\n        this.maxMiddleIndex = index;\n    }\n\n    if (this.minEndIndex >= 0) {\n        long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end < minEnd) {\n            this.minEndIndex = index;\n        }\n    } else {\n        this.minEndIndex = index;\n    }\n\n    if (this.maxEndIndex >= 0) {\n        long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end > maxEnd) {\n            this.maxEndIndex = index;\n        }\n    } else {\n        this.maxEndIndex = index;\n    }\n\n}",
+        "best_candidate_hash": "339beb5cbf42",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_7_1922706_1775981946129/Chart_7 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_7_1922706_1775981946129",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 8.812
+      }
+    ],
+    "final_code": "private void updateBounds(TimePeriod period, int index) {\n\n    long start = period.getStart().getTime();\n    long end = period.getEnd().getTime();\n    long middle = start + ((end - start) / 2);\n\n    if (this.minStartIndex >= 0) {\n        long minStart = getDataItem(this.minStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start < minStart) {\n            this.minStartIndex = index;\n        }\n    } else {\n        this.minStartIndex = index;\n    }\n\n    if (this.maxStartIndex >= 0) {\n        long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n            .getStart().getTime();\n        if (start > maxStart) {\n            this.maxStartIndex = index;\n        }\n    } else {\n        this.maxStartIndex = index;\n    }\n\n    if (this.minMiddleIndex >= 0) {\n        long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long minMiddle = s + (e - s) / 2;\n        if (middle < minMiddle) {\n            this.minMiddleIndex = index;\n        }\n    } else {\n        this.minMiddleIndex = index;\n    }\n\n    if (this.maxMiddleIndex >= 0) {\n        long s = getDataItem(this.maxMiddleIndex).getPeriod().getStart()\n            .getTime();\n        long e = getDataItem(this.maxMiddleIndex).getPeriod().getEnd()\n            .getTime();\n        long maxMiddle = s + (e - s) / 2;\n        if (middle > maxMiddle) {\n            this.maxMiddleIndex = index;\n        }\n    } else {\n        this.maxMiddleIndex = index;\n    }\n\n    if (this.minEndIndex >= 0) {\n        long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end < minEnd) {\n            this.minEndIndex = index;\n        }\n    } else {\n        this.minEndIndex = index;\n    }\n\n    if (this.maxEndIndex >= 0) {\n        long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n            .getTime();\n        if (end > maxEnd) {\n            this.maxEndIndex = index;\n        }\n    } else {\n        this.maxEndIndex = index;\n    }\n\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 23.65
+  },
+  "7": {
+    "bug_id": "7",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Week(Date time, TimeZone zone) {\n        // defer argument checking...\n        this(time, zone, Locale.getDefault());\n    }",
+        "best_candidate_hash": "6225c957a07d",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_8_1922706_1775981973172/Chart_8 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_8_1922706_1775981973172",
+        "feedback_strategy": "",
+        "elapsed_sec": 4.684
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Week(Date time, TimeZone zone) {\n    // defer argument checking...\n    this(time, RegularTimePeriod.DEFAULT_TIME_ZONE, zone);\n}",
+        "best_candidate_hash": "afae78fa9539",
+        "fail_reason": "compile_fail",
+        "error_family": "type_mismatch",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_8_1922706_1775981973172/Chart_8 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_8_1922706_1775981973172",
+        "feedback_strategy": "generic_compile_feedback",
+        "elapsed_sec": 8.83
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Week(Date time, TimeZone zone) {\n    // defer argument checking...\n    this(time, RegularTimePeriod.DEFAULT_TIME_ZONE, (Locale) zone);\n}",
+        "best_candidate_hash": "5e05823ede59",
+        "fail_reason": "compile_fail",
+        "error_family": "type_mismatch",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_8_1922706_1775981973172/Chart_8 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_8_1922706_1775981973172",
+        "feedback_strategy": "type_feedback",
+        "elapsed_sec": 8.22
+      }
+    ],
+    "final_code": "public Week(Date time, TimeZone zone) {\n    // defer argument checking...\n    this(time, RegularTimePeriod.DEFAULT_TIME_ZONE, (Locale) zone);\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 21.734
+  },
+  "8": {
+    "bug_id": "8",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n        if (start.compareTo(end) > 0) {\n            throw new IllegalArgumentException(\n                    \"Requires start on or before end.\");\n        }\n        boolean emptyRange = false;\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n            if (startIndex == this.data.size()) {\n                emptyRange = true;  // start is after last data item\n            }\n        }\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {             // end period is not in original series\n            endIndex = -(endIndex + 1); // this is first item AFTER end period\n            endIndex = endIndex - 1;    // so this is last item BEFORE end\n        }\n        if (endIndex < 0) {\n                    endIndex = -(endIndex + 1); // this is first item AFTER end period\n                    endIndex = endIndex - 1;    // so this is last item BEFORE end\n                    if (endIndex < 0) {\n                        emptyRange = true;\n                    }\n                }\n        if (emptyRange) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n\n    }",
+        "best_candidate_hash": "f7e549eb4eee",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 13.948
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n        if (start.compareTo(end) > 0) {\n            throw new IllegalArgumentException(\n                    \"Requires start on or before end.\");\n        }\n        boolean emptyRange = false;\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n            if (startIndex == this.data.size()) {\n                emptyRange = true;  // start is after last data item\n            }\n        }\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {             // end period is not in original series\n            endIndex = -(endIndex + 1); // this is first item AFTER end period\n            endIndex = endIndex - 1;    // so this is last item BEFORE end\n        }\n        if (endIndex < 0 || endIndex < startIndex) {\n            emptyRange = true;\n        }\n        if (emptyRange) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n\n    }",
+        "best_candidate_hash": "e01ecf9817ff",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 8.009
+      }
+    ],
+    "final_code": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n        if (start.compareTo(end) > 0) {\n            throw new IllegalArgumentException(\n                    \"Requires start on or before end.\");\n        }\n        boolean emptyRange = false;\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n            if (startIndex == this.data.size()) {\n                emptyRange = true;  // start is after last data item\n            }\n        }\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {             // end period is not in original series\n            endIndex = -(endIndex + 1); // this is first item AFTER end period\n            endIndex = endIndex - 1;    // so this is last item BEFORE end\n        }\n        if (endIndex < 0 || endIndex < startIndex) {\n            emptyRange = true;\n        }\n        if (emptyRange) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 21.957
+  },
+  "9": {
+    "bug_id": "9",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \"<title>\" + toolTipText + \"</title>\";\n    }",
+        "best_candidate_hash": "75474d4759f7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 12.703
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + ImageMapUtilities.htmlEscape(toolTipText)\n            + \"\\\" alt=\\\"\\\"\";\n    }",
+        "best_candidate_hash": "399020223388",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 4.373
+      }
+    ],
+    "final_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + ImageMapUtilities.htmlEscape(toolTipText)\n            + \"\\\" alt=\\\"\\\"\";\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 17.076
+  },
+  "10": {
+    "bug_id": "10",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public static boolean equal(GeneralPath p1, GeneralPath p2) {\n    if (p1 == null) {\n        return (p2 == null);\n    }\n    if (p2 == null) {\n        return false;\n    }\n    if (p1.getWindingRule() != p2.getWindingRule()) {\n        return false;\n    }\n    PathIterator iterator1 = p1.getPathIterator(null);\n    PathIterator iterator2 = p2.getPathIterator(null);\n    double[] d1 = new double[6];\n    double[] d2 = new double[6];\n    boolean done = iterator1.isDone() && iterator2.isDone();\n    while (!done) {\n        if (iterator1.isDone() != iterator2.isDone()) {\n            return false;\n        }\n        int seg1 = iterator1.currentSegment(d1);\n        int seg2 = iterator2.currentSegment(d2);\n        if (seg1 != seg2) {\n            return false;\n        }\n        if (!Arrays.equals(d1, d2)) {\n            return false;\n        }\n        iterator1.next();\n        iterator2.next();\n        done = iterator1.isDone() && iterator2.isDone();\n    }\n    return true;\n}",
+        "best_candidate_hash": "6d54986d31c5",
+        "fail_reason": "compile_fail",
+        "error_family": "method_signature",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_11_1922706_1775982043724/Chart_11 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_11_1922706_1775982043",
+        "feedback_strategy": "",
+        "elapsed_sec": 7.358
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.785
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.972
+      }
+    ],
+    "final_code": "public static boolean equal(GeneralPath p1, GeneralPath p2) {\n    if (p1 == null) {\n        return (p2 == null);\n    }\n    if (p2 == null) {\n        return false;\n    }\n    if (p1.getWindingRule() != p2.getWindingRule()) {\n        return false;\n    }\n    PathIterator iterator1 = p1.getPathIterator(null);\n    PathIterator iterator2 = p2.getPathIterator(null);\n    double[] d1 = new double[6];\n    double[] d2 = new double[6];\n    boolean done = iterator1.isDone() && iterator2.isDone();\n    while (!done) {\n        if (iterator1.isDone() != iterator2.isDone()) {\n            return false;\n        }\n        int seg1 = iterator1.currentSegment(d1);\n        int seg2 = iterator2.currentSegment(d2);\n        if (seg1 != seg2) {\n            return false;\n        }\n        if (!Arrays.equals(d1, d2)) {\n            return false;\n        }\n        iterator1.next();\n        iterator2.next();\n        done = iterator1.isDone() && iterator2.isDone();\n    }\n    return true;\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 13.115
+  },
+  "11": {
+    "bug_id": "11",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        this.dataset = dataset;\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "aa5908dd5cfb",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.161
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        setDataset(dataset);\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "88ac13598d7d",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 7.654
+      }
+    ],
+    "final_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        setDataset(dataset);\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 23.814
+  },
+  "12": {
+    "bug_id": "12",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    protected Size2D arrangeFF(BlockContainer container, Graphics2D g2,\n                               RectangleConstraint constraint) {\n        double[] w = new double[5];\n        double[] h = new double[5];\n        w[0] = constraint.getWidth();\n        if (this.topBlock != null) {\n            RectangleConstraint c1 = new RectangleConstraint(w[0], null,\n                    LengthConstraintType.FIXED, 0.0,\n                    new Range(0.0, constraint.getHeight()),\n                    LengthConstraintType.RANGE);\n            Size2D size = this.topBlock.arrange(g2, c1);\n            h[0] = size.height;\n        }\n        w[1] = w[0];\n        if (this.bottomBlock != null) {\n            RectangleConstraint c2 = new RectangleConstraint(w[0], null,\n                    LengthConstraintType.FIXED, 0.0, new Range(0.0,\n                    constraint.getHeight() - h[0]), LengthConstraintType.RANGE);\n            Size2D size = this.bottomBlock.arrange(g2, c2);\n            h[1] = size.height;\n        }\n        h[2] = constraint.getHeight() - h[1] - h[0];\n        if (this.leftBlock != null) {\n            RectangleConstraint c3 = new RectangleConstraint(0.0,\n                    new Range(0.0, constraint.getWidth()),\n                    LengthConstraintType.RANGE, h[2], null,\n                    LengthConstraintType.FIXED);\n            Size2D size = this.leftBlock.arrange(g2, c3);\n            w[2] = size.width;\n        }\n        h[3] = h[2];\n        if (this.rightBlock != null) {\n            RectangleConstraint c4 = new RectangleConstraint(0.0,\n                    new Range(0.0, constraint.getWidth() - w[2] - w[4]),\n                    LengthConstraintType.RANGE, h[2], null,\n                    LengthConstraintType.FIXED);\n            Size2D size = this.rightBlock.arrange(g2, c4);\n            w[3] = size.width;\n        }\n        h[4] = h[2];\n        w[4] = constraint.getWidth() - w[3] - w[2];\n        RectangleConstraint c5 = new RectangleConstraint(w[4], h[4]);\n        if (this.centerBlock != null) {\n            this.centerBlock.arrange(g2, c5);\n        }\n\n        if (this.topBlock != null) {\n            this.topBlock.setBounds(new Rectangle2D.Double(0.0, 0.0, w[0],\n                    h[0]));\n        }\n        if (this.bottomBlock != null) {\n            this.bottomBlock.setBounds(new Rectangle2D.Double(0.0, h[0] + h[2],\n                    w[1], h[1]));\n        }\n        if (this.leftBlock != null) {\n            this.leftBlock.setBounds(new Rectangle2D.Double(0.0, h[0], w[2],\n                    h[2]));\n        }\n        if (this.rightBlock != null) {\n            this.rightBlock.setBounds(new Rectangle2D.Double(w[2] + w[4], h[0],\n                    w[3], h[3]));\n        }\n        if (this.centerBlock != null) {\n            this.centerBlock.setBounds(new Rectangle2D.Double(w[2], h[0], w[4],\n                    h[4]));\n        }\n        return new Size2D(constraint.getWidth(), constraint.getHeight());\n    }",
+        "best_candidate_hash": "9d506d1ff281",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 14.579
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "protected Size2D arrangeFF(BlockContainer container, Graphics2D g2,\n                           RectangleConstraint constraint) {\n    double[] w = new double[5];\n    double[] h = new double[5];\n    w[0] = constraint.getWidth();\n    if (this.topBlock != null) {\n        RectangleConstraint c1 = new RectangleConstraint(w[0], null,\n                LengthConstraintType.FIXED, 0.0,\n                new Range(0.0, constraint.getHeight()),\n                LengthConstraintType.RANGE);\n        Size2D size = this.topBlock.arrange(g2, c1);\n        h[0] = size.height;\n    }\n    w[1] = w[0];\n    if (this.bottomBlock != null) {\n        RectangleConstraint c2 = new RectangleConstraint(w[0], null,\n                LengthConstraintType.FIXED, 0.0, new Range(0.0,\n                constraint.getHeight() - h[0]), LengthConstraintType.RANGE);\n        Size2D size = this.bottomBlock.arrange(g2, c2);\n        h[1] = size.height;\n    }\n    h[2] = constraint.getHeight() - h[1] - h[0];\n    if (this.leftBlock != null) {\n        RectangleConstraint c3 = new RectangleConstraint(0.0,\n                new Range(0.0, constraint.getWidth()),\n                LengthConstraintType.RANGE, h[2], null,\n                LengthConstraintType.FIXED);\n        Size2D size = this.leftBlock.arrange(g2, c3);\n        w[2] = size.width;\n    }\n    h[3] = h[2];\n    if (this.rightBlock != null) {\n        RectangleConstraint c4 = new RectangleConstraint(0.0,\n                new Range(0.0, Math.max(constraint.getWidth() - w[2], 0.0)),\n                LengthConstraintType.RANGE, h[2], null,\n                LengthConstraintType.FIXED);\n        Size2D size = this.rightBlock.arrange(g2, c4);\n        w[3] = size.width;\n    }\n    h[4] = h[2];\n    w[4] = constraint.getWidth() - w[3] - w[2];\n    RectangleConstraint c5 = new RectangleConstraint(w[4], h[4]);\n    if (this.centerBlock != null) {\n        this.centerBlock.arrange(g2, c5);\n    }\n\n    if (this.topBlock != null) {\n        this.topBlock.setBounds(new Rectangle2D.Double(0.0, 0.0, w[0],\n                h[0]));\n    }\n    if (this.bottomBlock != null) {\n        this.bottomBlock.setBounds(new Rectangle2D.Double(0.0, h[0] + h[2],\n                w[1], h[1]));\n    }\n    if (this.leftBlock != null) {\n        this.leftBlock.setBounds(new Rectangle2D.Double(0.0, h[0], w[2],\n                h[2]));\n    }\n    if (this.rightBlock != null) {\n        this.rightBlock.setBounds",
+        "best_candidate_hash": "2c10da0bdb70",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_13_1922706_1775982087156/Chart_13 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_13_1922706_1775982087",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 7.909
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "protected Size2D arrangeFF(BlockContainer container, Graphics2D g2,\n                           RectangleConstraint constraint) {\n    double[] w = new double[5];\n    double[] h = new double[5];\n    w[0] = constraint.getWidth();\n    if (this.topBlock != null) {\n        RectangleConstraint c1 = new RectangleConstraint(w[0], null,\n                LengthConstraintType.FIXED, 0.0,\n                new Range(0.0, constraint.getHeight()),\n                LengthConstraintType.RANGE);\n        Size2D size = this.topBlock.arrange(g2, c1);\n        h[0] = size.height;\n    }\n    w[1] = w[0];\n    if (this.bottomBlock != null) {\n        RectangleConstraint c2 = new RectangleConstraint(w[0], null,\n                LengthConstraintType.FIXED, 0.0, new Range(0.0,\n                constraint.getHeight() - h[0]), LengthConstraintType.RANGE);\n        Size2D size = this.bottomBlock.arrange(g2, c2);\n        h[1] = size.height;\n    }\n    h[2] = constraint.getHeight() - h[1] - h[0];\n    if (this.leftBlock != null) {\n        RectangleConstraint c3 = new RectangleConstraint(0.0,\n                new Range(0.0, constraint.getWidth()),\n                LengthConstraintType.RANGE, h[2], null,\n                LengthConstraintType.FIXED);\n        Size2D size = this.leftBlock.arrange(g2, c3);\n        w[2] = size.width;\n    }\n    h[3] = h[2];\n    if (this.rightBlock != null) {\n        RectangleConstraint c4 = new RectangleConstraint(0.0,\n                new Range(0.0, Math.max(constraint.getWidth() - w[2], 0.0)),\n                LengthConstraintType.RANGE, h[2], null,\n                LengthConstraintType.FIXED);\n        Size2D size = this.rightBlock.arrange(g2, c4);\n        w[3] = size.width;\n    }\n    h[4] = h[2];\n    w[4] = constraint.getWidth() - w[3] - w[2];\n    RectangleConstraint c5 = new RectangleConstraint(w[4], h[4]);\n    if (this.centerBlock != null) {\n        this.centerBlock.arrange(g2, c5);\n    }\n\n    if (this.topBlock != null) {\n        this.topBlock.setBounds(new Rectangle2D.Double(0.0, 0.0, w[0],",
+        "best_candidate_hash": "6ee61104a231",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_13_1922706_1775982087156/Chart_13 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_13_1922706_1775982087",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 7.451
+      }
+    ],
+    "final_code": "protected Size2D arrangeFF(BlockContainer container, Graphics2D g2,\n                           RectangleConstraint constraint) {\n    double[] w = new double[5];\n    double[] h = new double[5];\n    w[0] = constraint.getWidth();\n    if (this.topBlock != null) {\n        RectangleConstraint c1 = new RectangleConstraint(w[0], null,\n                LengthConstraintType.FIXED, 0.0,\n                new Range(0.0, constraint.getHeight()),\n                LengthConstraintType.RANGE);\n        Size2D size = this.topBlock.arrange(g2, c1);\n        h[0] = size.height;\n    }\n    w[1] = w[0];\n    if (this.bottomBlock != null) {\n        RectangleConstraint c2 = new RectangleConstraint(w[0], null,\n                LengthConstraintType.FIXED, 0.0, new Range(0.0,\n                constraint.getHeight() - h[0]), LengthConstraintType.RANGE);\n        Size2D size = this.bottomBlock.arrange(g2, c2);\n        h[1] = size.height;\n    }\n    h[2] = constraint.getHeight() - h[1] - h[0];\n    if (this.leftBlock != null) {\n        RectangleConstraint c3 = new RectangleConstraint(0.0,\n                new Range(0.0, constraint.getWidth()),\n                LengthConstraintType.RANGE, h[2], null,\n                LengthConstraintType.FIXED);\n        Size2D size = this.leftBlock.arrange(g2, c3);\n        w[2] = size.width;\n    }\n    h[3] = h[2];\n    if (this.rightBlock != null) {\n        RectangleConstraint c4 = new RectangleConstraint(0.0,\n                new Range(0.0, Math.max(constraint.getWidth() - w[2], 0.0)),\n                LengthConstraintType.RANGE, h[2], null,\n                LengthConstraintType.FIXED);\n        Size2D size = this.rightBlock.arrange(g2, c4);\n        w[3] = size.width;\n    }\n    h[4] = h[2];\n    w[4] = constraint.getWidth() - w[3] - w[2];\n    RectangleConstraint c5 = new RectangleConstraint(w[4], h[4]);\n    if (this.centerBlock != null) {\n        this.centerBlock.arrange(g2, c5);\n    }\n\n    if (this.topBlock != null) {\n        this.topBlock.setBounds(new Rectangle2D.Double(0.0, 0.0, w[0],",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 29.939
+  },
+  "13": {
+    "bug_id": "13",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Object clone() throws CloneNotSupportedException {\n        Object clone = createCopy(0, getItemCount() - 1);\n        return clone;\n    }",
+        "best_candidate_hash": "3d8ffca82dfb",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_17_1922706_1775982120302/Chart_17 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_17_1922706_1775982120",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.138
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Object clone() throws CloneNotSupportedException {\n    Object clone = createCopy(0, getItemCount() - 1);\n    return clone;\n}",
+        "best_candidate_hash": "60efc960962a",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_17_1922706_1775982120302/Chart_17 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_17_1922706_1775982120",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 2.103
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.567
+      }
+    ],
+    "final_code": "public Object clone() throws CloneNotSupportedException {\n    Object clone = createCopy(0, getItemCount() - 1);\n    return clone;\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 4.809
+  },
+  "14": {
+    "bug_id": "14",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(paint, stroke, outlinePaint, outlineStroke, alpha);\n        this.value = value;\n    }",
+        "best_candidate_hash": "b7c96d79e238",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_1922706_1775982128221/Chart_20 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_1922706_1775982128",
+        "feedback_strategy": "",
+        "elapsed_sec": 4.319
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                   Paint outlinePaint, Stroke outlineStroke, float alpha) {\n    super(paint, stroke, outlinePaint, outlineStroke, alpha);\n    this.value = value;\n}",
+        "best_candidate_hash": "093f18b05f26",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_1922706_1775982128221/Chart_20 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_1922706_1775982128",
+        "feedback_strategy": "generic_compile_feedback",
+        "elapsed_sec": 4.235
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                   Paint outlinePaint, Stroke outlineStroke, float alpha) {\n    super(paint, stroke, paint, stroke, alpha);\n    this.value = value;\n}",
+        "best_candidate_hash": "2d8d440d52a8",
+        "fail_reason": "compile_fail",
+        "error_family": "other_compile_fail",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_1922706_1775982128221/Chart_20 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_20_1922706_1775982128",
+        "feedback_strategy": "generic_compile_feedback",
+        "elapsed_sec": 4.418
+      }
+    ],
+    "final_code": "public ValueMarker(double value, Paint paint, Stroke stroke,\n                   Paint outlinePaint, Stroke outlineStroke, float alpha) {\n    super(paint, stroke, paint, stroke, alpha);\n    this.value = value;\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 12.973
+  },
+  "15": {
+    "bug_id": "15",
+    "solved": true,
+    "solving_iteration": 1,
+    "total_iterations": 1,
+    "total_candidates_generated": 5,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Paint getPaint(double value) {\n        double v = Math.max(value, this.lowerBound);\n        v = Math.min(v, this.upperBound);\n        int g = (int) ((v - this.lowerBound) / (this.upperBound\n                - this.lowerBound) * 255.0);\n        return new Color(g, g, g);\n    }",
+        "best_candidate_hash": "79b8b0abb094",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 11.842
+      }
+    ],
+    "final_code": "public Paint getPaint(double value) {\n        double v = Math.max(value, this.lowerBound);\n        v = Math.min(v, this.upperBound);\n        int g = (int) ((v - this.lowerBound) / (this.upperBound\n                - this.lowerBound) * 255.0);\n        return new Color(g, g, g);\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 11.842
+  },
+  "16": {
+    "bug_id": "16",
+    "solved": true,
+    "solving_iteration": 1,
+    "total_iterations": 1,
+    "total_candidates_generated": 5,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    protected AxisState drawLabel(String label, Graphics2D g2, \n            Rectangle2D plotArea, Rectangle2D dataArea, RectangleEdge edge, \n            AxisState state, PlotRenderingInfo plotState) {\n\n        // it is unlikely that 'state' will be null, but check anyway...\n        if (state == null) {\n            throw new IllegalArgumentException(\"Null 'state' argument.\");\n        }\n        \n        if ((label == null) || (label.equals(\"\"))) {\n            return state;\n        }\n\n        Font font = getLabelFont();\n        RectangleInsets insets = getLabelInsets();\n        g2.setFont(font);\n        g2.setPaint(getLabelPaint());\n        FontMetrics fm = g2.getFontMetrics();\n        Rectangle2D labelBounds = TextUtilities.getTextBounds(label, g2, fm);\n        Shape hotspot = null;\n        \n        if (edge == RectangleEdge.TOP) {\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle(), labelBounds.getCenterX(), \n                    labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) dataArea.getCenterX();\n            float labely = (float) (state.getCursor() - insets.getBottom() \n                    - h / 2.0);\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle(), TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorUp(insets.getTop() + labelBounds.getHeight() \n                    + insets.getBottom());\n        }\n        else if (edge == RectangleEdge.BOTTOM) {\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle(), labelBounds.getCenterX(), \n                    labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) dataArea.getCenterX();\n            float labely = (float) (state.getCursor() + insets.getTop() \n                    + h / 2.0);\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle(), TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorDown(insets.getTop() + labelBounds.getHeight() \n                    + insets.getBottom());\n        }\n        else if (edge == RectangleEdge.LEFT) {\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle() - Math.PI / 2.0, labelBounds.getCenterX(), \n                    labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) (state.getCursor() - insets.getRight() \n                    - w / 2.0);\n            float labely = (float) dataArea.getCenterY();\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle() - Math.PI / 2.0, \n                    TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorLeft(insets.getLeft() + labelBounds.getWidth() \n                    + insets.getRight());\n        }\n        else if (edge == RectangleEdge.RIGHT) {\n\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle() + Math.PI / 2.0, \n                    labelBounds.getCenterX(), labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) (state.getCursor() \n                            + insets.getLeft() + w / 2.0);\n            float labely = (float) (dataArea.getY() + dataArea.getHeight() \n                    / 2.0);\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle() + Math.PI / 2.0, \n                    TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorRight(insets.getLeft() + labelBounds.getWidth() \n                    + insets.getRight());\n\n        }\n        if (plotState != null && hotspot != null) {\n            ChartRenderingInfo owner = plotState.getOwner();\n            if (owner != null) {\n                EntityCollection entities = owner.getEntityCollection();\n                if (entities != null) {\n                    entities.add(new AxisLabelEntity(this, hotspot, \n                            this.labelToolTip, this.labelURL));\n                }\n            }\n        }\n        return state;\n\n    }",
+        "best_candidate_hash": "ab3f5c02dea9",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.283
+      }
+    ],
+    "final_code": "    protected AxisState drawLabel(String label, Graphics2D g2, \n            Rectangle2D plotArea, Rectangle2D dataArea, RectangleEdge edge, \n            AxisState state, PlotRenderingInfo plotState) {\n\n        // it is unlikely that 'state' will be null, but check anyway...\n        if (state == null) {\n            throw new IllegalArgumentException(\"Null 'state' argument.\");\n        }\n        \n        if ((label == null) || (label.equals(\"\"))) {\n            return state;\n        }\n\n        Font font = getLabelFont();\n        RectangleInsets insets = getLabelInsets();\n        g2.setFont(font);\n        g2.setPaint(getLabelPaint());\n        FontMetrics fm = g2.getFontMetrics();\n        Rectangle2D labelBounds = TextUtilities.getTextBounds(label, g2, fm);\n        Shape hotspot = null;\n        \n        if (edge == RectangleEdge.TOP) {\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle(), labelBounds.getCenterX(), \n                    labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) dataArea.getCenterX();\n            float labely = (float) (state.getCursor() - insets.getBottom() \n                    - h / 2.0);\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle(), TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorUp(insets.getTop() + labelBounds.getHeight() \n                    + insets.getBottom());\n        }\n        else if (edge == RectangleEdge.BOTTOM) {\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle(), labelBounds.getCenterX(), \n                    labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) dataArea.getCenterX();\n            float labely = (float) (state.getCursor() + insets.getTop() \n                    + h / 2.0);\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle(), TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorDown(insets.getTop() + labelBounds.getHeight() \n                    + insets.getBottom());\n        }\n        else if (edge == RectangleEdge.LEFT) {\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle() - Math.PI / 2.0, labelBounds.getCenterX(), \n                    labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) (state.getCursor() - insets.getRight() \n                    - w / 2.0);\n            float labely = (float) dataArea.getCenterY();\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle() - Math.PI / 2.0, \n                    TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorLeft(insets.getLeft() + labelBounds.getWidth() \n                    + insets.getRight());\n        }\n        else if (edge == RectangleEdge.RIGHT) {\n\n            AffineTransform t = AffineTransform.getRotateInstance(\n                    getLabelAngle() + Math.PI / 2.0, \n                    labelBounds.getCenterX(), labelBounds.getCenterY());\n            Shape rotatedLabelBounds = t.createTransformedShape(labelBounds);\n            labelBounds = rotatedLabelBounds.getBounds2D();\n            float w = (float) labelBounds.getWidth();\n            float h = (float) labelBounds.getHeight();\n            float labelx = (float) (state.getCursor() \n                            + insets.getLeft() + w / 2.0);\n            float labely = (float) (dataArea.getY() + dataArea.getHeight() \n                    / 2.0);\n            TextUtilities.drawRotatedString(label, g2, labelx, labely, \n                    TextAnchor.CENTER, getLabelAngle() + Math.PI / 2.0, \n                    TextAnchor.CENTER);\n            hotspot = new Rectangle2D.Float(labelx - w / 2.0f, \n                    labely - h / 2.0f, w, h);\n            state.cursorRight(insets.getLeft() + labelBounds.getWidth() \n                    + insets.getRight());\n\n        }\n        if (plotState != null && hotspot != null) {\n            ChartRenderingInfo owner = plotState.getOwner();\n            if (owner != null) {\n                EntityCollection entities = owner.getEntityCollection();\n                if (entities != null) {\n                    entities.add(new AxisLabelEntity(this, hotspot, \n                            this.labelToolTip, this.labelURL));\n                }\n            }\n        }\n        return state;\n\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 16.283
+  },
+  "17": {
+    "bug_id": "17",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void removeUnreferencedFunctionArgs(Scope fnScope) {\n    // Notice that removing unreferenced function args breaks\n    // Function.prototype.length. In advanced mode, we don't really care\n    // about this: we consider \"length\" the equivalent of reflecting on\n    // the function's lexical source.\n    //\n    // Rather than create a new option for this, we assume that if the user\n    // is removing globals, then it's OK to remove unused function args.\n    //\n    // See http://code.google.com/p/closure-compiler/issues/detail?id=253\n\n    Node function = fnScope.getRootNode();\n\n    Preconditions.checkState(function.isFunction());\n    if (NodeUtil.isGetOrSetKey(function.getParent())) {\n      // The parameters object literal setters can not be removed.\n      return;\n    }\n\n    Node argList = getFunctionArgList(function);\n    boolean modifyCallers = modifyCallSites\n        && callSiteOptimizer.canModifyCallers(function);\n    if (!modifyCallers) {\n      // Strip unreferenced args off the end of the function declaration.\n      Node lastArg;\n      while ((lastArg = argList.getLastChild()) != null) {\n        Var var = fnScope.getVar(lastArg.getString());\n        if (!referenced.contains(var)) {\n          argList.removeChild(lastArg);\n          compiler.reportCodeChange();\n        } else {\n          break;\n        }\n      }\n    } else {\n      callSiteOptimizer.optimize(fnScope, referenced);\n    }\n}",
+        "best_candidate_hash": "bb274d6a3014",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_1_1922706_1775982179047/Closure_1 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_1_1922706_1775982",
+        "feedback_strategy": "",
+        "elapsed_sec": 10.711
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void removeUnreferencedFunctionArgs(Scope fnScope) {\n    // Notice that removing unreferenced function args breaks\n    // Function.prototype.length. In advanced mode, we don't really care\n    // about this: we consider \"length\" the equivalent of reflecting on\n    // the function's lexical source.\n    //\n    // Rather than create a new option for this, we assume that if the user\n    // is removing globals, then it's OK to remove unused function args.\n    //\n    // See http://code.google.com/p/closure-compiler/issues/detail?id=253\n\n    Node function = fnScope.getRootNode();\n\n    Preconditions.checkState(function.isFunction());\n    if (NodeUtil.isGetOrSetKey(function.getParent())) {\n      // The parameters object literal setters can not be removed.\n      return;\n    }\n\n    Node argList = getFunctionArgList(function);\n    boolean modifyCallers = modifyCallSites\n        && callSiteOptimizer.canModifyCallers(function);\n    if (!modifyCallers) {\n      // Strip unreferenced args off the end of the function declaration.\n      Node lastArg;\n      while ((lastArg = argList.getLastChild()) != null) {\n        Var var = fnScope.getVar(lastArg.getString());\n        if (!referenced.contains(var)) {\n          argList.removeChild(lastArg);\n          compiler.reportCodeChange();\n        } else {\n          break;\n        }\n      }\n    } else {\n      callSiteOptimizer.optimize(fnScope, referenced);\n    }\n  }",
+        "best_candidate_hash": "a5acea0410f5",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_1_1922706_1775982179047/Closure_1 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_1_1922706_1775982",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 6.195
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 3.741
+      }
+    ],
+    "final_code": "private void removeUnreferencedFunctionArgs(Scope fnScope) {\n    // Notice that removing unreferenced function args breaks\n    // Function.prototype.length. In advanced mode, we don't really care\n    // about this: we consider \"length\" the equivalent of reflecting on\n    // the function's lexical source.\n    //\n    // Rather than create a new option for this, we assume that if the user\n    // is removing globals, then it's OK to remove unused function args.\n    //\n    // See http://code.google.com/p/closure-compiler/issues/detail?id=253\n\n    Node function = fnScope.getRootNode();\n\n    Preconditions.checkState(function.isFunction());\n    if (NodeUtil.isGetOrSetKey(function.getParent())) {\n      // The parameters object literal setters can not be removed.\n      return;\n    }\n\n    Node argList = getFunctionArgList(function);\n    boolean modifyCallers = modifyCallSites\n        && callSiteOptimizer.canModifyCallers(function);\n    if (!modifyCallers) {\n      // Strip unreferenced args off the end of the function declaration.\n      Node lastArg;\n      while ((lastArg = argList.getLastChild()) != null) {\n        Var var = fnScope.getVar(lastArg.getString());\n        if (!referenced.contains(var)) {\n          argList.removeChild(lastArg);\n          compiler.reportCodeChange();\n        } else {\n          break;\n        }\n      }\n    } else {\n      callSiteOptimizer.optimize(fnScope, referenced);\n    }\n  }",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 20.647
+  },
+  "18": {
+    "bug_id": "18",
+    "solved": true,
+    "solving_iteration": 1,
+    "total_iterations": 1,
+    "total_candidates_generated": 5,
+    "total_llm_calls": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "  private void checkInterfaceConflictProperties(NodeTraversal t, Node n,\n      String functionName, HashMap<String, ObjectType> properties,\n      HashMap<String, ObjectType> currentProperties,\n      ObjectType interfaceType) {\n    ObjectType implicitProto = interfaceType.getImplicitPrototype();\n        if (implicitProto == null) {\n          return; // or handle the case appropriately\n        }\n        Set<String> currentPropertyNames;\n        currentPropertyNames = implicitProto.getOwnPropertyNames();\n        for (String name : currentPropertyNames) {\n          ObjectType oType = properties.get(name);\n          if (oType != null) {\n            if (!interfaceType.getPropertyType(name).isEquivalentTo(\n                oType.getPropertyType(name))) {\n              compiler.report(\n                  t.makeError(n, INCOMPATIBLE_EXTENDED_PROPERTY_TYPE,\n                      functionName, name, oType.toString(),\n                      interfaceType.toString()));\n            }\n          }\n          currentProperties.put(name, interfaceType);\n        }\n        for (ObjectType iType : interfaceType.getCtorExtendedInterfaces()) {\n          checkInterfaceConflictProperties(t, n, functionName, properties,\n              currentProperties, iType);\n        }\n  }",
+        "best_candidate_hash": "309bfa5c368a",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 82.328
+      }
+    ],
+    "final_code": "  private void checkInterfaceConflictProperties(NodeTraversal t, Node n,\n      String functionName, HashMap<String, ObjectType> properties,\n      HashMap<String, ObjectType> currentProperties,\n      ObjectType interfaceType) {\n    ObjectType implicitProto = interfaceType.getImplicitPrototype();\n        if (implicitProto == null) {\n          return; // or handle the case appropriately\n        }\n        Set<String> currentPropertyNames;\n        currentPropertyNames = implicitProto.getOwnPropertyNames();\n        for (String name : currentPropertyNames) {\n          ObjectType oType = properties.get(name);\n          if (oType != null) {\n            if (!interfaceType.getPropertyType(name).isEquivalentTo(\n                oType.getPropertyType(name))) {\n              compiler.report(\n                  t.makeError(n, INCOMPATIBLE_EXTENDED_PROPERTY_TYPE,\n                      functionName, name, oType.toString(),\n                      interfaceType.toString()));\n            }\n          }\n          currentProperties.put(name, interfaceType);\n        }\n        for (ObjectType iType : interfaceType.getCtorExtendedInterfaces()) {\n          checkInterfaceConflictProperties(t, n, functionName, properties,\n              currentProperties, iType);\n        }\n  }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 82.328
+  },
+  "19": {
+    "bug_id": "19",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.566
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n      // TODO(user): Investigate whether it is really necessary to keep two\n      // different mechanisms for resolving named types, and if so, which order\n      // makes more sense. Now, resolution via registry is first in order to\n      // avoid triggering the warnings built into the resolution via properties.\n      boolean resolved = resolveViaRegistry(t, enclosing);\n      if (!detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n      }\n\n      if (resolved) {\n        super.resolveInternal(t, enclosing);\n        finishPropertyContinuations();\n        return registry.isLastGeneration() ?\n            getReferencedType() : this;\n      }\n\n      resolveViaProperties(t, enclosing);\n      if (!detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n      }\n\n      super.resolveInternal(t, enclosing);\n      if (isResolved()) {\n        finishPropertyContinuations();\n      }\n      return registry.isLastGeneration() ?\n          getReferencedType() : this;\n    }",
+        "best_candidate_hash": "143c15406c1b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 207.58
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // TODO(user): Investigate whether it is really necessary to keep two\n    // different mechanisms for resolving named types, and if so, which order\n    // makes more sense. Now, resolution via registry is first in order to\n    // avoid triggering the warnings built into the resolution via properties.\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (!detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n    }\n\n    if (resolved) {\n        super.resolveInternal(t, enclosing);\n        finishPropertyContinuations();\n        return registry.isLastGeneration() ?\n            getReferencedType() : this;\n    }\n\n    resolveViaProperties(t, enclosing);\n    if (!detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n    }\n\n    super.resolveInternal(t, enclosing);\n    if (isResolved()) {\n        finishPropertyContinuations();\n    }\n    return registry.isLastGeneration() ?\n        getReferencedType() : this;\n}",
+        "best_candidate_hash": "692dd63b5367",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 68.09
+      }
+    ],
+    "final_code": "JSType resolveInternal(ErrorReporter t, StaticScope<JSType> enclosing) {\n    // TODO(user): Investigate whether it is really necessary to keep two\n    // different mechanisms for resolving named types, and if so, which order\n    // makes more sense. Now, resolution via registry is first in order to\n    // avoid triggering the warnings built into the resolution via properties.\n    boolean resolved = resolveViaRegistry(t, enclosing);\n    if (!detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n    }\n\n    if (resolved) {\n        super.resolveInternal(t, enclosing);\n        finishPropertyContinuations();\n        return registry.isLastGeneration() ?\n            getReferencedType() : this;\n    }\n\n    resolveViaProperties(t, enclosing);\n    if (!detectImplicitPrototypeCycle()) {\n        handleTypeCycle(t);\n    }\n\n    super.resolveInternal(t, enclosing);\n    if (isResolved()) {\n        finishPropertyContinuations();\n    }\n    return registry.isLastGeneration() ?\n        getReferencedType() : this;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 276.237
+  },
+  "20": {
+    "bug_id": "20",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    private boolean isInlinableObject(List<Reference> refs) {\n      boolean ret = false;\n      Set<String> validProperties = Sets.newHashSet();\n      for (Reference ref : refs) {\n        Node name = ref.getNode();\n        Node parent = ref.getParent();\n        Node gramps = ref.getGrandparent();\n\n        // Ignore most indirect references, like x.y (but not x.y(),\n        // since the function referenced by y might reference 'this').\n        //\n        if (parent.isGetProp()) {\n          Preconditions.checkState(parent.getFirstChild() == name);\n          // A call target may be using the object as a 'this' value.\n          if (gramps.isCall()\n              && gramps.getFirstChild() == parent) {\n            return false;\n          }\n\n          // Deleting a property has different semantics from deleting\n          // a variable, so deleted properties should not be inlined.\n\n          // NOTE(nicksantos): This pass's object-splitting algorithm has\n          // a blind spot. It assumes that if a property isn't defined on an\n          // object, then the value is undefined. This is not true, because\n          // Object.prototype can have arbitrary properties on it.\n          //\n          // We short-circuit this problem by bailing out if we see a reference\n          // to a property that isn't defined on the object literal. This\n          // isn't a perfect algorithm, but it should catch most cases.\n          String propName = parent.getLastChild().getString();\n          if (!validProperties.contains(propName)) {\n            if (NodeUtil.isVarOrSimpleAssignLhs(parent, gramps)) {\n              validProperties.add(propName);\n            } else {\n              return false;\n            }\n          }\n          continue;\n        }\n\n        // Only rewrite VAR declarations or simple assignment statements\n        if (!isVarOrAssignExprLhs(name)) {\n           return false;\n        }\n\n        Node val = ref.getAssignedValue();\n        if (val == null) {\n          // A var with no assignment.\n          continue;\n        }\n\n        // We're looking for object literal assignments only.\n        if (!val.isObjectLit()) {\n          return false;\n        }\n\n        // Make sure that the value is not self-referential. IOW,\n        // disallow things like x = {b: x.a}.\n        //\n        // TODO: Only exclude unorderable self-referential\n        // assignments. i.e. x = {a: x.b, b: x.a} is not orderable,\n        // but x = {a: 1, b: x.a} is.\n        //\n        // Also, ES5 getters/setters aren't handled by this pass.\n        for (Node child = val.getFirstChild(); child != null;\n                     child = child.getNext()) {\n                  if (child.isGetterDef() ||\n                      child.isSetterDef()) {\n                    // ES5 get/set not supported.\n                    return false;\n                  }\n\n                  validProperties.add(child.getString());\n\n                  Node childVal = child.getFirstChild();\n                  // Check if childVal is the parent of any of the passed in\n                  // references, as that is how self-referential assignments\n                  // will happen.\n                  for (Reference t : refs) {\n                    Node refNode = t.getParent();\n                    while (!NodeUtil.isStatementBlock(refNode)) {\n                      if (refNode == childVal) {\n                        // There's a self-referential assignment\n                        return false;\n                      }\n                      refNode = refNode.getParent();\n                    }\n                  }\n                }\n\n\n        // We have found an acceptable object literal assignment. As\n        // long as there are no other assignments that mess things up,\n        // we can inline.\n        ret = true;\n      }\n      return ret;\n    }",
+        "best_candidate_hash": "e2210b5b18cd",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_5_1922706_1775982568676/Closure_5 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_5_1922706_1775982",
+        "feedback_strategy": "",
+        "elapsed_sec": 8.816
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private boolean isInlinableObject(List<Reference> refs) {\n  boolean ret = false;\n  Set<String> validProperties = Sets.newHashSet();\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    // Ignore most indirect references, like x.y (but not x.y(),\n    // since the function referenced by y might reference 'this').\n    //\n    if (parent.isGetProp()) {\n      Preconditions.checkState(parent.getFirstChild() == name);\n      // A call target may be using the object as a 'this' value.\n      if (gramps.isCall()\n          && gramps.getFirstChild() == parent) {\n        return false;\n      }\n\n      // Deleting a property has different semantics from deleting\n      // a variable, so deleted properties should not be inlined.\n\n      // NOTE(nicksantos): This pass's object-splitting algorithm has\n      // a blind spot. It assumes that if a property isn't defined on an\n      // object, then the value is undefined. This is not true, because\n      // Object.prototype can have arbitrary properties on it.\n      //\n      // We short-circuit this problem by bailing out if we see a reference\n      // to a property that isn't defined on the object literal. This\n      // isn't a perfect algorithm, but it should catch most cases.\n      String propName = parent.getLastChild().getString();\n      if (!validProperties.contains(propName)) {\n        if (NodeUtil.isVarOrSimpleAssignLhs(parent, gramps)) {\n          validProperties.add(propName);\n        } else {\n          return false;\n        }\n      }\n      continue;\n    }\n\n    // Only rewrite VAR declarations or simple assignment statements\n    if (!isVarOrAssignExprLhs(name)) {\n       return false;\n    }\n\n    Node val = ref.getAssignedValue();\n    if (val == null) {\n      // A var with no assignment.\n      continue;\n    }\n\n    // We're looking for object literal assignments only.\n    if (!val.isObjectLit()) {\n      return false;\n    }\n\n    // Make sure that the value is not self-referential. IOW,\n    // disallow things like x = {b: x.a}.\n    //\n    // TODO: Only exclude unorderable self-referential\n    // assignments. i.e. x = {a: x.b, b: x.a} is not orderable,\n    // but x = {a: 1, b: x.a} is.\n    //\n    // Also, ES5 getters/setters aren't handled by this pass.\n    for (Node child = val.getFirstChild(); child != null;\n         child = child.getNext()) {\n      if (child.isGetterDef() ||\n          child.isSetterDef()) {\n        // ES5 get/set not supported.\n        return false;\n      }\n\n      validProperties.add(child.getString());\n\n      Node childVal = child.getFirstChild();\n      // Check if childVal is the parent of any of the passed in\n      // references, as that is how self-referential assignments\n      // will happen.\n      for (Reference t : refs) {\n        Node refNode = t.getParent();\n        while (!NodeUtil.isStatementBlock(refNode)) {\n          if (refNode == childVal) {\n            // There's a self-referential assignment\n            return false;\n          }\n          refNode = refNode.getParent();\n        }\n      }\n    }\n\n    // We have found an acceptable object literal assignment. As\n    // long as there are no other assignments that mess things up",
+        "best_candidate_hash": "1b8285d4fb5a",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_5_1922706_1775982568676/Closure_5 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_5_1922706_1775982",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 11.263
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "private boolean isInlinableObject(List<Reference> refs) {\n  boolean ret = false;\n  Set<String> validProperties = Sets.newHashSet();\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    // Ignore most indirect references, like x.y (but not x.y(),\n    // since the function referenced by y might reference 'this').\n    //\n    if (parent.isGetProp()) {\n      Preconditions.checkState(parent.getFirstChild() == name);\n      // A call target may be using the object as a 'this' value.\n      if (gramps.isCall()\n          && gramps.getFirstChild() == parent) {\n        return false;\n      }\n\n      // Deleting a property has different semantics from deleting\n      // a variable, so deleted properties should not be inlined.\n\n      // NOTE(nicksantos): This pass's object-splitting algorithm has\n      // a blind spot. It assumes that if a property isn't defined on an\n      // object, then the value is undefined. This is not true, because\n      // Object.prototype can have arbitrary properties on it.\n      //\n      // We short-circuit this problem by bailing out if we see a reference\n      // to a property that isn't defined on the object literal. This\n      // isn't a perfect algorithm, but it should catch most cases.\n      String propName = parent.getLastChild().getString();\n      if (!validProperties.contains(propName)) {\n        if (NodeUtil.isVarOrSimpleAssignLhs(parent, gramps)) {\n          validProperties.add(propName);\n        } else {\n          return false;\n        }\n      }\n      continue;\n    }\n\n    // Only rewrite VAR declarations or simple assignment statements\n    if (!isVarOrAssignExprLhs(name)) {\n       return false;\n    }\n\n    Node val = ref.getAssignedValue();\n    if (val == null) {\n      // A var with no assignment.\n      continue;\n    }\n\n    // We're looking for object literal assignments only.\n    if (!val.isObjectLit()) {\n      return false;\n    }\n\n    // Make sure that the value is not self-referential. IOW,\n    // disallow things like x = {b: x.a}.\n    //\n    // TODO: Only exclude unorderable self-referential\n    // assignments. i.e. x = {a: x.b, b: x.a} is not orderable,\n    // but x = {a: 1, b: x.a} is.\n    //\n    // Also, ES5 getters/setters aren't handled by this pass.\n    for (Node child = val.getFirstChild(); child != null;\n         child = child.getNext()) {\n      if (child.isGetterDef() ||\n          child.isSetterDef()) {\n        // ES5 get/set not supported.\n        return false;\n      }\n\n      validProperties.add(child.getString());\n\n      Node childVal = child.getFirstChild();\n      // Check if childVal is the parent of any of the passed in\n      // references, as that is how self-referential assignments\n      // will happen.\n      for (Reference t : refs) {\n        Node refNode = t.getParent();\n        while (!NodeUtil.isStatementBlock(refNode)) {\n          if (",
+        "best_candidate_hash": "cc9d4055f68a",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_5_1922706_1775982568676/Closure_5 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_5_1922706_1775982",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 12.911
+      }
+    ],
+    "final_code": "private boolean isInlinableObject(List<Reference> refs) {\n  boolean ret = false;\n  Set<String> validProperties = Sets.newHashSet();\n  for (Reference ref : refs) {\n    Node name = ref.getNode();\n    Node parent = ref.getParent();\n    Node gramps = ref.getGrandparent();\n\n    // Ignore most indirect references, like x.y (but not x.y(),\n    // since the function referenced by y might reference 'this').\n    //\n    if (parent.isGetProp()) {\n      Preconditions.checkState(parent.getFirstChild() == name);\n      // A call target may be using the object as a 'this' value.\n      if (gramps.isCall()\n          && gramps.getFirstChild() == parent) {\n        return false;\n      }\n\n      // Deleting a property has different semantics from deleting\n      // a variable, so deleted properties should not be inlined.\n\n      // NOTE(nicksantos): This pass's object-splitting algorithm has\n      // a blind spot. It assumes that if a property isn't defined on an\n      // object, then the value is undefined. This is not true, because\n      // Object.prototype can have arbitrary properties on it.\n      //\n      // We short-circuit this problem by bailing out if we see a reference\n      // to a property that isn't defined on the object literal. This\n      // isn't a perfect algorithm, but it should catch most cases.\n      String propName = parent.getLastChild().getString();\n      if (!validProperties.contains(propName)) {\n        if (NodeUtil.isVarOrSimpleAssignLhs(parent, gramps)) {\n          validProperties.add(propName);\n        } else {\n          return false;\n        }\n      }\n      continue;\n    }\n\n    // Only rewrite VAR declarations or simple assignment statements\n    if (!isVarOrAssignExprLhs(name)) {\n       return false;\n    }\n\n    Node val = ref.getAssignedValue();\n    if (val == null) {\n      // A var with no assignment.\n      continue;\n    }\n\n    // We're looking for object literal assignments only.\n    if (!val.isObjectLit()) {\n      return false;\n    }\n\n    // Make sure that the value is not self-referential. IOW,\n    // disallow things like x = {b: x.a}.\n    //\n    // TODO: Only exclude unorderable self-referential\n    // assignments. i.e. x = {a: x.b, b: x.a} is not orderable,\n    // but x = {a: 1, b: x.a} is.\n    //\n    // Also, ES5 getters/setters aren't handled by this pass.\n    for (Node child = val.getFirstChild(); child != null;\n         child = child.getNext()) {\n      if (child.isGetterDef() ||\n          child.isSetterDef()) {\n        // ES5 get/set not supported.\n        return false;\n      }\n\n      validProperties.add(child.getString());\n\n      Node childVal = child.getFirstChild();\n      // Check if childVal is the parent of any of the passed in\n      // references, as that is how self-referential assignments\n      // will happen.\n      for (Reference t : refs) {\n        Node refNode = t.getParent();\n        while (!NodeUtil.isStatementBlock(refNode)) {\n          if (",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 32.991
+  },
+  "21": {
+    "bug_id": "21",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public JSType caseObjectType(ObjectType type) {\n      if (value.equals(\"function\")) {\n        JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n        return resultEqualsValue && ctorType.isSubtype(type) ? ctorType : null;\n      }\n      return matchesExpectation(\"object\") ? type : null;\n    }",
+        "best_candidate_hash": "ef8a19903b43",
+        "fail_reason": "compile_fail",
+        "error_family": "cannot_find_symbol",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_7_1922706_1775982605268/Closure_7 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_7_1922706_1775982",
+        "feedback_strategy": "",
+        "elapsed_sec": 10.207
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public JSType caseObjectType(ObjectType type) {\n  if (value.equals(\"function\")) {\n    JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n    return resultEqualsValue && ctorType.isSubtype(type) ? ctorType : null;\n  }\n  return matchesExpectation(\"object\") ? type : null;\n}",
+        "best_candidate_hash": "97107ed64cac",
+        "fail_reason": "compile_fail",
+        "error_family": "cannot_find_symbol",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_7_1922706_1775982605268/Closure_7 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_7_1922706_1775982",
+        "feedback_strategy": "symbol_feedback",
+        "elapsed_sec": 3.718
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public JSType caseObjectType(ObjectType type) {\n  if (\"function\".equals(value)) {\n    JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n    return resultEqualsValue && ctorType.isSubtype(type) ? ctorType : null;\n  }\n  return matchesExpectation(\"object\") ? type : null;\n}",
+        "best_candidate_hash": "1e20aa38615c",
+        "fail_reason": "compile_fail",
+        "error_family": "cannot_find_symbol",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_7_1922706_1775982605268/Closure_7 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_7_1922706_1775982",
+        "feedback_strategy": "symbol_feedback",
+        "elapsed_sec": 9.29
+      }
+    ],
+    "final_code": "public JSType caseObjectType(ObjectType type) {\n  if (\"function\".equals(value)) {\n    JSType ctorType = getNativeType(U2U_CONSTRUCTOR_TYPE);\n    return resultEqualsValue && ctorType.isSubtype(type) ? ctorType : null;\n  }\n  return matchesExpectation(\"object\") ? type : null;\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 23.215
+  },
+  "22": {
+    "bug_id": "22",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "static boolean mayBeString(Node n, boolean recurse) {\n    if (!recurse) {\n      return mayBeStringHelper(n);\n    } else {\n      return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    }\n}",
+        "best_candidate_hash": "e992ae52c09c",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_10_1922706_1775982631623/Closure_10 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_10_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 7.427
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n      return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n      return mayBeStringHelper(n);\n    }\n}",
+        "best_candidate_hash": "20df11bebb05",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_10_1922706_1775982631623/Closure_10 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_10_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 3.36
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        return mayBeStringHelper(n);\n    }\n}",
+        "best_candidate_hash": "346f583103e7",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_10_1922706_1775982631623/Closure_10 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_10_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 6.104
+      }
+    ],
+    "final_code": "static boolean mayBeString(Node n, boolean recurse) {\n    if (recurse) {\n        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);\n    } else {\n        return mayBeStringHelper(n);\n    }\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 16.892
+  },
+  "23": {
+    "bug_id": "23",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "  private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n    // obj.prop or obj.method()\n    // Lots of types can appear on the left, a call to a void function can\n    // never be on the left. getPropertyType will decide what is acceptable\n    // and what isn't.\n    Node property = n.getLastChild();\n    Node objNode = n.getFirstChild();\n    JSType childType = getJSType(objNode);\n\n    if (childType.isDict()) {\n      report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n    } else if (n.getJSType() != null && parent.isAssign()) {\n      return;\n    } else if (childType.isDict()) {\n      report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n    }\n        \"No properties on this expression\", getNativeType(OBJECT_TYPE))) {\n      checkPropertyAccess(childType, property.getString(), t, n);\n    }\n    ensureTyped(t, n);\n  }",
+        "best_candidate_hash": "e25c211f5ea6",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_11_1922706_1775982652232/Closure_11 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_11_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 7.631
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  // Lots of types can appear on the left, a call to a void function can\n  // never be on the left. getPropertyType will decide what is acceptable\n  // and what isn't.\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  } else if (n.getJSType() != null && parent.isAssign()) {\n    return;\n  } else if (validator.expectNotNullOrUndefined(t, n, childType,\n      \"No properties on this expression\", getNativeType(OBJECT_TYPE))) {\n    checkPropertyAccess(childType, property.getString(), t, n);\n  }\n  ensureTyped(t, n);\n}",
+        "best_candidate_hash": "d15f5eb75d80",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_11_1922706_1775982652232/Closure_11 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_11_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 10.766
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.501
+      }
+    ],
+    "final_code": "private void visitGetProp(NodeTraversal t, Node n, Node parent) {\n  // obj.prop or obj.method()\n  // Lots of types can appear on the left, a call to a void function can\n  // never be on the left. getPropertyType will decide what is acceptable\n  // and what isn't.\n  Node property = n.getLastChild();\n  Node objNode = n.getFirstChild();\n  JSType childType = getJSType(objNode);\n\n  if (childType.isDict()) {\n    report(t, property, TypeValidator.ILLEGAL_PROPERTY_ACCESS, \"'.'\", \"dict\");\n  } else if (n.getJSType() != null && parent.isAssign()) {\n    return;\n  } else if (validator.expectNotNullOrUndefined(t, n, childType,\n      \"No properties on this expression\", getNativeType(OBJECT_TYPE))) {\n    checkPropertyAccess(childType, property.getString(), t, n);\n  }\n  ensureTyped(t, n);\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 20.899
+  },
+  "24": {
+    "bug_id": "24",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private boolean hasExceptionHandler(Node cfgNode) {\n    return true;\n  }",
+        "best_candidate_hash": "3e76dc53a296",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_12_1922706_1775982676311/Closure_12 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_12_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 7.464
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "private boolean hasExceptionHandler(Node cfgNode) {\n    return false;\n}",
+        "best_candidate_hash": "17ef61809c6c",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_12_1922706_1775982676311/Closure_12 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_12_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 5.855
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "private boolean hasExceptionHandler(Node cfgNode) {\n    // Check if the node has an exception handler\n    return cfgNode.isTry();\n}",
+        "best_candidate_hash": "807a5998d076",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_12_1922706_1775982676311/Closure_12 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_12_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 11.342
+      }
+    ],
+    "final_code": "private boolean hasExceptionHandler(Node cfgNode) {\n    // Check if the node has an exception handler\n    return cfgNode.isTry();\n}",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 24.661
+  },
+  "25": {
+    "bug_id": "25",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.436
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void traverse(Node node) {\n    // The goal here is to avoid retraversing\n    // the entire AST to catch newly created opportunities.\n    // So we track whether a \"unit of code\" has changed,\n    // and revisit immediately.\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    do {\n      Node c = node.getFirstChild();\n      while(c != null) {\n        traverse(c);\n        Node next = c.getNext();\n        c = next;\n      }\n\n      visit(node);\n      visits++;\n\n      Preconditions.checkState(visits < 10000, \"too many interations\");\n    } while (shouldRetraverse(node));\n\n    exitNode(node);\n  }",
+        "best_candidate_hash": "e03a5297045e",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_13_1922706_1775982703978/Closure_13 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_13_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 8.679
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void traverse(Node node) {\n    // The goal here is to avoid retraversing\n    // the entire AST to catch newly created opportunities.\n    // So we track whether a \"unit of code\" has changed,\n    // and revisit immediately.\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    do {\n      Node c = node.getFirstChild();\n      while(c != null) {\n        traverse(c);\n        Node next = c.getNext();\n        c = next;\n      }\n\n      visit(node);\n      visits++;\n\n      Preconditions.checkState(visits < 10000, \"too many iterations\");\n    } while (shouldRetraverse(node));\n\n    exitNode(node);\n  }",
+        "best_candidate_hash": "31aaf0d31a37",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_13_1922706_1775982703978/Closure_13 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_13_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 4.591
+      }
+    ],
+    "final_code": "private void traverse(Node node) {\n    // The goal here is to avoid retraversing\n    // the entire AST to catch newly created opportunities.\n    // So we track whether a \"unit of code\" has changed,\n    // and revisit immediately.\n    if (!shouldVisit(node)) {\n      return;\n    }\n\n    int visits = 0;\n    do {\n      Node c = node.getFirstChild();\n      while(c != null) {\n        traverse(c);\n        Node next = c.getNext();\n        c = next;\n      }\n\n      visit(node);\n      visits++;\n\n      Preconditions.checkState(visits < 10000, \"too many iterations\");\n    } while (shouldRetraverse(node));\n\n    exitNode(node);\n  }",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 13.706
+  },
+  "26": {
+    "bug_id": "26",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private static Node computeFollowNode(\n      Node fromNode, Node node, ControlFlowAnalysis cfa) {\n    /*\n     * This is the case where:\n     *\n     * 1. Parent is null implies that we are transferring control to the end of\n     * the script.\n     *\n     * 2. Parent is a function implies that we are transferring control back to\n     * the caller of the function.\n     *\n     * 3. If the node is a return statement, we should also transfer control\n     * back to the caller of the function.\n     *\n     * 4. If the node is root then we have reached the end of what we have been\n     * asked to traverse.\n     *\n     * In all cases we should transfer control to a \"symbolic return\" node.\n     * This will make life easier for DFAs.\n     */\n    Node parent = node.getParent();\n    if (parent == null || parent.isFunction() ||\n        (cfa != null && node == cfa.root)) {\n      return null;\n    }\n\n    // If we are just before a IF/WHILE/DO/FOR:\n    switch (parent.getType()) {\n      // The follow() of any of the path from IF would be what follows IF.\n      case Token.IF:\n        return computeFollowNode(fromNode, parent, cfa);\n      case Token.CASE:\n      case Token.DEFAULT_CASE:\n        // After the body of a CASE, the control goes to the body of the next\n        // case, without having to go to the case condition.\n        if (parent.getNext() != null) {\n          if (parent.getNext().isCase()) {\n            return parent.getNext().getFirstChild().getNext();\n          } else if (parent.getNext().isDefaultCase()) {\n            return parent.getNext().getFirstChild();\n          } else {\n            Preconditions.checkState(false, \"Not reachable\");\n          }\n        } else {\n          return computeFollowNode(fromNode, parent, cfa);\n        }\n        break;\n      case Token.FOR:\n        if (NodeUtil.isForIn(parent)) {\n          return parent;\n        } else {\n          return parent.getFirstChild().getNext().getNext();\n        }\n      case Token.WHILE:\n      case Token.DO:\n        return parent;\n      case Token.TRY:\n        // If we are coming out of the TRY block...\n        if (parent.getFirstChild() == node) {\n          if (NodeUtil.hasFinally(parent)) { // and have FINALLY block.\n            return computeFallThrough(parent.getLastChild());\n          } else { // and have no FINALLY.\n            return computeFollowNode(fromNode, parent, cfa);\n          }\n        // CATCH block.\n        } else if (NodeUtil.getCatchBlock(parent) == node){\n          if (NodeUtil.hasFinally(parent)) { // and have FINALLY block.\n            return computeFallThrough(node.getNext());\n          } else {\n            return computeFollowNode(fromNode, parent, cfa);\n          }\n        // If we are coming out of the FINALLY block...\n        } else if (parent.getLastChild() == node){\n          if (cfa != null) {\n            for (Node finallyNode : cfa.finallyMap.get(parent)) {\n              cfa.createEdge(fromNode, Branch.UNCOND, finallyNode);\n            }\n          }\n          return computeFollowNode(fromNode, parent, cfa);\n        }\n    }\n\n    // Now that we are done with the special cases follow should be its\n    // immediate sibling, unless its sibling is a function\n    Node nextSibling = node.getNext();\n\n    // Skip function declarations because control doesn't get pass into it.\n    while (nextSibling != null && nextSibling.isFunction()) {\n      nextSibling = nextSibling.getNext();\n    }\n\n    if (nextSibling != null) {\n      return computeFallThrough(nextSibling);\n    } else {\n      // If there are no more siblings, control is transferred up the AST.\n      return computeFollowNode(fromNode, parent, cfa);\n    }\n  }",
+        "best_candidate_hash": "b48a69e21034",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_14_1922706_1775982721040/Closure_14 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_14_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 15.752
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "private static Node computeFollowNode(\n      Node fromNode, Node node, ControlFlowAnalysis cfa) {\n    /*\n     * This is the case where:\n     *\n     * 1. Parent is null implies that we are transferring control to the end of\n     * the script.\n     *\n     * 2. Parent is a function implies that we are transferring control back to\n     * the caller of the function.\n     *\n     * 3. If the node is a return statement, we should also transfer control\n     * back to the caller of the function.\n     *\n     * 4. If the node is root then we have reached the end of what we have been\n     * asked to traverse.\n     *\n     * In all cases we should transfer control to a \"symbolic return\" node.\n     * This will make life easier for DFAs.\n     */\n    Node parent = node.getParent();\n    if (parent == null || parent.isFunction() ||\n        (cfa != null && node == cfa.root)) {\n      return null;\n    }\n\n    // If we are just before a IF/WHILE/DO/FOR:\n    switch (parent.getType()) {\n      // The follow() of any of the path from IF would be what follows IF.\n      case Token.IF:\n        return computeFollowNode(fromNode, parent, cfa);\n      case Token.CASE:\n      case Token.DEFAULT_CASE:\n        // After the body of a CASE, the control goes to the body of the next\n        // case, without having to go to the case condition.\n        if (parent.getNext() != null) {\n          if (parent.getNext().isCase()) {\n            return parent.getNext().getFirstChild().getNext();\n          } else if (parent.getNext().isDefaultCase()) {\n            return parent.getNext().getFirstChild();\n          } else {\n            Preconditions.checkState(false, \"Not reachable\");\n          }\n        } else {\n          return computeFollowNode(fromNode, parent, cfa);\n        }\n        break;\n      case Token.FOR:\n        if (NodeUtil.isForIn(parent)) {\n          return parent;\n        } else {\n          return parent.getFirstChild().getNext().getNext();\n        }\n      case Token.WHILE:\n      case Token.DO:\n        return parent;\n      case Token.TRY:\n        // If we are coming out of the TRY block...\n        if (parent.getFirstChild() == node) {\n          if (NodeUtil.hasFinally(parent)) { // and have FINALLY block.\n            return computeFallThrough(parent.getLastChild());\n          } else { // and have no FINALLY.\n            return computeFollowNode(fromNode, parent, cfa);\n          }\n        // CATCH block.\n        } else if (NodeUtil.getCatchBlock(parent) == node){\n          if (NodeUtil.hasFinally(parent)) { // and have FINALLY block.\n            return computeFallThrough(node.getNext());\n          } else {\n            return computeFollowNode(fromNode, parent",
+        "best_candidate_hash": "46cbada8df12",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_14_1922706_1775982721040/Closure_14 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_14_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 14.973
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "private static Node computeFollowNode(\n      Node fromNode, Node node, ControlFlowAnalysis cfa) {\n    /*\n     * This is the case where:\n     *\n     * 1. Parent is null implies that we are transferring control to the end of\n     * the script.\n     *\n     * 2. Parent is a function implies that we are transferring control back to\n     * the caller of the function.\n     *\n     * 3. If the node is a return statement, we should also transfer control\n     * back to the caller of the function.\n     *\n     * 4. If the node is root then we have reached the end of what we have been\n     * asked to traverse.\n     *\n     * In all cases we should transfer control to a \"symbolic return\" node.\n     * This will make life easier for DFAs.\n     */\n    Node parent = node.getParent();\n    if (parent == null || parent.isFunction() ||\n        (cfa != null && node == cfa.root)) {\n      return null;\n    }\n\n    // If we are just before a IF/WHILE/DO/FOR:\n    switch (parent.getType()) {\n      // The follow() of any of the path from IF would be what follows IF.\n      case Token.IF:\n        return computeFollowNode(fromNode, parent, cfa);\n      case Token.CASE:\n      case Token.DEFAULT_CASE:\n        // After the body of a CASE, the control goes to the body of the next\n        // case, without having to go to the case condition.\n        if (parent.getNext() != null) {\n          if (parent.getNext().isCase()) {\n            return parent.getNext().getFirstChild().getNext();\n          } else if (parent.getNext().isDefaultCase()) {\n            return parent.getNext().getFirstChild();\n          } else {\n            Preconditions.checkState(false, \"Not reachable\");\n          }\n        } else {\n          return computeFollowNode(fromNode, parent, cfa);\n        }\n        break;\n      case Token.FOR:\n        if (NodeUtil.isForIn(parent)) {\n          return parent;\n        } else {\n          return parent.getFirstChild().getNext().getNext();\n        }\n      case Token.WHILE:\n      case Token.DO:\n        return parent",
+        "best_candidate_hash": "710c95a8ff7f",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_14_1922706_1775982721040/Closure_14 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_14_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 13.754
+      }
+    ],
+    "final_code": "private static Node computeFollowNode(\n      Node fromNode, Node node, ControlFlowAnalysis cfa) {\n    /*\n     * This is the case where:\n     *\n     * 1. Parent is null implies that we are transferring control to the end of\n     * the script.\n     *\n     * 2. Parent is a function implies that we are transferring control back to\n     * the caller of the function.\n     *\n     * 3. If the node is a return statement, we should also transfer control\n     * back to the caller of the function.\n     *\n     * 4. If the node is root then we have reached the end of what we have been\n     * asked to traverse.\n     *\n     * In all cases we should transfer control to a \"symbolic return\" node.\n     * This will make life easier for DFAs.\n     */\n    Node parent = node.getParent();\n    if (parent == null || parent.isFunction() ||\n        (cfa != null && node == cfa.root)) {\n      return null;\n    }\n\n    // If we are just before a IF/WHILE/DO/FOR:\n    switch (parent.getType()) {\n      // The follow() of any of the path from IF would be what follows IF.\n      case Token.IF:\n        return computeFollowNode(fromNode, parent, cfa);\n      case Token.CASE:\n      case Token.DEFAULT_CASE:\n        // After the body of a CASE, the control goes to the body of the next\n        // case, without having to go to the case condition.\n        if (parent.getNext() != null) {\n          if (parent.getNext().isCase()) {\n            return parent.getNext().getFirstChild().getNext();\n          } else if (parent.getNext().isDefaultCase()) {\n            return parent.getNext().getFirstChild();\n          } else {\n            Preconditions.checkState(false, \"Not reachable\");\n          }\n        } else {\n          return computeFollowNode(fromNode, parent, cfa);\n        }\n        break;\n      case Token.FOR:\n        if (NodeUtil.isForIn(parent)) {\n          return parent;\n        } else {\n          return parent.getFirstChild().getNext().getNext();\n        }\n      case Token.WHILE:\n      case Token.DO:\n        return parent",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 44.48
+  },
+  "27": {
+    "bug_id": "27",
+    "solved": true,
+    "solving_iteration": 3,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+        "best_candidate_hash": "19c5274f0e75",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 42.645
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isDelProp()) {\n          return true;\n        }\n\n        return false;\n      }",
+        "best_candidate_hash": "5c4c02e24c01",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 56.608
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isDelProp()) {\n          return true;\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+        "best_candidate_hash": "779a28dfb12b",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 15.138
+      }
+    ],
+    "final_code": "public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isDelProp()) {\n          return true;\n        }\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 114.391
+  },
+  "28": {
+    "bug_id": "28",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private JSType getDeclaredType(String sourceName, JSDocInfo info,\n        Node lValue, @Nullable Node rValue) {\n      if (info != null && info.hasType()) {\n        return getDeclaredTypeInAnnotation(sourceName, lValue, info);\n      } else if (rValue != null && rValue.isFunction() &&\n          shouldUseFunctionLiteralType(\n              JSType.toMaybeFunctionType(rValue.getJSType()), info, lValue)) {\n        return rValue.getJSType();\n      } else if (info != null) {\n        if (info.hasEnumParameterType()) {\n          if (rValue != null && rValue.isObjectLit()) {\n            return rValue.getJSType();\n          } else {\n            return createEnumTypeFromNodes(\n                rValue, lValue.getQualifiedName(), info, lValue);\n          }\n        } else if (info.isConstructor() || info.isInterface()) {\n          return createFunctionTypeFromNodes(\n              rValue, lValue.getQualifiedName(), info, lValue);\n        } else {\n          // Check if this is constant, and if it has a known type.\n          if (info.isConstant()) {\n            JSType knownType = null;\n            if (rValue != null) {\n              if (rValue.getJSType() != null && !rValue.getJSType().isUnknownType()) {\n                // If rValue has a type-cast, we use the type in the type-cast.\n                // If rValue's type was already computed during scope creation,\n                // then we can safely use that.\n                return rValue.getJSType();\n              } else if (rValue.isOr()) {\n                // Check for a very specific JS idiom:\n                // var x = x || TYPE;\n                // This is used by Closure's base namespace for esoteric\n                // reasons.\n                Node firstClause = rValue.getFirstChild();\n                Node secondClause = firstClause.getNext();\n                boolean namesMatch = firstClause.isName()\n                    && lValue.isName()\n                    && firstClause.getString().equals(lValue.getString());\n                if (namesMatch && secondClause.getJSType() != null\n                    && !secondClause.getJSType().isUnknownType()) {\n                  return secondClause.getJSType();\n                }\n              }\n            }\n          }\n        }\n      }\n\n      return getDeclaredTypeInAnnotation(sourceName, lValue, info);\n    }",
+        "best_candidate_hash": "d156fa76ce0b",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_17_1922706_1775982886618/Closure_17 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_17_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 12.379
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 5.536
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "shouldUseFunctionLiteralType(\n              JSType.toMaybeFunctionType(rValue.getJSType()), info, lValue)) {\n        return rValue.getJSType();\n      }",
+        "best_candidate_hash": "009cc7fc84c9",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_17_1922706_1775982886618/Closure_17 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_17_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 13.412
+      }
+    ],
+    "final_code": "shouldUseFunctionLiteralType(\n              JSType.toMaybeFunctionType(rValue.getJSType()), info, lValue)) {\n        return rValue.getJSType();\n      }",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 31.328
+  },
+  "29": {
+    "bug_id": "29",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "  Node parseInputs() {\n    boolean devMode = options.devMode != DevMode.OFF;\n\n    // If old roots exist (we are parsing a second time), detach each of the\n    // individual file parse trees.\n    if (externsRoot != null) {\n      externsRoot.detachChildren();\n    }\n    if (jsRoot != null) {\n      jsRoot.detachChildren();\n    }\n\n    // Parse main JS sources.\n    jsRoot = IR.block();\n    jsRoot.setIsSyntheticBlock(true);\n\n    externsRoot = IR.block();\n    externsRoot.setIsSyntheticBlock(true);\n\n    externAndJsRoot = IR.block(externsRoot, jsRoot);\n    externAndJsRoot.setIsSyntheticBlock(true);\n\n    if (options.tracer.isOn()) {\n      tracker = new PerformanceTracker(jsRoot, options.tracer);\n      addChangeHandler(tracker.getCodeChangeHandler());\n    }\n\n    Tracer tracer = newTracer(\"parseInputs\");\n\n    try {\n      // Parse externs sources.\n      for (CompilerInput input : externs) {\n        Node n = input.getAstRoot(this);\n        if (hasErrors()) {\n          return null;\n        }\n        externsRoot.addChildToBack(n);\n      }\n\n      // Modules inferred in ProcessCommonJS pass.\n      if (options.transformAMDToCJSModules || options.processCommonJSModules) {\n        processAMDAndCommonJSModules();\n      }\n\n      hoistExterns(externsRoot);\n\n      // Check if the sources need to be re-ordered.\n      boolean staleInputs = false;\n      if (options.dependencyOptions.needsManagement() && options.closurePass) {\n        try {\n          inputs =\n              (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph)\n              .manageDependencies(options.dependencyOptions, inputs);\n          staleInputs = true;\n        } catch (CircularDependencyException e) {\n          report(JSError.make(\n              JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        } catch (MissingProvideException e) {\n          report(JSError.make(\n              MISSING_ENTRY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        }\n      }\n      return externAndJsRoot;\n    } finally {\n      stopTracer(tracer, \"parseInputs\");\n    }\n  }",
+        "best_candidate_hash": "3b14eaaf4712",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_18_1922706_1775982921520/Closure_18 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_18_1922706_1775",
+        "feedback_strategy": "",
+        "elapsed_sec": 8.582
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "Node parseInputs() {\n    boolean devMode = options.devMode != DevMode.OFF;\n\n    // If old roots exist (we are parsing a second time), detach each of the\n    // individual file parse trees.\n    if (externsRoot != null) {\n      externsRoot.detachChildren();\n    }\n    if (jsRoot != null) {\n      jsRoot.detachChildren();\n    }\n\n    // Parse main JS sources.\n    jsRoot = IR.block();\n    jsRoot.setIsSyntheticBlock(true);\n\n    externsRoot = IR.block();\n    externsRoot.setIsSyntheticBlock(true);\n\n    externAndJsRoot = IR.block(externsRoot, jsRoot);\n    externAndJsRoot.setIsSyntheticBlock(true);\n\n    if (options.tracer.isOn()) {\n      tracker = new PerformanceTracker(jsRoot, options.tracer);\n      addChangeHandler(tracker.getCodeChangeHandler());\n    }\n\n    Tracer tracer = newTracer(\"parseInputs\");\n\n    try {\n      // Parse externs sources.\n      for (CompilerInput input : externs) {\n        Node n = input.getAstRoot(this);\n        if (hasErrors()) {\n          return null;\n        }\n        externsRoot.addChildToBack(n);\n      }\n\n      // Modules inferred in ProcessCommonJS pass.\n      if (options.transformAMDToCJSModules || options.processCommonJSModules) {\n        processAMDAndCommonJSModules();\n      }\n\n      hoistExterns(externsRoot);\n\n      // Check if the sources need to be re-ordered.\n      boolean staleInputs = false;\n      if (options.dependencyOptions.needsManagement() && options.closurePass) {\n        for (CompilerInput input : inputs) {\n          // Forward-declare all the provided types, so that they\n          // are not flagged even if they are dropped from the process.\n          for (String provide : input.getProvides()) {\n            getTypeRegistry().forwardDeclareType(provide);\n          }\n        }\n\n        try {\n          inputs =\n              (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph)\n              .manageDependencies(options.dependencyOptions, inputs);\n          staleInputs = true;\n        } catch (CircularDependencyException e) {\n          report(JSError.make(\n              JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        } catch (MissingProvideException e) {\n          report(JSError.make(\n              MISSING_ENTRY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        }\n      }\n\n      hoistNoCompileFiles();\n\n      if (staleInputs) {\n        repartitionInputs();\n      }\n\n      // Build the AST.\n      for (CompilerInput input : inputs) {\n        Node n = input.getAstRoot(this);\n        if (n == null) {\n          continue;\n        }\n\n        if (devMode) {\n          runSanityCheck();\n          if (hasErrors()) {\n            return null;\n          }\n        }\n\n        if (options.sourceMapOutputPath != null ||\n            options.nameReferenceReportPath != null) {\n\n          // Annotate the nodes in the tree with information from the\n          // input file. This information is used to construct the SourceMap.\n          SourceInformationAnnotator sia =\n              new SourceInformationAnnotator(\n                  input.getName(), options.devMode != DevMode.OFF);\n          NodeTraversal.traverse(this, n, sia);\n        }\n\n        jsRoot.addChildToBack(n);\n      }\n\n      if (hasErrors()) {\n        return null;\n      }\n      return externAndJsRoot;\n    } finally {\n      stopTracer(tracer, \"parseInputs\");\n    }\n  }",
+        "best_candidate_hash": "59512520b781",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_18_1922706_1775982921520/Closure_18 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_18_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 14.532
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "Node parseInputs() {\n    boolean devMode = options.devMode != DevMode.OFF;\n\n    // If old roots exist (we are parsing a second time), detach each of the\n    // individual file parse trees.\n    if (externsRoot != null) {\n      externsRoot.detachChildren();\n    }\n    if (jsRoot != null) {\n      jsRoot.detachChildren();\n    }\n\n    // Parse main JS sources.\n    jsRoot = IR.block();\n    jsRoot.setIsSyntheticBlock(true);\n\n    externsRoot = IR.block();\n    externsRoot.setIsSyntheticBlock(true);\n\n    externAndJsRoot = IR.block(externsRoot, jsRoot);\n    externAndJsRoot.setIsSyntheticBlock(true);\n\n    if (options.tracer.isOn()) {\n      tracker = new PerformanceTracker(jsRoot, options.tracer);\n      addChangeHandler(tracker.getCodeChangeHandler());\n    }\n\n    Tracer tracer = newTracer(\"parseInputs\");\n\n    try {\n      // Parse externs sources.\n      for (CompilerInput input : externs) {\n        Node n = input.getAstRoot(this);\n        if (hasErrors()) {\n          return null;\n        }\n        externsRoot.addChildToBack(n);\n      }\n\n      // Modules inferred in ProcessCommonJS pass.\n      if (options.transformAMDToCJSModules || options.processCommonJSModules) {\n        processAMDAndCommonJSModules();\n      }\n\n      hoistExterns(externsRoot);\n\n      // Check if the sources need to be re-ordered.\n      boolean staleInputs = false;\n      if (options.dependencyOptions.needsManagement() && options.closurePass) {\n        for (CompilerInput input : inputs) {\n          // Forward-declare all the provided types, so that they\n          // are not flagged even if they are dropped from the process.\n          for (String provide : input.getProvides()) {\n            getTypeRegistry().forwardDeclareType(provide);\n          }\n        }\n\n        try {\n          inputs =\n              (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph)\n              .manageDependencies(options.dependencyOptions, inputs);\n          staleInputs = true;\n        } catch (CircularDependencyException e) {\n          report(JSError.make(\n              JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        } catch (MissingProvideException e) {\n          report(JSError.make(\n              MISSING_ENTRY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        }\n      }\n\n      hoistNoCompileFiles();\n\n      if (staleInputs) {\n        repartitionInputs();\n      }\n\n      // Build the AST.\n      for (CompilerInput input : inputs) {\n        Node n = input.getAstRoot(this);\n        if (n == null) {\n          continue;\n        }\n\n        if (devMode) {\n          runSanityCheck();\n          if (hasErrors()) {\n            return null;\n          }\n        }",
+        "best_candidate_hash": "9ff19aa32677",
+        "fail_reason": "compile_fail",
+        "error_family": "syntax_or_parse",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_18_1922706_1775982921520/Closure_18 && /home/selab/ICSE/defects4j/major/bin/ant -f /home/selab/ICSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/ICSE/defects4j -Dd4j.dir.projects=/home/selab/ICSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Closure_18_1922706_1775",
+        "feedback_strategy": "syntax_feedback",
+        "elapsed_sec": 15.107
+      }
+    ],
+    "final_code": "Node parseInputs() {\n    boolean devMode = options.devMode != DevMode.OFF;\n\n    // If old roots exist (we are parsing a second time), detach each of the\n    // individual file parse trees.\n    if (externsRoot != null) {\n      externsRoot.detachChildren();\n    }\n    if (jsRoot != null) {\n      jsRoot.detachChildren();\n    }\n\n    // Parse main JS sources.\n    jsRoot = IR.block();\n    jsRoot.setIsSyntheticBlock(true);\n\n    externsRoot = IR.block();\n    externsRoot.setIsSyntheticBlock(true);\n\n    externAndJsRoot = IR.block(externsRoot, jsRoot);\n    externAndJsRoot.setIsSyntheticBlock(true);\n\n    if (options.tracer.isOn()) {\n      tracker = new PerformanceTracker(jsRoot, options.tracer);\n      addChangeHandler(tracker.getCodeChangeHandler());\n    }\n\n    Tracer tracer = newTracer(\"parseInputs\");\n\n    try {\n      // Parse externs sources.\n      for (CompilerInput input : externs) {\n        Node n = input.getAstRoot(this);\n        if (hasErrors()) {\n          return null;\n        }\n        externsRoot.addChildToBack(n);\n      }\n\n      // Modules inferred in ProcessCommonJS pass.\n      if (options.transformAMDToCJSModules || options.processCommonJSModules) {\n        processAMDAndCommonJSModules();\n      }\n\n      hoistExterns(externsRoot);\n\n      // Check if the sources need to be re-ordered.\n      boolean staleInputs = false;\n      if (options.dependencyOptions.needsManagement() && options.closurePass) {\n        for (CompilerInput input : inputs) {\n          // Forward-declare all the provided types, so that they\n          // are not flagged even if they are dropped from the process.\n          for (String provide : input.getProvides()) {\n            getTypeRegistry().forwardDeclareType(provide);\n          }\n        }\n\n        try {\n          inputs =\n              (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph)\n              .manageDependencies(options.dependencyOptions, inputs);\n          staleInputs = true;\n        } catch (CircularDependencyException e) {\n          report(JSError.make(\n              JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        } catch (MissingProvideException e) {\n          report(JSError.make(\n              MISSING_ENTRY_ERROR, e.getMessage()));\n\n          // If in IDE mode, we ignore the error and keep going.\n          if (hasErrors()) {\n            return null;\n          }\n        }\n      }\n\n      hoistNoCompileFiles();\n\n      if (staleInputs) {\n        repartitionInputs();\n      }\n\n      // Build the AST.\n      for (CompilerInput input : inputs) {\n        Node n = input.getAstRoot(this);\n        if (n == null) {\n          continue;\n        }\n\n        if (devMode) {\n          runSanityCheck();\n          if (hasErrors()) {\n            return null;\n          }\n        }",
+    "final_fail_reason": "compile_fail",
+    "elapsed_total_sec": 38.22
+  },
+  "30": {
+    "bug_id": "30",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.496
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 5,
+        "best_candidate_code": "protected void declareNameInScope(FlowScope scope, Node node, JSType type) {\n    switch (node.getType()) {\n      case Token.NAME:\n        scope.inferSlotType(node.getString(), type);\n        break;\n\n      case Token.GETPROP:\n        String qualifiedName = node.getQualifiedName();\n        Preconditions.checkNotNull(qualifiedName);\n\n        JSType origType = node.getJSType();\n        origType = origType == null ? getNativeType(UNKNOWN_TYPE) : origType;\n        scope.inferQualifiedSlot(node, qualifiedName, origType, type);\n        break;\n\n      case Token.THIS:\n        // Handle \"this\" references if needed\n        break;\n\n      default:\n        throw new IllegalArgumentException(\"Node cannot be refined. \\n\" +\n            node.toStringTree());\n    }\n  }",
+        "best_candidate_hash": "5ba6ea587eb4",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 198.701
+      }
+    ],
+    "final_code": "protected void declareNameInScope(FlowScope scope, Node node, JSType type) {\n    switch (node.getType()) {\n      case Token.NAME:\n        scope.inferSlotType(node.getString(), type);\n        break;\n\n      case Token.GETPROP:\n        String qualifiedName = node.getQualifiedName();\n        Preconditions.checkNotNull(qualifiedName);\n\n        JSType origType = node.getJSType();\n        origType = origType == null ? getNativeType(UNKNOWN_TYPE) : origType;\n        scope.inferQualifiedSlot(node, qualifiedName, origType, type);\n        break;\n\n      case Token.THIS:\n        // Handle \"this\" references if needed\n        break;\n\n      default:\n        throw new IllegalArgumentException(\"Node cannot be refined. \\n\" +\n            node.toStringTree());\n    }\n  }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 199.197
+  }
+}

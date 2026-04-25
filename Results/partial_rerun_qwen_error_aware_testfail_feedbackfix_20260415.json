@@ -1,0 +1,1412 @@
+{
+  "3": {
+    "bug_id": "3",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        List includedAnnotations = new ArrayList();\n        boolean isDomainAxis = true;\n\n        // is it a domain axis?\n        int domainIndex = getDomainAxisIndex(axis);\n        if (domainIndex >= 0) {\n            isDomainAxis = true;\n            mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                    new Integer(domainIndex)));\n            if (domainIndex == 0) {\n                // grab the plot's annotations\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // or is it a range axis?\n        int rangeIndex = getRangeAxisIndex(axis);\n        if (rangeIndex >= 0) {\n            isDomainAxis = false;\n            mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                    new Integer(rangeIndex)));\n            if (rangeIndex == 0) {\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // iterate through the datasets that map to the axis and get the union\n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            XYDataset d = (XYDataset) iterator.next();\n            if (d != null) {\n                XYItemRenderer r = getRendererForDataset(d);\n                if (isDomainAxis) {\n                    if (r != null) {\n                        result = Range.combine(result, r.findDomainBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findDomainBounds(d));\n                    }\n                }\n                else {\n                    if (r != null) {\n                        result = Range.combine(result, r.findRangeBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findRangeBounds(d));\n                    }\n                }\n                \n                    Collection c = r.getAnnotations();\n                    if (c != null) {\n                        Iterator i = c.iterator();\n                        while (i.hasNext()) {\n                            XYAnnotation a = (XYAnnotation) i.next();\n                            if (a instanceof XYAnnotationBoundsInfo) {\n                                includedAnnotations.add(a);\n                            }\n                        }\n                    }\n            }\n        }\n\n        Iterator it = includedAnnotations.iterator();\n        while (it.hasNext()) {\n            XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n            if (xyabi.getIncludeInDataBounds()) {\n                if (isDomainAxis) {\n                    result = Range.combine(result, xyabi.getXRange());\n                }\n                else {\n                    result = Range.combine(result, xyabi.getYRange());\n                }\n            }\n        }\n\n        return result;\n\n    }",
+        "best_candidate_hash": "d5609297bc65",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 70.186
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        List includedAnnotations = new ArrayList();\n        boolean isDomainAxis = true;\n\n        // is it a domain axis?\n        int domainIndex = getDomainAxisIndex(axis);\n        if (domainIndex >= 0) {\n            isDomainAxis = true;\n            mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                    new Integer(domainIndex)));\n            if (domainIndex == 0) {\n                // grab the plot's annotations\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // or is it a range axis?\n        int rangeIndex = getRangeAxisIndex(axis);\n        if (rangeIndex >= 0) {\n            isDomainAxis = false;\n            mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                    new Integer(rangeIndex)));\n            if (rangeIndex == 0) {\n                Iterator iterator = this.annotations.iterator();\n                while (iterator.hasNext()) {\n                    XYAnnotation annotation = (XYAnnotation) iterator.next();\n                    if (annotation instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(annotation);\n                    }\n                }\n            }\n        }\n\n        // iterate through the datasets that map to the axis and get the union\n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            XYDataset d = (XYDataset) iterator.next();\n            if (d != null) {\n                XYItemRenderer r = getRendererForDataset(d);\n                if (isDomainAxis) {\n                    if (r != null) {\n                        result = Range.combine(result, r.findDomainBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findDomainBounds(d));\n                    }\n                }\n                else {\n                    if (r != null) {\n                        result = Range.combine(result, r.findRangeBounds(d));\n                    }\n                    else {\n                        result = Range.combine(result,\n                                DatasetUtilities.findRangeBounds(d));\n                    }\n                }\n\n                    Collection c = r.getAnnotations();\n                    if (c != null) {\n                        Iterator i = c.iterator();\n                        while (i.hasNext()) {\n                            XYAnnotation a = (XYAnnotation) i.next();\n                            if (a instanceof XYAnnotationBoundsInfo) {\n                                includedAnnotations.add(a);\n                            }\n                        }\n                    }\n            }\n        }\n\n        Iterator it = includedAnnotations.iterator();\n        while (it.hasNext()) {\n            XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n            if (xyabi.getIncludeInDataBounds()) {\n                if (isDomainAxis) {\n                    result = Range.combine(result, xyabi.getXRange());\n                }\n                else {\n                    result = Range.combine(result, xyabi.getYRange());\n                }\n            }\n        }\n\n        return result;\n\n    }",
+        "best_candidate_hash": "040282455818",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 26.732
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Range getDataRange(ValueAxis axis) {\n\n    Range result = null;\n    List mappedDatasets = new ArrayList();\n    List includedAnnotations = new ArrayList();\n    boolean isDomainAxis = true;\n\n    // is it a domain axis?\n    int domainIndex = getDomainAxisIndex(axis);\n    if (domainIndex >= 0) {\n        isDomainAxis = true;\n        mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                new Integer(domainIndex)));\n        if (domainIndex == 0) {\n            // grab the plot's annotations\n            Iterator iterator = this.annotations.iterator();\n            while (iterator.hasNext()) {\n                XYAnnotation annotation = (XYAnnotation) iterator.next();\n                if (annotation instanceof XYAnnotationBoundsInfo) {\n                    includedAnnotations.add(annotation);\n                }\n            }\n        }\n    }\n\n    // or is it a range axis?\n    int rangeIndex = getRangeAxisIndex(axis);\n    if (rangeIndex >= 0) {\n        isDomainAxis = false;\n        mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                new Integer(rangeIndex)));\n        if (rangeIndex == 0) {\n            Iterator iterator = this.annotations.iterator();\n            while (iterator.hasNext()) {\n                XYAnnotation annotation = (XYAnnotation) iterator.next();\n                if (annotation instanceof XYAnnotationBoundsInfo) {\n                    includedAnnotations.add(annotation);\n                }\n            }\n        }\n    }\n\n    // iterate through the datasets that map to the axis and get the union\n    // of the ranges.\n    Iterator iterator = mappedDatasets.iterator();\n    while (iterator.hasNext()) {\n        XYDataset d = (XYDataset) iterator.next();\n        if (d != null) {\n            XYItemRenderer r = getRendererForDataset(d);\n            if (isDomainAxis) {\n                if (r != null) {\n                    result = Range.combine(result, r.findDomainBounds(d));\n                }\n                else {\n                    result = Range.combine(result,\n                            DatasetUtilities.findDomainBounds(d));\n                }\n            }\n            else {\n                if (r != null) {\n                    result = Range.combine(result, r.findRangeBounds(d));\n                }\n                else {\n                    result = Range.combine(result,\n                            DatasetUtilities.findRangeBounds(d));\n                }\n            }\n\n            Collection c = r.getAnnotations();\n            if (c != null) {\n                Iterator i = c.iterator();\n                while (i.hasNext()) {\n                    XYAnnotation a = (XYAnnotation) i.next();\n                    if (a instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(a);\n                    }\n                }\n            }\n        }\n    }\n\n    Iterator it = includedAnnotations.iterator();\n    while (it.hasNext()) {\n        XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n        if (xyabi.getIncludeInDataBounds()) {\n            if (isDomainAxis) {\n                result = Range.combine(result, xyabi.getXRange());\n            }\n            else {\n                result = Range.combine(result, xyabi.getYRange());\n            }\n        }\n    }\n\n    return result;\n\n}",
+        "best_candidate_hash": "070760cfd18f",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 26.504
+      }
+    ],
+    "final_code": "public Range getDataRange(ValueAxis axis) {\n\n    Range result = null;\n    List mappedDatasets = new ArrayList();\n    List includedAnnotations = new ArrayList();\n    boolean isDomainAxis = true;\n\n    // is it a domain axis?\n    int domainIndex = getDomainAxisIndex(axis);\n    if (domainIndex >= 0) {\n        isDomainAxis = true;\n        mappedDatasets.addAll(getDatasetsMappedToDomainAxis(\n                new Integer(domainIndex)));\n        if (domainIndex == 0) {\n            // grab the plot's annotations\n            Iterator iterator = this.annotations.iterator();\n            while (iterator.hasNext()) {\n                XYAnnotation annotation = (XYAnnotation) iterator.next();\n                if (annotation instanceof XYAnnotationBoundsInfo) {\n                    includedAnnotations.add(annotation);\n                }\n            }\n        }\n    }\n\n    // or is it a range axis?\n    int rangeIndex = getRangeAxisIndex(axis);\n    if (rangeIndex >= 0) {\n        isDomainAxis = false;\n        mappedDatasets.addAll(getDatasetsMappedToRangeAxis(\n                new Integer(rangeIndex)));\n        if (rangeIndex == 0) {\n            Iterator iterator = this.annotations.iterator();\n            while (iterator.hasNext()) {\n                XYAnnotation annotation = (XYAnnotation) iterator.next();\n                if (annotation instanceof XYAnnotationBoundsInfo) {\n                    includedAnnotations.add(annotation);\n                }\n            }\n        }\n    }\n\n    // iterate through the datasets that map to the axis and get the union\n    // of the ranges.\n    Iterator iterator = mappedDatasets.iterator();\n    while (iterator.hasNext()) {\n        XYDataset d = (XYDataset) iterator.next();\n        if (d != null) {\n            XYItemRenderer r = getRendererForDataset(d);\n            if (isDomainAxis) {\n                if (r != null) {\n                    result = Range.combine(result, r.findDomainBounds(d));\n                }\n                else {\n                    result = Range.combine(result,\n                            DatasetUtilities.findDomainBounds(d));\n                }\n            }\n            else {\n                if (r != null) {\n                    result = Range.combine(result, r.findRangeBounds(d));\n                }\n                else {\n                    result = Range.combine(result,\n                            DatasetUtilities.findRangeBounds(d));\n                }\n            }\n\n            Collection c = r.getAnnotations();\n            if (c != null) {\n                Iterator i = c.iterator();\n                while (i.hasNext()) {\n                    XYAnnotation a = (XYAnnotation) i.next();\n                    if (a instanceof XYAnnotationBoundsInfo) {\n                        includedAnnotations.add(a);\n                    }\n                }\n            }\n        }\n    }\n\n    Iterator it = includedAnnotations.iterator();\n    while (it.hasNext()) {\n        XYAnnotationBoundsInfo xyabi = (XYAnnotationBoundsInfo) it.next();\n        if (xyabi.getIncludeInDataBounds()) {\n            if (isDomainAxis) {\n                result = Range.combine(result, xyabi.getXRange());\n            }\n            else {\n                result = Range.combine(result, xyabi.getYRange());\n            }\n        }\n    }\n\n    return result;\n\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 123.422
+  },
+  "8": {
+    "bug_id": "8",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n        if (start.compareTo(end) > 0) {\n            throw new IllegalArgumentException(\n                    \"Requires start on or before end.\");\n        }\n        boolean emptyRange = false;\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n            if (startIndex == this.data.size()) {\n                emptyRange = true;  // start is after last data item\n            }\n        }\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {             // end period is not in original series\n            endIndex = -(endIndex + 1); // this is first item AFTER end period\n            endIndex = endIndex - 1;    // so this is last item BEFORE end\n        }\n        if (endIndex < 0) {\n                    endIndex = -(endIndex + 1); // this is first item AFTER end period\n                    endIndex = endIndex - 1;    // so this is last item BEFORE end\n                    if (endIndex < 0) {\n                        emptyRange = true;\n                    }\n                }\n        if (emptyRange) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n\n    }",
+        "best_candidate_hash": "f7e549eb4eee",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 15.331
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n    throws CloneNotSupportedException {\n\n    if (start == null) {\n        throw new IllegalArgumentException(\"Null 'start' argument.\");\n    }\n    if (end == null) {\n        throw new IllegalArgumentException(\"Null 'end' argument.\");\n    }\n    if (start.compareTo(end) > 0) {\n        throw new IllegalArgumentException(\n                \"Requires start on or before end.\");\n    }\n    boolean emptyRange = false;\n    int startIndex = getIndex(start);\n    if (startIndex < 0) {\n        startIndex = -(startIndex + 1);\n        if (startIndex == this.data.size()) {\n            emptyRange = true;  // start is after last data item\n        }\n    }\n    int endIndex = getIndex(end);\n    if (endIndex < 0) {             // end period is not in original series\n        endIndex = -(endIndex + 1); // this is first item AFTER end period\n        endIndex = endIndex - 1;    // so this is last item BEFORE end\n    }\n    if (endIndex < 0) {\n        emptyRange = true;\n    }\n    if (emptyRange) {\n        TimeSeries copy = (TimeSeries) super.clone();\n        copy.data = new java.util.ArrayList();\n        return copy;\n    }\n    else {\n        return createCopy(startIndex, endIndex);\n    }\n\n}",
+        "best_candidate_hash": "64d4d8a4603c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 8.73
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n        if (start.compareTo(end) > 0) {\n            throw new IllegalArgumentException(\n                    \"Requires start on or before end.\");\n        }\n        boolean emptyRange = false;\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n            if (startIndex == this.data.size()) {\n                emptyRange = true;  // start is after last data item\n            }\n        }\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {\n            endIndex = -(endIndex + 1); // this is first item AFTER end period\n            endIndex = endIndex - 1;    // so this is last item BEFORE end\n            if (endIndex < 0) {\n                emptyRange = true;\n            }\n        }\n        if (emptyRange) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n\n    }",
+        "best_candidate_hash": "8d77fb82a5ae",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 14.201
+      }
+    ],
+    "final_code": "public TimeSeries createCopy(RegularTimePeriod start, RegularTimePeriod end)\n        throws CloneNotSupportedException {\n\n        if (start == null) {\n            throw new IllegalArgumentException(\"Null 'start' argument.\");\n        }\n        if (end == null) {\n            throw new IllegalArgumentException(\"Null 'end' argument.\");\n        }\n        if (start.compareTo(end) > 0) {\n            throw new IllegalArgumentException(\n                    \"Requires start on or before end.\");\n        }\n        boolean emptyRange = false;\n        int startIndex = getIndex(start);\n        if (startIndex < 0) {\n            startIndex = -(startIndex + 1);\n            if (startIndex == this.data.size()) {\n                emptyRange = true;  // start is after last data item\n            }\n        }\n        int endIndex = getIndex(end);\n        if (endIndex < 0) {\n            endIndex = -(endIndex + 1); // this is first item AFTER end period\n            endIndex = endIndex - 1;    // so this is last item BEFORE end\n            if (endIndex < 0) {\n                emptyRange = true;\n            }\n        }\n        if (emptyRange) {\n            TimeSeries copy = (TimeSeries) super.clone();\n            copy.data = new java.util.ArrayList();\n            return copy;\n        }\n        else {\n            return createCopy(startIndex, endIndex);\n        }\n\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 38.266
+  },
+  "9": {
+    "bug_id": "9",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \"<title>\" + toolTipText + \"</title>\";\n    }",
+        "best_candidate_hash": "75474d4759f7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 15.322
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + toolTipText + \"\\\"\"\n            + \"\\\" alt=\\\"\\\"\";\n    }",
+        "best_candidate_hash": "a4b7c6b6615b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 12.408
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public String generateToolTipFragment(String toolTipText) {\n    return \" title=\\\"\" + toolTipText + \"\\\"\"\n        + \"\\\" alt=\\\"\\\"\";\n}",
+        "best_candidate_hash": "294e6d7c71a7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 12.736
+      }
+    ],
+    "final_code": "public String generateToolTipFragment(String toolTipText) {\n    return \" title=\\\"\" + toolTipText + \"\\\"\"\n        + \"\\\" alt=\\\"\\\"\";\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 40.467
+  },
+  "11": {
+    "bug_id": "11",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        this.dataset = dataset;\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "aa5908dd5cfb",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 18.753
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        this.dataset = dataset;\n        PiePlot piePlot = new PiePlot(dataset);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+        "best_candidate_hash": "358cc8c60acb",
+        "fail_reason": "compile_fail",
+        "error_family": "type_mismatch",
+        "compile_stderr": "Running ant (compile)...................................................... FAIL\nExecuted command:  cd /home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_3957331_1776180825863/Chart_12 && /home/selab/EMSE/defects4j/major/bin/ant -f /home/selab/EMSE/defects4j/framework/projects/defects4j.build.xml -Dd4j.home=/home/selab/EMSE/defects4j -Dd4j.dir.projects=/home/selab/EMSE/defects4j/framework/projects -Dbasedir=/home/selab/KCC2026_IterativeRepair/temp_workspaces/Chart_12_3957331_1776180825",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 4.72
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    this.dataset = dataset;\n    PiePlot piePlot = new PiePlot((PieDataset) dataset);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+        "best_candidate_hash": "67e1c6079783",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "type_feedback",
+        "elapsed_sec": 8.838
+      }
+    ],
+    "final_code": "public MultiplePiePlot(CategoryDataset dataset) {\n    super();\n    this.dataset = dataset;\n    PiePlot piePlot = new PiePlot((PieDataset) dataset);\n    this.pieChart = new JFreeChart(piePlot);\n    this.pieChart.removeLegend();\n    this.dataExtractOrder = TableOrder.BY_COLUMN;\n    this.pieChart.setBackgroundPaint(null);\n    TextTitle seriesTitle = new TextTitle(\"Series Title\",\n            new Font(\"SansSerif\", Font.BOLD, 12));\n    seriesTitle.setPosition(RectangleEdge.BOTTOM);\n    this.pieChart.setTitle(seriesTitle);\n    this.aggregatedItemsKey = \"Other\";\n    this.aggregatedItemsPaint = Color.lightGray;\n    this.sectionPaints = new HashMap();\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 32.313
+  },
+  "27": {
+    "bug_id": "27",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public boolean apply(Node n) {\n        // When the node is null it means, we reached the implicit return\n        // where the function returns (possibly without an return statement)\n        if (n == null) {\n          return false;\n        }\n\n        // TODO(user): We only care about calls to functions that\n        // passes one of the dependent variable to a non-side-effect free\n        // function.\n        if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n          return true;\n        }\n\n        if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n          return true;\n        }\n\n\n        for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n          if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n          }\n        }\n        return false;\n      }",
+        "best_candidate_hash": "19c5274f0e75",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 51.534
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.241
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public boolean apply(Node n) {\n    // When the node is null it means, we reached the implicit return\n    // where the function returns (possibly without an return statement)\n    if (n == null) {\n        return false;\n    }\n\n    // TODO(user): We only care about calls to functions that\n    // passes one of the dependent variable to a non-side-effect free\n    // function.\n    if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n        return true;\n    }\n\n    if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n        return true;\n    }\n\n    for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n        if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n        }\n    }\n    return false;\n}",
+        "best_candidate_hash": "2eb248a557a1",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 35.862
+      }
+    ],
+    "final_code": "public boolean apply(Node n) {\n    // When the node is null it means, we reached the implicit return\n    // where the function returns (possibly without an return statement)\n    if (n == null) {\n        return false;\n    }\n\n    // TODO(user): We only care about calls to functions that\n    // passes one of the dependent variable to a non-side-effect free\n    // function.\n    if (n.isCall() && NodeUtil.functionCallHasSideEffects(n)) {\n        return true;\n    }\n\n    if (n.isNew() && NodeUtil.constructorCallHasSideEffects(n)) {\n        return true;\n    }\n\n    for (Node c = n.getFirstChild(); c != null; c = c.getNext()) {\n        if (!ControlFlowGraph.isEnteringNewCfgNode(c) && apply(c)) {\n            return true;\n        }\n    }\n    return false;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 89.639
+  },
+  "50": {
+    "bug_id": "50",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "void addNumber(double x) {\n    // This is not pretty printing. This is to prevent misparsing of x- -4 as\n    // x--4 (which is a syntax error).\n    char prev = getLastChar();\n    if (x < 0 && prev == '-') {\n      add(\" \");\n    }\n\n    if (x == (long) x) {\n      long value = (long) x;\n      long mantissa = value;\n      int exp = 0;\n      if (Math.abs(x) >= 100) {\n        while (mantissa / 10 * Math.pow(10, exp + 1) == value) {\n          mantissa /= 10;\n          exp++;\n        }\n      }\n      if (exp > 2) {\n        add(Long.toString(mantissa) + \"E\" + Integer.toString(exp));\n      } else {\n        add(Long.toString(value));\n      }\n    } else {\n      add(String.valueOf(x));\n    }\n\n  }",
+        "best_candidate_hash": "768ea04ac2bf",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 70.95
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "void addNumber(double x) {\n    // This is not pretty printing. This is to prevent misparsing of x- -4 as\n    // x--4 (which is a syntax error).\n    char prev = getLastChar();\n    if (x < 0 && prev == '-') {\n      add(\" \");\n    }\n\n    if (Double.doubleToLongBits(x) == Double.doubleToLongBits((long) x)) {\n      long value = (long) x;\n      long mantissa = value;\n      int exp = 0;\n      if (Math.abs(x) >= 100) {\n        while (mantissa / 10 * Math.pow(10, exp + 1) == value) {\n          mantissa /= 10;\n          exp++;\n        }\n      }\n      if (exp > 2) {\n        add(Long.toString(mantissa) + \"E\" + Integer.toString(exp));\n      } else {\n        add(Long.toString(value));\n      }\n    } else {\n      add(String.valueOf(x));\n    }\n\n  }",
+        "best_candidate_hash": "7a52870477d9",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 59.992
+      }
+    ],
+    "final_code": "void addNumber(double x) {\n    // This is not pretty printing. This is to prevent misparsing of x- -4 as\n    // x--4 (which is a syntax error).\n    char prev = getLastChar();\n    if (x < 0 && prev == '-') {\n      add(\" \");\n    }\n\n    if (Double.doubleToLongBits(x) == Double.doubleToLongBits((long) x)) {\n      long value = (long) x;\n      long mantissa = value;\n      int exp = 0;\n      if (Math.abs(x) >= 100) {\n        while (mantissa / 10 * Math.pow(10, exp + 1) == value) {\n          mantissa /= 10;\n          exp++;\n        }\n      }\n      if (exp > 2) {\n        add(Long.toString(mantissa) + \"E\" + Integer.toString(exp));\n      } else {\n        add(Long.toString(value));\n      }\n    } else {\n      add(String.valueOf(x));\n    }\n\n  }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 130.942
+  },
+  "51": {
+    "bug_id": "51",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "static boolean isSimpleNumber(String s) {\n    int len = s.length();\n    for (int index = 0; index < len; index++) {\n      char c = s.charAt(index);\n      if (c < '0' || c > '9') {\n        return false;\n      }\n    }\n    return len > 0 && !s.isEmpty();\n  }",
+        "best_candidate_hash": "dc8beba72d9d",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 69.855
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "static boolean isSimpleNumber(String s) {\n  int len = s.length();\n  for (int index = 0; index < len; index++) {\n    char c = s.charAt(index);\n    if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  return len > 0;\n}",
+        "best_candidate_hash": "b6d612375093",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 108.888
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "static boolean isSimpleNumber(String s) {\n  int len = s.length();\n  for (int index = 0; index < len; index++) {\n    char c = s.charAt(index);\n    if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  return len > 0 && len == s.length();  // Ensure len is still valid after the loop\n}",
+        "best_candidate_hash": "5562c5c6d66b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 111.299
+      }
+    ],
+    "final_code": "static boolean isSimpleNumber(String s) {\n  int len = s.length();\n  for (int index = 0; index < len; index++) {\n    char c = s.charAt(index);\n    if (c < '0' || c > '9') {\n      return false;\n    }\n  }\n  return len > 0 && len == s.length();  // Ensure len is still valid after the loop\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 290.044
+  },
+  "54": {
+    "bug_id": "54",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public String getLine(int lineNumber) {\n    String js = \"\";\n    try {\n      // NOTE(nicksantos): Right now, this is optimized for few warnings.\n      // This is probably the right trade-off, but will be slow if there\n      // are lots of warnings in one file.\n      js = getCode();\n    } catch (IOException e) {\n      return null;\n    }\n\n    int pos = 0;\n    int startLine = 1;\n\n    // If we've saved a previous offset and it's for a line less than the\n    // one we're searching for, then start at that point.\n    if (lineNumber >= lastLine) {\n      pos = lastOffset;\n      startLine = lastLine;\n    }\n\n    for (int n = startLine; n < lineNumber; n++) {\n      int nextpos = js.indexOf('\\n', pos);\n      if (nextpos == -1) {\n        return null;\n      }\n      pos = nextpos + 1;\n    }\n\n    // Remember this offset for the next search we do.\n    lastOffset = pos;\n    lastLine = lineNumber;\n\n    if (js.indexOf('\\n', pos) == -1) {\n      // If next new line cannot be found, there are two cases\n      // 1. pos already reaches the end of file, then null should be returned\n      // 2. otherwise, return the contents between pos and the end of file.\n      return js.substring(pos);  // <--- FIXED\n    } else {\n      return js.substring(pos, js.indexOf('\\n', pos));\n    }\n  }",
+        "best_candidate_hash": "e57019a15b20",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 87.178
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public String getLine(int lineNumber) {\n    String js = \"\";\n    try {\n      // NOTE(nicksantos): Right now, this is optimized for few warnings.\n      // This is probably the right trade-off, but will be slow if there\n      // are lots of warnings in one file.\n      js = getCode();\n    } catch (IOException e) {\n      return null;\n    }\n\n    int pos = 0;\n    int startLine = 1;\n\n    // If we've saved a previous offset and it's for a line less than the\n    // one we're searching for, then start at that point.\n    if (lineNumber >= lastLine) {\n      pos = lastOffset;\n      startLine = lastLine;\n    }\n\n    for (int n = startLine; n < lineNumber; n++) {\n      int nextpos = js.indexOf('\\n', pos);\n      if (nextpos == -1) {\n        return null;\n      }\n      pos = nextpos + 1;\n    }\n\n    // Remember this offset for the next search we do.\n    lastOffset = pos;\n    lastLine = lineNumber;\n\n    if (js.indexOf('\\n', pos) == -1) {\n      // If next new line cannot be found, there are two cases\n      // 1. pos already reaches the end of file, then null should be returned\n      // 2. otherwise, return the contents between pos and the end of file.\n      return js.substring(pos, js.length());  // <--- FIXED\n    } else {\n      return js.substring(pos, js.indexOf('\\n', pos));\n    }\n  }",
+        "best_candidate_hash": "08f0a3caf726",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 71.219
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 3.867
+      }
+    ],
+    "final_code": "public String getLine(int lineNumber) {\n    String js = \"\";\n    try {\n      // NOTE(nicksantos): Right now, this is optimized for few warnings.\n      // This is probably the right trade-off, but will be slow if there\n      // are lots of warnings in one file.\n      js = getCode();\n    } catch (IOException e) {\n      return null;\n    }\n\n    int pos = 0;\n    int startLine = 1;\n\n    // If we've saved a previous offset and it's for a line less than the\n    // one we're searching for, then start at that point.\n    if (lineNumber >= lastLine) {\n      pos = lastOffset;\n      startLine = lastLine;\n    }\n\n    for (int n = startLine; n < lineNumber; n++) {\n      int nextpos = js.indexOf('\\n', pos);\n      if (nextpos == -1) {\n        return null;\n      }\n      pos = nextpos + 1;\n    }\n\n    // Remember this offset for the next search we do.\n    lastOffset = pos;\n    lastLine = lineNumber;\n\n    if (js.indexOf('\\n', pos) == -1) {\n      // If next new line cannot be found, there are two cases\n      // 1. pos already reaches the end of file, then null should be returned\n      // 2. otherwise, return the contents between pos and the end of file.\n      return js.substring(pos, js.length());  // <--- FIXED\n    } else {\n      return js.substring(pos, js.indexOf('\\n', pos));\n    }\n  }",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 162.264
+  },
+  "84": {
+    "bug_id": "84",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "  JSType meet(JSType that) {\n    UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n    for (JSType alternate : alternates) {\n      if (alternate.isSubtype(that)) {\n        builder.addAlternate(alternate);\n      }\n    }\n\n    if (that instanceof UnionType) {\n      for (JSType otherAlternate : ((UnionType) that).alternates) {\n        if (otherAlternate.isSubtype(this)) {\n          builder.addAlternate(otherAlternate);\n        }\n      }\n    } else if (that.isSubtype(this)) {\n      builder.addAlternate(that);\n    }\n    JSType result = builder.build();\n        if (result == null) {  // <--- BUGGY LINE\n          return getNativeType(JSTypeNative.NO_TYPE);\n        } else {\n          return result;\n        }\n  }",
+        "best_candidate_hash": "f3de1a664c0c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 42.763
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "JSType meet(JSType that) {\n  UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n  for (JSType alternate : alternates) {\n    if (alternate.isSubtype(that)) {\n      builder.addAlternate(alternate);\n    }\n  }\n\n  if (that instanceof UnionType) {\n    for (JSType otherAlternate : ((UnionType) that).alternates) {\n      if (otherAlternate.isSubtype(this)) {\n        builder.addAlternate(otherAlternate);\n      }\n    }\n  } else if (that.isSubtype(this)) {\n    builder.addAlternate(that);\n  }\n  JSType result = builder.build();\n  if (result == null) {\n    return getNativeType(JSTypeNative.NO_TYPE);\n  } else {\n    return result;\n  }\n}",
+        "best_candidate_hash": "dd72ccbe1b64",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 70.715
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "JSType meet(JSType that) {\n    UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n    for (JSType alternate : alternates) {\n      if (alternate.isSubtype(that)) {\n        builder.addAlternate(alternate);\n      }\n    }\n\n    if (that instanceof UnionType) {\n      for (JSType otherAlternate : ((UnionType) that).alternates) {\n        if (otherAlternate.isSubtype(this)) {\n          builder.addAlternate(otherAlternate);\n        }\n      }\n    } else if (that.isSubtype(this)) {\n      builder.addAlternate(that);\n    }\n    JSType result = builder.build();\n    if (result == null) {  // <--- FIXED LINE\n      return getNativeType(JSTypeNative.NO_TYPE);\n    } else {\n      return result;\n    }\n  }",
+        "best_candidate_hash": "848001fbb5f0",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 104.505
+      }
+    ],
+    "final_code": "JSType meet(JSType that) {\n    UnionTypeBuilder builder = new UnionTypeBuilder(registry);\n    for (JSType alternate : alternates) {\n      if (alternate.isSubtype(that)) {\n        builder.addAlternate(alternate);\n      }\n    }\n\n    if (that instanceof UnionType) {\n      for (JSType otherAlternate : ((UnionType) that).alternates) {\n        if (otherAlternate.isSubtype(this)) {\n          builder.addAlternate(otherAlternate);\n        }\n      }\n    } else if (that.isSubtype(this)) {\n      builder.addAlternate(that);\n    }\n    JSType result = builder.build();\n    if (result == null) {  // <--- FIXED LINE\n      return getNativeType(JSTypeNative.NO_TYPE);\n    } else {\n      return result;\n    }\n  }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 217.984
+  },
+  "99": {
+    "bug_id": "99",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void handleBlockComment(Comment comment) {\n  if (comment.getValue().contains(\"/* @\") || comment.getValue().contains(\"\\n * @\")) {\n    errorReporter.warning(\n        SUSPICIOUS_COMMENT_WARNING,\n        sourceName,\n        comment.getLineno(), \"\", 0);\n  }\n}",
+        "best_candidate_hash": "bd09af410d45",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 105.452
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void handleBlockComment(Comment comment) {\n  if (comment.getValue().indexOf(\"/* @\") != -1 || comment.getValue().indexOf(\"\\n * @\") != -1) {\n    errorReporter.warning(\n        SUSPICIOUS_COMMENT_WARNING,\n        sourceName,\n        comment.getLineno(), \"\", 0);\n  }\n}",
+        "best_candidate_hash": "e6bfe9db8573",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 86.773
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "private void handleBlockComment(Comment comment) {\n    if (comment.getValue().contains(\"/* @\") || comment.getValue().contains(\"\\n * @\")) {\n      errorReporter.warning(\n          SUSPICIOUS_COMMENT_WARNING,\n          sourceName,\n          comment.getLineno(), \"\", 0);\n    }\n  }",
+        "best_candidate_hash": "fe0e1991e0ac",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 89.887
+      }
+    ],
+    "final_code": "private void handleBlockComment(Comment comment) {\n    if (comment.getValue().contains(\"/* @\") || comment.getValue().contains(\"\\n * @\")) {\n      errorReporter.warning(\n          SUSPICIOUS_COMMENT_WARNING,\n          sourceName,\n          comment.getLineno(), \"\", 0);\n    }\n  }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 282.112
+  },
+  "149": {
+    "bug_id": "149",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n        if (width > 0) {\n            ensureCapacity(size + width);\n            String str = (obj == null ? getNullText() : obj.toString());\n            int strLen = str.length();\n            if (strLen >= width) {\n                str.getChars(0, strLen, buffer, size);\n            } else {\n                int padLen = width - strLen;\n                str.getChars(0, strLen, buffer, size);\n                for (int i = 0; i < padLen; i++) {\n                    buffer[size + strLen + i] = padChar;\n                }\n            }\n            size += width;\n        }\n        return this;\n    }",
+        "best_candidate_hash": "b45e568a1e41",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 12.412
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n    if (width > 0) {\n        ensureCapacity(size + width);\n        String str = (obj == null ? getNullText() : obj.toString());\n        int strLen = str.length();\n        if (strLen >= width) {\n            str.getChars(0, strLen, buffer, size);\n        } else {\n            int padLen = width - strLen;\n            for (int i = 0; i < padLen; i++) {\n                buffer[size + strLen + i] = padChar;\n            }\n            str.getChars(0, strLen, buffer, size + padLen);\n        }\n        size += width;\n    }\n    return this;\n}",
+        "best_candidate_hash": "648e52300270",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 10.429
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n    if (width > 0) {\n        ensureCapacity(size + width);\n        String str = (obj == null ? getNullText() : obj.toString());\n        int strLen = str.length();\n        if (strLen >= width) {\n            str.getChars(0, strLen, buffer, size);\n        } else {\n            int padLen = width - strLen;\n            for (int i = 0; i < padLen; i++) {\n                buffer[size + strLen + i] = padChar;\n            }\n            System.arraycopy(buffer, size, buffer, size + padLen, strLen);\n        }\n        size += width;\n    }\n    return this;\n}",
+        "best_candidate_hash": "924ed5f57a97",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 10.277
+      }
+    ],
+    "final_code": "public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n    if (width > 0) {\n        ensureCapacity(size + width);\n        String str = (obj == null ? getNullText() : obj.toString());\n        int strLen = str.length();\n        if (strLen >= width) {\n            str.getChars(0, strLen, buffer, size);\n        } else {\n            int padLen = width - strLen;\n            for (int i = 0; i < padLen; i++) {\n                buffer[size + strLen + i] = padChar;\n            }\n            System.arraycopy(buffer, size, buffer, size + padLen, strLen);\n        }\n        size += width;\n    }\n    return this;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 33.118
+  },
+  "152": {
+    "bug_id": "152",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public double getNumericalMean() {\n        return (double) (getSampleSize() * getNumberOfSuccesses()) / (double) getPopulationSize();\n    }",
+        "best_candidate_hash": "56919483f851",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 23.226
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public double getNumericalMean() {\n    double sampleSize = getSampleSize();\n    double numberOfSuccesses = getNumberOfSuccesses();\n    double populationSize = getPopulationSize();\n    if (populationSize == 0 || sampleSize == 0 || numberOfSuccesses == 0) {\n        return 0;\n    }\n    return (sampleSize * numberOfSuccesses) / populationSize;\n}",
+        "best_candidate_hash": "75718a6bbe55",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 28.509
+      }
+    ],
+    "final_code": "public double getNumericalMean() {\n    double sampleSize = getSampleSize();\n    double numberOfSuccesses = getNumberOfSuccesses();\n    double populationSize = getPopulationSize();\n    if (populationSize == 0 || sampleSize == 0 || numberOfSuccesses == 0) {\n        return 0;\n    }\n    return (sampleSize * numberOfSuccesses) / populationSize;\n}",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 51.735
+  },
+  "153": {
+    "bug_id": "153",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public static double linearCombination(final double[] a, final double[] b)\n        throws DimensionMismatchException {\n        final int len = a.length;\n        if (len != b.length) {\n            throw new DimensionMismatchException(len, b.length);\n        }\n\n        final double[] prodHigh = new double[len];\n        double prodLowSum = 0;\n\n        for (int i = 0; i < len; i++) {\n            final double ai = a[i];\n            final double ca = SPLIT_FACTOR * ai;\n            final double aHigh = ca - (ca - ai);\n            final double aLow = ai - aHigh;\n\n            final double bi = b[i];\n            final double cb = SPLIT_FACTOR * bi;\n            final double bHigh = cb - (cb - bi);\n            final double bLow = bi - bHigh;\n            prodHigh[i] = ai * bi;\n            final double prodLow = aLow * bLow - (((prodHigh[i] -\n                                                    aHigh * bHigh) -\n                                                   aLow * bHigh) -\n                                                  aHigh * bLow);\n            prodLowSum += prodLow;\n        }\n\n        final double prodHighCur = prodHigh[0];\n        double prodHighNext = prodHigh[1];\n        double sHighPrev = prodHighCur + prodHighNext;\n        double sPrime = sHighPrev - prodHighNext;\n        double sLowSum = (prodHighNext - (sHighPrev - sPrime)) + (prodHighCur - sPrime);\n\n        final int lenMinusOne = len - 1;\n        for (int i = 1; i < lenMinusOne; i++) {\n            prodHighNext = prodHigh[i + 1];\n            final double sHighCur = sHighPrev + prodHighNext;\n            sPrime = sHighCur - prodHighNext;\n            sLowSum += (prodHighNext - (sHighCur - sPrime)) + (sHighPrev - sPrime);\n            sHighPrev = sHighCur;\n        }\n\n        double result = sHighPrev + (prodLowSum + sLowSum);\n\n        if (Double.isNaN(result)) {\n            // either we have split infinite numbers or some coefficients were NaNs,\n            // just rely on the naive implementation and let IEEE754 handle this\n            result = 0;\n            for (int i = 0; i < len; ++i) {\n                result += a[i] * b[i];\n            }\n        }\n\n        return result;\n    }",
+        "best_candidate_hash": "bc73d7b1c638",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 52.163
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "public static double linearCombination(final double[] a, final double[] b)\n    throws DimensionMismatchException {\n    final int len = a.length;\n    if (len != b.length) {\n        throw new DimensionMismatchException(len, b.length);\n    }\n\n    final double[] prodHigh = new double[len];\n    double prodLowSum = 0;\n\n    for (int i = 0; i < len; i++) {\n        final double ai = a[i];\n        final double ca = SPLIT_FACTOR * ai;\n        final double aHigh = ca - (ca - ai);\n        final double aLow = ai - aHigh;\n\n        final double bi = b[i];\n        final double cb = SPLIT_FACTOR * bi;\n        final double bHigh = cb - (cb - bi);\n        final double bLow = bi - bHigh;\n        prodHigh[i] = ai * bi;\n        final double prodLow = aLow * bLow - (((prodHigh[i] -\n                                                aHigh * bHigh) -\n                                               aLow * bHigh) -\n                                              aHigh * bLow);\n        prodLowSum += prodLow;\n    }\n\n    double result = 0;\n    for (int i = 0; i < len; i++) {\n        result += a[i] * b[i];\n    }\n\n    return result;\n}",
+        "best_candidate_hash": "4db5e64cccc9",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 106.188
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public static double linearCombination(final double[] a, final double[] b)\n        throws DimensionMismatchException {\n        final int len = a.length;\n        if (len != b.length) {\n            throw new DimensionMismatchException(len, b.length);\n        }\n\n        // Revert to scalar multiplication.\n        double result = 0;\n        for (int i = 0; i < len; i++) {\n            result += a[i] * b[i];\n        }\n\n        return result;\n    }",
+        "best_candidate_hash": "f63ce67bf10a",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 36.006
+      }
+    ],
+    "final_code": "public static double linearCombination(final double[] a, final double[] b)\n        throws DimensionMismatchException {\n        final int len = a.length;\n        if (len != b.length) {\n            throw new DimensionMismatchException(len, b.length);\n        }\n\n        // Revert to scalar multiplication.\n        double result = 0;\n        for (int i = 0; i < len; i++) {\n            result += a[i] * b[i];\n        }\n\n        return result;\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 194.357
+  },
+  "154": {
+    "bug_id": "154",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public Complex reciprocal() {\n        if (isNaN) {\n            return NaN;\n        }\n\n        if (real == 0.0 && imaginary == 0.0) {\n                    return new Complex(Double.NaN, Double.NaN);\n                }\n\n        if (isInfinite) {\n            return ZERO;\n        }\n\n        if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n            double q = real / imaginary;\n            double scale = 1. / (real * q + imaginary);\n            return createComplex(scale * q, -scale);\n        } else {\n            double q = imaginary / real;\n            double scale = 1. / (imaginary * q + real);\n            return createComplex(scale, -scale * q);\n        }\n    }",
+        "best_candidate_hash": "c4b0892b1e90",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 21.467
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Complex reciprocal() {\n    if (isNaN) {\n        return NaN;\n    }\n\n    if (real == 0.0 && imaginary == 0.0) {\n        return new Complex(Double.NaN, Double.NaN);\n    }\n\n    if (isInfinite) {\n        return ZERO;\n    }\n\n    if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n        double q = real / imaginary;\n        double scale = 1. / (real * q + imaginary);\n        return createComplex(scale * q, -scale);\n    } else {\n        double q = imaginary / real;\n        double scale = 1. / (imaginary * q + real);\n        return createComplex(scale, -scale * q);\n    }\n}",
+        "best_candidate_hash": "88c04fbf13ae",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 9.223
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 1.889
+      }
+    ],
+    "final_code": "public Complex reciprocal() {\n    if (isNaN) {\n        return NaN;\n    }\n\n    if (real == 0.0 && imaginary == 0.0) {\n        return new Complex(Double.NaN, Double.NaN);\n    }\n\n    if (isInfinite) {\n        return ZERO;\n    }\n\n    if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n        double q = real / imaginary;\n        double scale = 1. / (real * q + imaginary);\n        return createComplex(scale * q, -scale);\n    } else {\n        double q = imaginary / real;\n        double scale = 1. / (imaginary * q + real);\n        return createComplex(scale, -scale * q);\n    }\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 32.582
+  },
+  "158": {
+    "bug_id": "158",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public void atan2(final double[] y, final int yOffset,\n                      final double[] x, final int xOffset,\n                      final double[] result, final int resultOffset) {\n\n        // compute r = sqrt(x^2+y^2)\n        double[] tmp1 = new double[getSize()];\n        multiply(x, xOffset, x, xOffset, tmp1, 0);      // x^2\n        double[] tmp2 = new double[getSize()];\n        multiply(y, yOffset, y, yOffset, tmp2, 0);      // y^2\n        add(tmp1, 0, tmp2, 0, tmp2, 0);                 // x^2 + y^2\n        rootN(tmp2, 0, 2, tmp1, 0);                     // r = sqrt(x^2 + y^2)\n\n        if (x[xOffset] >= 0) {\n\n            // compute atan2(y, x) = 2 atan(y / (r + x))\n            add(tmp1, 0, x, xOffset, tmp2, 0);          // r + x\n            divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r + x)\n            atan(tmp1, 0, tmp2, 0);                     // atan(y / (r + x))\n            for (int i = 0; i < tmp2.length; ++i) {\n                result[resultOffset + i] = 2 * tmp2[i]; // 2 * atan(y / (r + x))\n            }\n\n        } else {\n\n            // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))\n            subtract(tmp1, 0, x, xOffset, tmp2, 0);     // r - x\n            divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)\n            atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))\n            result[resultOffset] =\n                    ((tmp2[0] <= 0) ? -FastMath.PI : FastMath.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))\n            for (int i = 1; i < tmp2.length; ++i) {\n                result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))\n            }\n\n        }\n\n        // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly\n\n    }",
+        "best_candidate_hash": "026e9ed0c707",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 33.428
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public void atan2(final double[] y, final int yOffset,\n                      final double[] x, final int xOffset,\n                      final double[] result, final int resultOffset) {\n\n        // compute r = sqrt(x^2+y^2)\n        double[] tmp1 = new double[getSize()];\n        multiply(x, xOffset, x, xOffset, tmp1, 0);      // x^2\n        double[] tmp2 = new double[getSize()];\n        multiply(y, yOffset, y, yOffset, tmp2, 0);      // y^2\n        add(tmp1, 0, tmp2, 0, tmp2, 0);                 // x^2 + y^2\n        rootN(tmp2, 0, 2, tmp1, 0);                     // r = sqrt(x^2 + y^2)\n\n        if (x[xOffset] >= 0) {\n\n            // compute atan2(y, x) = 2 atan(y / (r + x))\n            add(tmp1, 0, x, xOffset, tmp2, 0);          // r + x\n            divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r + x)\n            atan(tmp1, 0, tmp2, 0);                     // atan(y / (r + x))\n            for (int i = 0; i < tmp2.length; ++i) {\n                result[resultOffset + i] = 2 * tmp2[i]; // 2 * atan(y / (r + x))\n            }\n\n        } else {\n\n            // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))\n            subtract(tmp1, 0, x, xOffset, tmp2, 0);     // r - x\n            divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)\n            atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))\n            result[resultOffset] =\n                    ((tmp2[0] <= 0) ? -FastMath.PI : FastMath.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))\n            for (int i = 1; i < tmp2.length; ++i) {\n                result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))\n            }\n\n        }\n\n        // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly\n        if (Double.isNaN(result[resultOffset])) {\n            result[resultOffset] = 0.0;\n        }\n\n    }",
+        "best_candidate_hash": "9a7596d0e512",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 35.462
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public void atan2(final double[] y, final int yOffset,\n                  final double[] x, final int xOffset,\n                  final double[] result, final int resultOffset) {\n\n    // compute r = sqrt(x^2+y^2)\n    double[] tmp1 = new double[getSize()];\n    multiply(x, xOffset, x, xOffset, tmp1, 0);      // x^2\n    double[] tmp2 = new double[getSize()];\n    multiply(y, yOffset, y, yOffset, tmp2, 0);      // y^2\n    add(tmp1, 0, tmp2, 0, tmp2, 0);                 // x^2 + y^2\n    rootN(tmp2, 0, 2, tmp1, 0);                     // r = sqrt(x^2 + y^2)\n\n    if (x[xOffset] >= 0) {\n\n        // compute atan2(y, x) = 2 atan(y / (r + x))\n        add(tmp1, 0, x, xOffset, tmp2, 0);          // r + x\n        divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r + x)\n        atan(tmp1, 0, tmp2, 0);                     // atan(y / (r + x))\n        for (int i = 0; i < tmp2.length; ++i) {\n            result[resultOffset + i] = 2 * tmp2[i]; // 2 * atan(y / (r + x))\n        }\n\n    } else {\n\n        // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))\n        subtract(tmp1, 0, x, xOffset, tmp2, 0);     // r - x\n        divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)\n        atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))\n        for (int i = 0; i < tmp2.length; ++i) {     // Fix: Change from 1 to 0\n            result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))\n        }\n\n    }\n\n    // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly\n    if (Double.isNaN(result[resultOffset])) {\n        result[resultOffset] = 0.0;\n    }\n\n}",
+        "best_candidate_hash": "c89b9788630c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 37.619
+      }
+    ],
+    "final_code": "public void atan2(final double[] y, final int yOffset,\n                  final double[] x, final int xOffset,\n                  final double[] result, final int resultOffset) {\n\n    // compute r = sqrt(x^2+y^2)\n    double[] tmp1 = new double[getSize()];\n    multiply(x, xOffset, x, xOffset, tmp1, 0);      // x^2\n    double[] tmp2 = new double[getSize()];\n    multiply(y, yOffset, y, yOffset, tmp2, 0);      // y^2\n    add(tmp1, 0, tmp2, 0, tmp2, 0);                 // x^2 + y^2\n    rootN(tmp2, 0, 2, tmp1, 0);                     // r = sqrt(x^2 + y^2)\n\n    if (x[xOffset] >= 0) {\n\n        // compute atan2(y, x) = 2 atan(y / (r + x))\n        add(tmp1, 0, x, xOffset, tmp2, 0);          // r + x\n        divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r + x)\n        atan(tmp1, 0, tmp2, 0);                     // atan(y / (r + x))\n        for (int i = 0; i < tmp2.length; ++i) {\n            result[resultOffset + i] = 2 * tmp2[i]; // 2 * atan(y / (r + x))\n        }\n\n    } else {\n\n        // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))\n        subtract(tmp1, 0, x, xOffset, tmp2, 0);     // r - x\n        divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)\n        atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))\n        for (int i = 0; i < tmp2.length; ++i) {     // Fix: Change from 1 to 0\n            result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))\n        }\n\n    }\n\n    // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly\n    if (Double.isNaN(result[resultOffset])) {\n        result[resultOffset] = 0.0;\n    }\n\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 106.51
+  },
+  "171": {
+    "bug_id": "171",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.873
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 4,
+        "best_candidate_code": "private double calculateAsymptoticPValue(final double Umin,\n                                             final int n1,\n                                             final int n2)\n        throws ConvergenceException, MaxCountExceededException {\n\n        final long n1n2prod = (long) n1 * n2;\n\n        // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation\n        final double EU = n1n2prod / 2.0;\n        final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n\n        final double z = (Umin - EU) / FastMath.sqrt(VarU);\n\n        final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n        return 2 * standardNormal.cumulativeProbability(z);\n    }",
+        "best_candidate_hash": "387818369e51",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 34.648
+      }
+    ],
+    "final_code": "private double calculateAsymptoticPValue(final double Umin,\n                                             final int n1,\n                                             final int n2)\n        throws ConvergenceException, MaxCountExceededException {\n\n        final long n1n2prod = (long) n1 * n2;\n\n        // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation\n        final double EU = n1n2prod / 2.0;\n        final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n\n        final double z = (Umin - EU) / FastMath.sqrt(VarU);\n\n        final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n        return 2 * standardNormal.cumulativeProbability(z);\n    }",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 35.521
+  },
+  "175": {
+    "bug_id": "175",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Iterator<Chromosome> iterator() {\n        return chromosomes.iterator();\n    }",
+        "best_candidate_hash": "db475fe1d374",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 19.187
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public Iterator<Chromosome> iterator() {\n    return Collections.unmodifiableList(chromosomes).iterator();\n}",
+        "best_candidate_hash": "7fb9444f085e",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 9.746
+      }
+    ],
+    "final_code": "public Iterator<Chromosome> iterator() {\n    return Collections.unmodifiableList(chromosomes).iterator();\n}",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 28.933
+  },
+  "181": {
+    "bug_id": "181",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public void addValue(double value) {\n        sumImpl.increment(value);\n        sumsqImpl.increment(value);\n        minImpl.increment(value);\n        maxImpl.increment(value);\n        sumLogImpl.increment(value);\n        secondMoment.increment(value);\n        // If mean, variance or geomean have been overridden,\n        // need to increment these\n        if (!(meanImpl instanceof Mean)) {\n            meanImpl.increment(value);\n        }\n        if (!(varianceImpl instanceof Variance)) {\n            varianceImpl.increment(value);\n        }\n        if (!(geoMeanImpl instanceof GeometricMean)) {\n            geoMeanImpl.increment(value);\n        }\n        n++;\n    }",
+        "best_candidate_hash": "94fb8b478c72",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 29.704
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public void addValue(double value) {\n    sumImpl.increment(value);\n    sumsqImpl.increment(value);\n    minImpl.increment(value);\n    maxImpl.increment(value);\n    sumLogImpl.increment(value);\n    secondMoment.increment(value);\n    // If mean, variance or geomean have been overridden,\n    // need to increment these\n    if (meanImpl instanceof Mean) {\n        meanImpl.increment(value);\n    }\n    if (varianceImpl instanceof Variance) {\n        varianceImpl.increment(value);\n    }\n    if (geoMeanImpl instanceof GeometricMean) {\n        geoMeanImpl.increment(value);\n    }\n    n++;\n}",
+        "best_candidate_hash": "1575465742c7",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 10.222
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 1.669
+      }
+    ],
+    "final_code": "public void addValue(double value) {\n    sumImpl.increment(value);\n    sumsqImpl.increment(value);\n    minImpl.increment(value);\n    maxImpl.increment(value);\n    sumLogImpl.increment(value);\n    secondMoment.increment(value);\n    // If mean, variance or geomean have been overridden,\n    // need to increment these\n    if (meanImpl instanceof Mean) {\n        meanImpl.increment(value);\n    }\n    if (varianceImpl instanceof Variance) {\n        varianceImpl.increment(value);\n    }\n    if (geoMeanImpl instanceof GeometricMean) {\n        geoMeanImpl.increment(value);\n    }\n    n++;\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 41.596
+  },
+  "194": {
+    "bug_id": "194",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public double cumulativeProbability(double x) throws MathException {\n        final double dev = x - mean;\n        try {\n        return 0.5 * (1.0 + Erf.erf((dev) /\n                    (standardDeviation * FastMath.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38\n                return 0;\n            } else if (x > (mean + 20 * standardDeviation)) {\n                return 1;\n            } else {\n                throw ex;\n            }\n        }\n    }",
+        "best_candidate_hash": "77b1218b40e5",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 19.451
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 5,
+        "best_candidate_code": "public double cumulativeProbability(double x) throws MathException {\n        final double dev = x - mean;\n        try {\n            return 0.5 * (1.0 + Erf.erf((dev) /\n                    (standardDeviation * FastMath.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38\n                return 0;\n            } else if (x > (mean + 20 * standardDeviation)) {\n                return 1;\n            } else {\n                throw ex;\n            }\n        }\n    }",
+        "best_candidate_hash": "4f66cbfe358f",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 39.636
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public double cumulativeProbability(double x) throws MathException {\n    final double dev = x - mean;\n    try {\n        return 0.5 * (1.0 + Erf.erf((dev) /\n                (standardDeviation * FastMath.sqrt(2.0))));\n    } catch (MaxIterationsExceededException ex) {\n        if (Double.isInfinite(x)) {\n            return x > 0 ? 1.0 : 0.0;\n        } else if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38\n            return 0;\n        } else if (x > (mean + 20 * standardDeviation)) {\n            return 1;\n        } else {\n            throw ex;\n        }\n    }\n}",
+        "best_candidate_hash": "8675736dda1f",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 16.082
+      }
+    ],
+    "final_code": "public double cumulativeProbability(double x) throws MathException {\n    final double dev = x - mean;\n    try {\n        return 0.5 * (1.0 + Erf.erf((dev) /\n                (standardDeviation * FastMath.sqrt(2.0))));\n    } catch (MaxIterationsExceededException ex) {\n        if (Double.isInfinite(x)) {\n            return x > 0 ? 1.0 : 0.0;\n        } else if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38\n            return 0;\n        } else if (x > (mean + 20 * standardDeviation)) {\n            return 1;\n        } else {\n            throw ex;\n        }\n    }\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 75.17
+  },
+  "214": {
+    "bug_id": "214",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int compareTo(Fraction object) {\n        double nOd = doubleValue();\n        double dOn = object.doubleValue();\n        return Double.compare(nOd, dOn);\n    }",
+        "best_candidate_hash": "59bf99be4798",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 16.527
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public int compareTo(Fraction object) {\n    double nOd = doubleValue();\n    double dOn = object.doubleValue();\n    return Double.compare(nOd, dOn);\n}",
+        "best_candidate_hash": "2a4cf2e90f91",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 15.289
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int compareTo(Fraction object) {\n    double nOd = doubleValue();\n    double dOn = object.doubleValue();\n    return (int) Math.signum(nOd - dOn);\n}",
+        "best_candidate_hash": "5c091a4e6488",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 7.918
+      }
+    ],
+    "final_code": "public int compareTo(Fraction object) {\n    double nOd = doubleValue();\n    double dOn = object.doubleValue();\n    return (int) Math.signum(nOd - dOn);\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 39.736
+  },
+  "217": {
+    "bug_id": "217",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public boolean equals(Object other) {\n        boolean ret;\n\n        if (this == other) {\n            ret = true;\n        } else if (other == null) {\n            ret = false;\n        } else  {\n            try {\n                Complex rhs = (Complex)other;\n                if (rhs.isNaN()) {\n                    ret = this.isNaN();\n                } else {\n                    ret = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(rhs.getReal())) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.getImaginary()));\n                }\n            } catch (ClassCastException ex) {\n                // ignore exception\n                ret = false;\n            }\n        }\n\n        return ret;\n    }",
+        "best_candidate_hash": "bdad46996926",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 20.974
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public boolean equals(Object other) {\n    boolean ret;\n\n    if (this == other) {\n        ret = true;\n    } else if (other == null) {\n        ret = false;\n    } else  {\n        try {\n            Complex rhs = (Complex)other;\n            if (rhs.isNaN()) {\n                ret = this.isNaN();\n            } else {\n                ret = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(rhs.real)) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.imaginary));\n            }\n        } catch (ClassCastException ex) {\n            // ignore exception\n            ret = false;\n        }\n    }\n\n    return ret;\n}",
+        "best_candidate_hash": "74f293df5b3a",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 7.803
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 1.835
+      }
+    ],
+    "final_code": "public boolean equals(Object other) {\n    boolean ret;\n\n    if (this == other) {\n        ret = true;\n    } else if (other == null) {\n        ret = false;\n    } else  {\n        try {\n            Complex rhs = (Complex)other;\n            if (rhs.isNaN()) {\n                ret = this.isNaN();\n            } else {\n                ret = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(rhs.real)) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.imaginary));\n            }\n        } catch (ClassCastException ex) {\n            // ignore exception\n            ret = false;\n        }\n    }\n\n    return ret;\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 30.612
+  },
+  "222": {
+    "bug_id": "222",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public double getSumSquaredErrors() {\n        if (sumXX == 0) {\n            return Double.NaN;\n        }\n        return sumYY - sumXY * sumXY / sumXX;\n    }",
+        "best_candidate_hash": "c3ccb3631fc8",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 29.953
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public double getSumSquaredErrors() {\n    if (sumXX == 0) {\n        return Double.NaN;\n    }\n    return sumYY - sumXY * sumXY / sumXX;\n}",
+        "best_candidate_hash": "f76c4163cacb",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 16.879
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public double getSumSquaredErrors() {\n        if (sumXX == 0) {\n            return 0.0;\n        }\n        return sumYY - sumXY * sumXY / sumXX;\n    }",
+        "best_candidate_hash": "618c2fe71ec0",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 8.373
+      }
+    ],
+    "final_code": "public double getSumSquaredErrors() {\n        if (sumXX == 0) {\n            return 0.0;\n        }\n        return sumYY - sumXY * sumXY / sumXX;\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 55.205
+  },
+  "227": {
+    "bug_id": "227",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "    protected void registerTypeVariablesOn(Type classType) {\n        if (!(classType instanceof ParameterizedType)) {\n            return;\n        }\n        ParameterizedType parameterizedType = (ParameterizedType) classType;\n        TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();\n        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n        for (int i = 0; i < actualTypeArguments.length; i++) {\n            TypeVariable typeParameter = typeParameters[i];\n            Type actualTypeArgument = actualTypeArguments[i];\n\n            if (actualTypeArgument instanceof WildcardType) {\n                contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n            } else {\n                contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n                        }\n                    }\n    }",
+        "best_candidate_hash": "c1af1957ece3",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 209.628
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "protected void registerTypeVariablesOn(Type classType) {\n    if (!(classType instanceof ParameterizedType)) {\n        return;\n    }\n    ParameterizedType parameterizedType = (ParameterizedType) classType;\n    TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();\n    Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n    for (int i = 0; i < actualTypeArguments.length; i++) {\n        TypeVariable typeParameter = typeParameters[i];\n        Type actualTypeArgument = actualTypeArguments[i];\n\n        if (actualTypeArgument instanceof WildcardType) {\n            contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n        } else {\n            contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n        }\n        // logger.log(\"For '\" + parameterizedType + \"' found type variable : { '\" + typeParameter + \"(\" + System.identityHashCode(typeParameter) + \")\" + \"' : '\" + actualTypeArgument + \"(\" + System.identityHashCode(typeParameter) + \")\" + \"' }\");\n    }\n}",
+        "best_candidate_hash": "48ee9d1d256a",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 189.918
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "protected void registerTypeVariablesOn(Type classType) {\n        if (!(classType instanceof ParameterizedType)) {\n            return;\n        }\n        ParameterizedType parameterizedType = (ParameterizedType) classType;\n        TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();\n        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n        for (int i = 0; i < actualTypeArguments.length; i++) {\n            TypeVariable typeParameter = typeParameters[i];\n            Type actualTypeArgument = actualTypeArguments[i];\n\n            if (actualTypeArgument instanceof WildcardType) {\n                contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n            } else {\n                contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n            }\n        }\n    }",
+        "best_candidate_hash": "88cf37840c59",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 90.263
+      }
+    ],
+    "final_code": "protected void registerTypeVariablesOn(Type classType) {\n        if (!(classType instanceof ParameterizedType)) {\n            return;\n        }\n        ParameterizedType parameterizedType = (ParameterizedType) classType;\n        TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();\n        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n        for (int i = 0; i < actualTypeArguments.length; i++) {\n            TypeVariable typeParameter = typeParameters[i];\n            Type actualTypeArgument = actualTypeArguments[i];\n\n            if (actualTypeArgument instanceof WildcardType) {\n                contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n            } else {\n                contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n            }\n        }\n    }",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 489.809
+  },
+  "232": {
+    "bug_id": "232",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public static boolean areEqual(Object o1, Object o2) {\n        if (o1 == null && o2 == null) {\n            return true;\n        } else if (o1 == null || o2 == null) {\n            return false;\n        } else if (isArray(o1)) {\n            return isArray(o2) && areArraysEqual(o1, o2);\n        } else {\n            return o1.equals(o2);\n        }\n    }",
+        "best_candidate_hash": "ccbb1d12d3bb",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 65.378
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null || o2 == null) {\n        return o1 == null && o2 == null;\n    } else if (isArray(o1)) {\n        return isArray(o2) && areArraysEqual(o1, o2);\n    } else {\n        return o1.equals(o2);\n    }\n}",
+        "best_candidate_hash": "422cef2d5b22",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 58.334
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null) {\n        return o2 == null;\n    } else if (o2 == null) {\n        return false;\n    } else if (isArray(o1)) {\n        return isArray(o2) && areArraysEqual(o1, o2);\n    } else {\n        return o1.equals(o2);\n    }\n}",
+        "best_candidate_hash": "45cf0562675c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 113.229
+      }
+    ],
+    "final_code": "public static boolean areEqual(Object o1, Object o2) {\n    if (o1 == null) {\n        return o2 == null;\n    } else if (o2 == null) {\n        return false;\n    } else if (isArray(o1)) {\n        return isArray(o2) && areArraysEqual(o1, o2);\n    } else {\n        return o1.equals(o2);\n    }\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 236.942
+  },
+  "233": {
+    "bug_id": "233",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Object answer(InvocationOnMock invocation) {\n        if (methodsGuru.isToString(invocation.getMethod())) {\n            Object mock = invocation.getMock();\n            MockName name = mockUtil.getMockName(mock);\n            if (name.isDefault()) {\n                return \"Mock for \" + mockUtil.getMockSettings(mock).getTypeToMock().getSimpleName() + \", hashCode: \" + mock.hashCode();\n            } else {\n                return name.toString();\n            }\n        } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {\n            //see issue 184.\n            //mocks by default should return 0 if references are the same, otherwise some other value because they are not the same. Hence we return 1 (anything but 0 is good).\n            //Only for compareTo() method by the Comparable interface\n            return 0;  // <--- FIXED LINE\n        }\n\n        Class<?> returnType = invocation.getMethod().getReturnType();\n        return returnValueFor(returnType);\n    }",
+        "best_candidate_hash": "dee8cdd31eb0",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 83.629
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Object answer(InvocationOnMock invocation) {\n    if (methodsGuru.isToString(invocation.getMethod())) {\n        Object mock = invocation.getMock();\n        MockName name = mockUtil.getMockName(mock);\n        if (name.isDefault()) {\n            return \"Mock for \" + mockUtil.getMockSettings(mock).getTypeToMock().getSimpleName() + \", hashCode: \" + mock.hashCode();\n        } else {\n            return name.toString();\n        }\n    } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {\n        //see issue 184.\n        //mocks by default should return 0 if references are the same, otherwise some other value because they are not the same. Hence we return 1 (anything but 0 is good).\n        //Only for compareTo() method by the Comparable interface\n        return 0;  // <--- FIXED LINE\n    }\n\n    Class<?> returnType = invocation.getMethod().getReturnType();\n    return returnValueFor(returnType);\n}",
+        "best_candidate_hash": "1ae0e6873894",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 79.064
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.358
+      }
+    ],
+    "final_code": "public Object answer(InvocationOnMock invocation) {\n    if (methodsGuru.isToString(invocation.getMethod())) {\n        Object mock = invocation.getMock();\n        MockName name = mockUtil.getMockName(mock);\n        if (name.isDefault()) {\n            return \"Mock for \" + mockUtil.getMockSettings(mock).getTypeToMock().getSimpleName() + \", hashCode: \" + mock.hashCode();\n        } else {\n            return name.toString();\n        }\n    } else if (methodsGuru.isCompareToMethod(invocation.getMethod())) {\n        //see issue 184.\n        //mocks by default should return 0 if references are the same, otherwise some other value because they are not the same. Hence we return 1 (anything but 0 is good).\n        //Only for compareTo() method by the Comparable interface\n        return 0;  // <--- FIXED LINE\n    }\n\n    Class<?> returnType = invocation.getMethod().getReturnType();\n    return returnValueFor(returnType);\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 165.052
+  },
+  "236": {
+    "bug_id": "236",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public void describeTo(Description description) {\n        description.appendText(\"same(\");\n        appendQuoting(description);\n        description.appendValue(wanted);\n        appendQuoting(description);\n        description.appendText(\")\");\n    }",
+        "best_candidate_hash": "8aeecdbb3f4f",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 26.257
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public void describeTo(Description description) {\n    description.appendText(\"same(\");\n    appendQuoting(description);\n    description.appendValue(wanted);\n    appendQuoting(description);\n    description.appendText(\")\");\n}",
+        "best_candidate_hash": "a2ccac626541",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 27.087
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 0.724
+      }
+    ],
+    "final_code": "public void describeTo(Description description) {\n    description.appendText(\"same(\");\n    appendQuoting(description);\n    description.appendValue(wanted);\n    appendQuoting(description);\n    description.appendText(\")\");\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 54.069
+  },
+  "238": {
+    "bug_id": "238",
+    "solved": true,
+    "solving_iteration": 2,
+    "total_iterations": 2,
+    "total_candidates_generated": 10,
+    "total_llm_calls": 2,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public void captureArgumentsFrom(Invocation i) {\n        int k = 0;\n        for (Matcher m : matchers) {\n            if (m instanceof CapturesArguments) {\n                ((CapturesArguments) m).captureFrom(i.getArguments()[k]);\n            }\n            k++;\n        }\n    }",
+        "best_candidate_hash": "025fa02a7de2",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 38.827
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 3,
+        "best_candidate_code": "public void captureArgumentsFrom(Invocation i) {\n    int k = 0;\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            if (k < i.getArguments().length) {\n                ((CapturesArguments) m).captureFrom(i.getArguments()[k]);\n            }\n        }\n        k++;\n    }\n}",
+        "best_candidate_hash": "d8771b57ea36",
+        "fail_reason": "pass",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 77.461
+      }
+    ],
+    "final_code": "public void captureArgumentsFrom(Invocation i) {\n    int k = 0;\n    for (Matcher m : matchers) {\n        if (m instanceof CapturesArguments) {\n            if (k < i.getArguments().length) {\n                ((CapturesArguments) m).captureFrom(i.getArguments()[k]);\n            }\n        }\n        k++;\n    }\n}",
+    "final_fail_reason": "pass",
+    "elapsed_total_sec": 116.288
+  },
+  "240": {
+    "bug_id": "240",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public Partial with(DateTimeFieldType fieldType, int value) {\n        if (fieldType == null) {\n            throw new IllegalArgumentException(\"The field type must not be null\");\n        }\n        int index = indexOf(fieldType);\n        if (index == -1) {\n            DateTimeFieldType[] newTypes = new DateTimeFieldType[iTypes.length + 1];\n            int[] newValues = new int[newTypes.length];\n            \n            // find correct insertion point to keep largest-smallest order\n            int i = 0;\n            DurationField unitField = fieldType.getDurationType().getField(iChronology);\n            if (unitField.isSupported()) {\n                for (; i < iTypes.length; i++) {\n                    DateTimeFieldType loopType = iTypes[i];\n                    DurationField loopUnitField = loopType.getDurationType().getField(iChronology);\n                    if (loopUnitField.isSupported()) {\n                        int compare = unitField.compareTo(loopUnitField);\n                        if (compare > 0) {\n                            break;\n                        } else if (compare == 0) {\n                            DurationField rangeField = fieldType.getRangeDurationType().getField(iChronology);\n                            DurationField loopRangeField = loopType.getRangeDurationType().getField(iChronology);\n                            if (rangeField.compareTo(loopRangeField) > 0) {\n                                break;\n                            }\n                        }\n                    }\n                }\n            }\n            System.arraycopy(iTypes, 0, newTypes, 0, i);\n            System.arraycopy(iValues, 0, newValues, 0, i);\n            newTypes[i] = fieldType;\n            newValues[i] = value;\n            System.arraycopy(iTypes, i, newTypes, i + 1, newTypes.length - i - 1);\n            System.arraycopy(iValues, i, newValues, i + 1, newValues.length - i - 1);\n            // use public constructor to ensure full validation\n            // this isn't overly efficient, but is safe\n            Partial newPartial = new Partial(iChronology, newTypes, newValues);\n                        iChronology.validate(newPartial, newValues);\n                        return newPartial;\n        }\n        if (value == getValue(index)) {\n            return this;\n        }\n        int[] newValues = getValues();\n        newValues = getField(index).set(this, index, newValues, value);\n        return new Partial(this, newValues);\n    }",
+        "best_candidate_hash": "53bfdbc033b9",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 17.07
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public Partial with(DateTimeFieldType fieldType, int value) {\n    if (fieldType == null) {\n        throw new IllegalArgumentException(\"The field type must not be null\");\n    }\n    int index = indexOf(fieldType);\n    if (index == -1) {\n        DateTimeFieldType[] newTypes = new DateTimeFieldType[iTypes.length + 1];\n        int[] newValues = new int[newTypes.length];\n\n        // find correct insertion point to keep largest-smallest order\n        int i = 0;\n        DurationField unitField = fieldType.getDurationType().getField(iChronology);\n        if (unitField.isSupported()) {\n            for (; i < iTypes.length; i++) {\n                DateTimeFieldType loopType = iTypes[i];\n                DurationField loopUnitField = loopType.getDurationType().getField(iChronology);\n                if (loopUnitField.isSupported()) {\n                    int compare = unitField.compareTo(loopUnitField);\n                    if (compare > 0) {\n                        break;\n                    } else if (compare == 0) {\n                        DurationField rangeField = fieldType.getRangeDurationType().getField(iChronology);\n                        DurationField loopRangeField = loopType.getRangeDurationType().getField(iChronology);\n                        if (rangeField.compareTo(loopRangeField) > 0) {\n                            break;\n                        }\n                    }\n                }\n            }\n        }\n        System.arraycopy(iTypes, 0, newTypes, 0, i);\n        System.arraycopy(iValues, 0, newValues, 0, i);\n        newTypes[i] = fieldType;\n        newValues[i] = value;\n        System.arraycopy(iTypes, i, newTypes, i + 1, newTypes.length - i - 1);\n        System.arraycopy(iValues, i, newValues, i + 1, newValues.length - i - 1);\n        // use public constructor to ensure full validation\n        // this isn't overly efficient, but is safe\n        Partial newPartial = new Partial(iChronology, newTypes, newValues);\n        iChronology.validate(newPartial, newValues);\n        return newPartial;\n    }\n    if (value == getValue(index)) {\n        return this;\n    }\n    int[] newValues = getValues();\n    newValues = getField(index).set(this, index, newValues, value);\n    return new Partial(this, newValues);\n}",
+        "best_candidate_hash": "1ad1f360911c",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 14.769
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 5.663
+      }
+    ],
+    "final_code": "public Partial with(DateTimeFieldType fieldType, int value) {\n    if (fieldType == null) {\n        throw new IllegalArgumentException(\"The field type must not be null\");\n    }\n    int index = indexOf(fieldType);\n    if (index == -1) {\n        DateTimeFieldType[] newTypes = new DateTimeFieldType[iTypes.length + 1];\n        int[] newValues = new int[newTypes.length];\n\n        // find correct insertion point to keep largest-smallest order\n        int i = 0;\n        DurationField unitField = fieldType.getDurationType().getField(iChronology);\n        if (unitField.isSupported()) {\n            for (; i < iTypes.length; i++) {\n                DateTimeFieldType loopType = iTypes[i];\n                DurationField loopUnitField = loopType.getDurationType().getField(iChronology);\n                if (loopUnitField.isSupported()) {\n                    int compare = unitField.compareTo(loopUnitField);\n                    if (compare > 0) {\n                        break;\n                    } else if (compare == 0) {\n                        DurationField rangeField = fieldType.getRangeDurationType().getField(iChronology);\n                        DurationField loopRangeField = loopType.getRangeDurationType().getField(iChronology);\n                        if (rangeField.compareTo(loopRangeField) > 0) {\n                            break;\n                        }\n                    }\n                }\n            }\n        }\n        System.arraycopy(iTypes, 0, newTypes, 0, i);\n        System.arraycopy(iValues, 0, newValues, 0, i);\n        newTypes[i] = fieldType;\n        newValues[i] = value;\n        System.arraycopy(iTypes, i, newTypes, i + 1, newTypes.length - i - 1);\n        System.arraycopy(iValues, i, newValues, i + 1, newValues.length - i - 1);\n        // use public constructor to ensure full validation\n        // this isn't overly efficient, but is safe\n        Partial newPartial = new Partial(iChronology, newTypes, newValues);\n        iChronology.validate(newPartial, newValues);\n        return newPartial;\n    }\n    if (value == getValue(index)) {\n        return this;\n    }\n    int[] newValues = getValues();\n    newValues = getField(index).set(this, index, newValues, value);\n    return new Partial(this, newValues);\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 37.502
+  },
+  "242": {
+    "bug_id": "242",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n        DateTimeParser parser = requireParser();\n        if (instant == null) {\n            throw new IllegalArgumentException(\"Instant must not be null\");\n        }\n\n        long instantMillis = instant.getMillis();\n        Chronology chrono = instant.getChronology();\n        long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n        chrono = selectChronology(chrono);\n        int defaultYear = chrono.year().get(instantLocal);\n\n        DateTimeParserBucket bucket = new DateTimeParserBucket(\n            instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n        int newPos = parser.parseInto(bucket, text, position);\n        instant.setMillis(bucket.computeMillis(false, text));\n        if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n            int parsedOffset = bucket.getOffsetInteger();\n            DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n            chrono = chrono.withZone(parsedZone);\n        } else if (bucket.getZone() != null) {\n            chrono = chrono.withZone(bucket.getZone());\n        }\n        instant.setChronology(chrono);\n        if (iZone != null) {\n            instant.setZone(iZone);\n        }\n        return newPos;\n    }",
+        "best_candidate_hash": "77ca3359f283",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 23.461
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    chrono = selectChronology(chrono);\n    int defaultYear = chrono.year().get(instantLocal);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+        "best_candidate_hash": "76b65c2b9c7b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 17.182
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 2,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    if (instantLocal < 0) {\n        instantLocal = 0; // Handle negative values\n    }\n    chrono = selectChronology(chrono);\n    int defaultYear = chrono.year().get(instantLocal);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+        "best_candidate_hash": "5b89a593f6ef",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 31.005
+      }
+    ],
+    "final_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    if (instantLocal < 0) {\n        instantLocal = 0; // Handle negative values\n    }\n    chrono = selectChronology(chrono);\n    int defaultYear = chrono.year().get(instantLocal);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, defaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+    "final_fail_reason": "test_fail",
+    "elapsed_total_sec": 71.648
+  },
+  "246": {
+    "bug_id": "246",
+    "solved": false,
+    "solving_iteration": null,
+    "total_iterations": 3,
+    "total_candidates_generated": 15,
+    "total_llm_calls": 3,
+    "iterations": [
+      {
+        "iteration": 1,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "    public int parseInto(ReadWritableInstant instant, String text, int position) {\n        DateTimeParser parser = requireParser();\n        if (instant == null) {\n            throw new IllegalArgumentException(\"Instant must not be null\");\n        }\n        \n        long instantMillis = instant.getMillis();\n        Chronology chrono = instant.getChronology();\n        long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n        chrono = selectChronology(chrono);\n        \n        DateTimeParserBucket bucket = new DateTimeParserBucket(\n                    instantLocal, chrono, iLocale, iPivotYear, iDefaultYear);\n        int newPos = parser.parseInto(bucket, text, position);\n        instant.setMillis(bucket.computeMillis(false, text));\n        if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n            int parsedOffset = bucket.getOffsetInteger();\n            DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n            chrono = chrono.withZone(parsedZone);\n        } else if (bucket.getZone() != null) {\n            chrono = chrono.withZone(bucket.getZone());\n        }\n        instant.setChronology(chrono);\n        if (iZone != null) {\n            instant.setZone(iZone);\n        }\n        return newPos;\n    }",
+        "best_candidate_hash": "e009112dce1b",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "",
+        "elapsed_sec": 23.558
+      },
+      {
+        "iteration": 2,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 1,
+        "best_candidate_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    chrono = selectChronology(chrono);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, iDefaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+        "best_candidate_hash": "ca3c68bae8dd",
+        "fail_reason": "test_fail",
+        "error_family": "",
+        "compile_stderr": "Running ant (compile)...................................................... OK\nRunning ant (compile.tests)................................................ OK\n",
+        "feedback_strategy": "test_feedback",
+        "elapsed_sec": 14.928
+      },
+      {
+        "iteration": 3,
+        "num_candidates_generated": 5,
+        "num_valid_candidates": 0,
+        "best_candidate_code": "",
+        "best_candidate_hash": "",
+        "fail_reason": "no_valid_candidates",
+        "error_family": "",
+        "compile_stderr": "",
+        "feedback_strategy": "",
+        "elapsed_sec": 2.813
+      }
+    ],
+    "final_code": "public int parseInto(ReadWritableInstant instant, String text, int position) {\n    DateTimeParser parser = requireParser();\n    if (instant == null) {\n        throw new IllegalArgumentException(\"Instant must not be null\");\n    }\n\n    long instantMillis = instant.getMillis();\n    Chronology chrono = instant.getChronology();\n    long instantLocal = instantMillis + chrono.getZone().getOffset(instantMillis);\n    chrono = selectChronology(chrono);\n\n    DateTimeParserBucket bucket = new DateTimeParserBucket(\n        instantLocal, chrono, iLocale, iPivotYear, iDefaultYear);\n    int newPos = parser.parseInto(bucket, text, position);\n    instant.setMillis(bucket.computeMillis(false, text));\n    if (iOffsetParsed && bucket.getOffsetInteger() != null) {\n        int parsedOffset = bucket.getOffsetInteger();\n        DateTimeZone parsedZone = DateTimeZone.forOffsetMillis(parsedOffset);\n        chrono = chrono.withZone(parsedZone);\n    } else if (bucket.getZone() != null) {\n        chrono = chrono.withZone(bucket.getZone());\n    }\n    instant.setChronology(chrono);\n    if (iZone != null) {\n        instant.setZone(iZone);\n    }\n    return newPos;\n}",
+    "final_fail_reason": "no_valid_candidates",
+    "elapsed_total_sec": 41.3
+  }
+}
