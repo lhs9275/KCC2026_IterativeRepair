@@ -15,40 +15,41 @@ GPT-4 같은 대형 모델은 에러 메시지를 통째로 넘겨도 잘 이해
 
 ## 실험 결과 (Defects4J 255 bugs)
 
-### Table 2: 전략별 해결률
+### Table 1: 전략별 해결률 (Qwen2.5-Coder-7B-Instruct, 2026-04-18)
 
 | 전략 | Solved | 해결률 | vs one_shot |
 |---|---|---|---|
-| one_shot (15 candidates × 1 iter) | 25 | 9.9% | — |
-| blind_retry (5 × 3 iter, 피드백 없음) | 23 | 9.3% | -0.6pp |
-| **error_aware (5 × 3 iter, 유형별 피드백)** | **58** | **23.7%** | **+13.8pp (2.4×)** |
+| one_shot (15 candidates × 1 iter) | 33 | 12.9% | — |
+| blind_retry (5 × 3 iter, 피드백 없음) | 40 | 15.7% | +2.8pp |
+| **error_aware (5 × 3 iter, 유형별 피드백)** | **44** | **17.3%** | **+4.4pp** |
+
+### 통계적 유의성 (McNemar exact)
+
+| 비교 | A만 성공 / B만 성공 | p-value |
+|------|---------------------|---------|
+| error_aware vs one_shot | +18 / -7 | **0.043** ✅ |
+| error_aware vs blind_retry | +12 / -8 | 0.503 ⚠️ |
+| blind_retry vs one_shot | +11 / -4 | 0.119 |
+
+반복 수리 자체는 one-shot 대비 유의미. 오류 유형 인식의 추가 효과는
+test-fail 서브그룹에서 뚜렷하지만 전체 유의성은 단일 seed 한계로 경계선.
+
+### Table 2: 초기 실패 유형별 해결률 (킬러 표)
+
+| 초기 실패 유형 | N | one_shot | blind_retry | **error_aware** |
+|---|---|---|---|---|
+| 1-shot 통과 (쉬움) | 17 | 17 (100%) | 17 (100%) | 17 (100%) |
+| **Test-fail** | **139** | 11 (7.9%) | 14 (10.1%) | **19 (13.7%)** |
+| Parse-fail | 55 | 1 (1.8%) | 4 (7.3%) | **5 (9.1%)** |
+| Compile: cannot-find-symbol | 18 | 2 (11.1%) | 2 (11.1%) | 1 (5.6%) ⚠️ |
+| Compile: 기타 (syntax/type/sig 등) | 22 | 2 | 2 | 2 |
+| Timeout | 2 | 0 | 1 | 0 |
 
 ### 핵심 발견
 
-- **blind retry는 one_shot보다 못함** → 에러 정보 없는 재시도는 역효과
-- **error_aware만이 반복의 가치를 실현** → 2.4배 향상
-- **error_aware ⊃ one_shot ∪ blind_retry** → 다른 전략이 푼 모든 bug를 포함 (superset)
-- **58개 중 43개(74%)가 iter 2/3에서 recovery** → 반복 피드백의 효과 입증
-- **test_feedback이 40.5% recovery rate** → 가장 효과적인 피드백 유형
-
-### Figure 3: Iteration별 해결 수
-
-```
-iter 1: +15  (누적: 15)
-iter 2: +32  (누적: 47)   ← 가장 큰 기여
-iter 3: +11  (누적: 58)
-```
-
-### Table 3: 프로젝트별 해결률
-
-| Project | Total | one_shot | blind | error_aware |
-|---|---|---|---|---|
-| closure-compiler | 90 | 6% | 3% | **11%** |
-| commons-math | 70 | 14% | 13% | **33%** |
-| commons-lang | 37 | 11% | 14% | **19%** |
-| jfreechart | 16 | 25% | 25% | **44%** |
-| joda-time | 16 | 0% | 6% | **19%** |
-| mockito | 16 | 12% | 6% | **50%** |
+- 가장 큰 카테고리(test-fail, 139/255)에서 error_aware가 +5 bugs (36% 상대 개선)
+- parse-fail에서도 일관된 우위
+- **부정 발견**: cannot-find-symbol(N=18)에서 error_aware가 오히려 열세 → symbol_feedback 개선 여지 (limitation)
 
 ## 파이프라인 실행 순서
 
@@ -111,7 +112,7 @@ iter 3: +11  (누적: 58)
 
 | 에러 유형 | 피드백에 포함하는 컨텍스트 | Recovery Rate |
 |---|---|---|
-| test_fail | buggy line location + "최소 수정" | TBD (재실험 중) |
+| test_fail | buggy line location + "최소 수정" | 13.7% (139개 중 19개) |
 | cannot_find_symbol | sibling methods (5개) | 23.1% |
 | no_valid_candidates | (재생성) | 12.0% |
 | other_compile_fail | compiler stderr | 7.7% |
@@ -130,19 +131,18 @@ bash run.sh --config config/ablation_blind_retry.yaml --bug_id_list $BUGS --max_
 bash run.sh --config config/ablation_error_aware.yaml --bug_id_list $BUGS --max_model_len 4096
 ```
 
-### 논문 분석 & 그래프 생성
+### 논문 산출물 재생성
 
 ```bash
-python 7.PaperAnalysis.py --output_dir paper_figures
+conda activate fse && python paper_artifacts/generate_paper_artifacts.py
 ```
 
-출력물:
-- `paper_figures/table2_strategy.csv` — Table 2 (전략 비교)
-- `paper_figures/table3_project.csv` — Table 3 (프로젝트별)
-- `paper_figures/fig3_iter_distribution.png` — Figure 3 (iter별 해결 수)
-- `paper_figures/fig4_error_recovery.png` — Figure 4 (에러 유형별 recovery)
-- `paper_figures/fig5_project_breakdown.png` — Figure 5 (프로젝트별 비교)
-- `paper_figures/summary.json` — 전체 통계 JSON
+출력물 (`paper_artifacts/`):
+- `PAPER_SUMMARY.md` — 논문 준비 요약 (수치/통계/케이스 스터디)
+- `table1_overall.tex`, `table2_breakdown.tex` — LaTeX 테이블
+- `fig_breakdown.png/pdf` — Figure 1 (유형별 바차트)
+- `stats_summary.txt` — McNemar 통계
+- `case_study_bug153.md` — Bug 153 (linearCombination) 정성 분석
 
 ### 소규모 테스트
 
@@ -182,6 +182,6 @@ KCC2026_IterativeRepair/
 ├── icse_lib/                   ICSE 파이프라인 의존성
 ├── Results/                    실험 결과
 │   ├── 1~5/                    Stage 0-5 결과
-│   └── iterative_*.json        ★ 반복 수리 실험 결과
-└── paper_figures/              ★ 논문용 그래프/CSV
+│   └── iterative_*_topk_20260418.json  ★ 최종 반복 수리 결과 (3 strategies)
+└── paper_artifacts/            ★ 논문용 LaTeX 표 / 그래프 / 통계
 ```
