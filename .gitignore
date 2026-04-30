@@ -15,3 +15,10 @@ icse_lib/Results/
 .env
 .env.*
 .DS_Store
+
+# Internal / temporary artifacts
+INSTRUCTIONS_FOR_CLAUDE_CODE.md
+Results/_baseline_seed42_backup/
+Results/logs_*/
+Results/*_dryrun.json
+ablation_subset_n5_dryrun.json

@@ -54,6 +54,9 @@ class IterativeConfig:
     # from this memory instead of re-feeding the same stuck code.
     top_k: int = 3
     rotate_on_stagnation: bool = True
+    # Ablation: strip test-failure metadata from feedback (TA-noMeta condition).
+    # Only affects test_feedback strategy; compile/timeout feedback unchanged.
+    ablation_no_meta: bool = False
 
 
 @dataclass
@@ -84,6 +87,7 @@ class IterativeRepairResult:
     final_code: Optional[str]
     final_fail_reason: str
     elapsed_total_sec: float
+    experiment_condition: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -289,6 +293,7 @@ def run_iterative_repair(
     expected_name: str = "",
     repair_branch: str = "java_base",
     stop: Optional[List[str]] = None,
+    prompt_log_dir: Optional[str] = None,
 ) -> IterativeRepairResult:
     """
     Run iterative repair for a single bug.
@@ -341,6 +346,7 @@ def run_iterative_repair(
                 prom_row=prom_row,
                 iteration=iteration + 1,
                 blind=blind,
+                ablation_no_meta=config.ablation_no_meta,
             )
 
         temperature = _get_temperature(config.temperature_schedule, iteration)
@@ -363,6 +369,23 @@ def run_iterative_repair(
         )
 
         total_llm_calls += 1
+
+        # Dump prompt and raw responses for post-hoc analysis
+        if prompt_log_dir:
+            import os as _os, json as _json
+            _iter_log = _os.path.join(prompt_log_dir, bug_id)
+            _os.makedirs(_iter_log, exist_ok=True)
+            try:
+                with open(_os.path.join(_iter_log, f"iter{iteration + 1}_prompt.txt"), "w", encoding="utf-8") as _f:
+                    _f.write(current_prompt)
+                with open(_os.path.join(_iter_log, f"iter{iteration + 1}_responses.json"), "w", encoding="utf-8") as _f:
+                    _json.dump(
+                        [{"candidate_idx": i, "text": c.get("raw_output", "")} for i, c in enumerate(candidates)],
+                        _f, ensure_ascii=False, indent=2,
+                    )
+            except Exception as _e:
+                logger.warning("[%s] iter %d: prompt dump failed: %s", bug_id, iteration + 1, _e)
+
         empty_count = sum(1 for c in candidates if not c["code"])
         base_eq_count = sum(1 for c in candidates if c["code"] and c["code"] == base_code)
         cross_iter_dup_count = sum(
@@ -472,6 +495,7 @@ def run_iterative_repair(
                     final_code=c["code"],
                     final_fail_reason="pass",
                     elapsed_total_sec=round(time.time() - started_at, 3),
+                    experiment_condition="test_aware_no_meta" if config.ablation_no_meta else "",
                 )
 
             # Track the best failing candidate
@@ -569,4 +593,5 @@ def run_iterative_repair(
         final_code=prev_best_code,
         final_fail_reason=final_fail,
         elapsed_total_sec=round(time.time() - started_at, 3),
+        experiment_condition="test_aware_no_meta" if config.ablation_no_meta else "",
     )

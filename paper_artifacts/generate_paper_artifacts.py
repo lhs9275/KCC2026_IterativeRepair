@@ -31,6 +31,8 @@ def mcnemar_p(b: int, c: int) -> float:
 def categorize(entry):
     iters = entry.get("iterations", [])
     if not iters:
+        if entry.get("status") == "infra_fail":
+            return "infra_fail"
         return "no_iters"
     i0 = iters[0]
     fr = i0.get("fail_reason", "")
@@ -97,6 +99,7 @@ CATEGORY_ORDER = [
     "compile:method_signature",
     "compile:other_compile_fail",
     "timeout",
+    "infra_fail",
 ]
 CATEGORY_LABEL = {
     "solved_iter0":                 "1-shot 통과 (쉬움)",
@@ -108,13 +111,15 @@ CATEGORY_LABEL = {
     "compile:method_signature":     "Compile: method-signature",
     "compile:other_compile_fail":   "Compile: other",
     "timeout":                      "Timeout",
+    "infra_fail":                   "Infra-fail (체크아웃 실패)",
 }
 
 
 def table_breakdown():
     lines = [
         r"\begin{table*}[t]",
-        r"\caption{초기 실패 유형별 해결률 분포. 각 버그는 첫 시도(iter 0)의 실패 유형으로 분류되었다.}",
+        r"\caption{초기 실패 유형별 해결률 분포. 분류 기준은 error_aware 전략의 iter 0 실패 유형이며, "
+        r"세 전략 모두 동일한 분할로 비교된다. Infra-fail은 Defects4J 체크아웃 실패로 어느 전략도 시도하지 못한 버그.}",
         r"\label{tab:breakdown}",
         r"\centering",
         r"\small",

@@ -71,6 +71,7 @@ def build_iterative_config(cfg: Dict[str, Any]) -> IterativeConfig:
         max_new_tokens=int(cfg.get("max_new_tokens", 512)),
         seed=int(cfg.get("seed", 42)),
         test_timeout=int(cfg.get("test_timeout", 300)),
+        ablation_no_meta=bool(cfg.get("ablation_no_meta", False)),
     )
 
 
@@ -85,6 +86,7 @@ def repair_one_bug(
     iter_config: IterativeConfig,
     backend,
     workspace_root: str,
+    prompt_log_dir: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Repair a single bug with iterative loop."""
     dataset = cfg.get("dataset", "defects4j")
@@ -143,6 +145,7 @@ def repair_one_bug(
             base_code=base_code,
             expected_name=expected_name,
             repair_branch=repair_branch,
+            prompt_log_dir=prompt_log_dir,
         )
 
         return asdict(result)
@@ -188,6 +191,14 @@ def main():
     parser.add_argument("--num_processes", type=int, default=1,
                         help="Number of parallel workers (default=1, sequential)")
     parser.add_argument("--log_level", type=str, default="INFO")
+    parser.add_argument("--ablation_no_meta", action="store_true",
+                        help="Ablation: TA feedback without test-failure metadata (TA-noMeta).")
+    parser.add_argument("--bug_subset", type=str, default="",
+                        help="Path to JSON file listing bug IDs to run (overrides --bug_id_list).")
+    parser.add_argument("--shuffle_seed", type=int, default=42,
+                        help="Seed for shuffling bug order when using --bug_subset.")
+    parser.add_argument("--time_budget_sec", type=int, default=None,
+                        help="Hard time budget in seconds; loop exits gracefully when exceeded.")
     args = parser.parse_args()
 
     # Setup logging
@@ -205,6 +216,8 @@ def main():
 
     # Load config
     cfg = load_config(args)
+    if args.ablation_no_meta:
+        cfg["ablation_no_meta"] = True
     iter_config = build_iterative_config(cfg)
     dataset = cfg.get("dataset", "defects4j")
     strategy = cfg.get("strategy", "error_aware")
@@ -228,8 +241,19 @@ def main():
         all_prompts = json.load(f)
     logger.info("Loaded %d bugs from %s", len(all_prompts), prompts_json)
 
-    # Filter bug IDs if specified
-    if args.bug_id_list:
+    # Filter bug IDs: --bug_subset (JSON file) takes priority over --bug_id_list
+    if args.bug_subset and os.path.isfile(args.bug_subset):
+        import json as _json_sub, random as _random_sub
+        with open(args.bug_subset) as _f:
+            subset_ids = set(str(x) for x in _json_sub.load(_f))
+        all_prompts = {k: v for k, v in all_prompts.items() if k in subset_ids}
+        _random_sub.seed(args.shuffle_seed)
+        _items = list(all_prompts.items())
+        _random_sub.shuffle(_items)
+        all_prompts = dict(_items)
+        logger.info("Filtered to %d bugs from subset file %s (shuffle_seed=%d)",
+                    len(all_prompts), args.bug_subset, args.shuffle_seed)
+    elif args.bug_id_list:
         selected_ids = set(args.bug_id_list.split(","))
         all_prompts = {k: v for k, v in all_prompts.items() if k in selected_ids}
         logger.info("Filtered to %d bugs", len(all_prompts))
@@ -276,11 +300,24 @@ def main():
             logger.warning("Could not load checkpoint %s: %s — starting fresh", output_path, e)
             results = {}
 
+    # Derive prompt log dir for ablation (flat convention: Results/logs_<stem>/)
+    prompt_log_dir = None
+    if iter_config.ablation_no_meta:
+        _stem = os.path.splitext(os.path.basename(output_path))[0]
+        prompt_log_dir = os.path.join(os.path.dirname(output_path), f"logs_{_stem}")
+        os.makedirs(prompt_log_dir, exist_ok=True)
+        logger.info("Prompt/response dump enabled: %s", prompt_log_dir)
+
     # Run repairs
     total = len(all_prompts)
     solved_count = sum(1 for r in results.values() if r.get("solved"))
+    _run_start = time.time()
 
     for idx, (bug_id, prom_row) in enumerate(all_prompts.items(), 1):
+        if args.time_budget_sec and (time.time() - _run_start) >= args.time_budget_sec:
+            logger.info("Time budget (%ds) exceeded after %d bugs — stopping.", args.time_budget_sec, idx - 1)
+            break
+
         if bug_id in results:
             logger.info("=== [%d/%d] Bug %s — skipping (already in checkpoint) ===", idx, total, bug_id)
             continue
@@ -294,6 +331,7 @@ def main():
             iter_config=iter_config,
             backend=backend,
             workspace_root=workspace_root,
+            prompt_log_dir=prompt_log_dir,
         )
         results[bug_id] = result
 

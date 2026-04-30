@@ -30,6 +30,10 @@
 전체 유의성은 단일 seed 한계로 경계선에 있음 (Limitation에 기록).
 
 ### 1.3 초기 실패 유형별 분포 (Table 2, 킬러 표)
+
+분류 기준은 **error_aware 전략의 iter 0 실패 유형**이며, 세 전략 모두 동일 분할로 비교한다.
+(one_shot은 candidate 수가 달라 자체 iter 0 분포가 다르지만, 비교의 일관성을 위해 통일.)
+
 | 초기 실패 유형 | N | One-shot | Blind-retry | **Error-aware** |
 |----------------|---|----------|-------------|-----------------|
 | 1-shot 통과 (쉬움) | 17 | 17 (100%) | 17 (100%) | 17 (100%) |
@@ -41,6 +45,8 @@
 | Compile: method-signature | 3 | 0 | 0 | 0 |
 | Compile: other | 5 | 0 | 1 (20%) | 1 (20%) |
 | Timeout | 2 | 0 | 1 (50%) | 0 |
+| Infra-fail (체크아웃 실패) | 2 | 0 | 0 | 0 |
+| **전체** | **255** | **33 (12.9%)** | **40 (15.7%)** | **44 (17.3%)** |
 
 **핵심 인사이트**:
 - 가장 큰 카테고리(test-fail, 139/255)에서 Error-aware가 +5 bugs (36% 상대 개선)
@@ -52,11 +58,12 @@
 ## 2. 연산 비용 비교
 | 전략 | 평균 LLM 호출 | 평균 처리시간 | 전체 wall-clock |
 |------|---------------|---------------|------------------|
-| One-shot | 0.99 회/버그 | 98.6s | 6.99h |
-| Blind-retry | 2.80 회/버그 | 104.3s | 7.39h |
-| Error-aware | 2.78 회/버그 | 102.9s | 7.29h |
+| One-shot (15 cand × 1 iter) | 0.99 회/버그 | 98.6s | 6.99h |
+| Blind-retry (5 cand × 3 iter) | 2.80 회/버그 | 104.3s | 7.39h |
+| Error-aware (5 cand × 3 iter) | 2.78 회/버그 | 102.9s | 7.29h |
 
-Error-aware와 Blind-retry는 동일 연산 비용에서 피드백 품질만 차이 → 공정 비교.
+Error-aware와 Blind-retry는 candidate × iteration 예산이 동일(5×3)하므로 공정 비교가 성립.
+One-shot은 단일 iter 예산을 candidate 15개에 사용한 동일 LLM 호출 횟수 기준 비교.
 
 ---
 
@@ -105,6 +112,7 @@ Error-aware와 Blind-retry는 동일 연산 비용에서 피드백 품질만 차
 3. **max_model_len=4096**: config YAML 기본값(8192)보다 작음. 일부 대형 프롬프트는 tail-truncate.
 4. **Compile 카테고리 샘플 크기**: 소규모 카테고리(N=3~11)에서 통계적 결론 어려움.
 5. **Symbol 피드백의 부정적 효과**: cannot-find-symbol 18개 중 해결률 감소 → 구조 재검토 필요.
+6. **Infra 실패 2건 제외**: Bug 121(Lang-18), 140(Lang-48)은 Defects4J 체크아웃이 모든 전략에서 실패 → Table 2에 별도 행으로 표시했으며 분모 255에는 포함되어 있음(어느 전략에도 유리/불리하지 않음).
 
 ---
 

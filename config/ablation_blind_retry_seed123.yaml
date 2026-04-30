@@ -1,0 +1,12 @@
+strategy: blind_retry
+max_iterations: 3
+candidates_per_iteration: 5
+temperature_schedule: [0.0, 0.4, 0.8]
+max_new_tokens: 1024
+model_name: "../models/Qwen2.5-Coder-7B-Instruct"
+backend: auto
+max_model_len: 8192
+gpu_memory_utilization: 0.85
+dataset: defects4j
+test_timeout: 300
+seed: 123

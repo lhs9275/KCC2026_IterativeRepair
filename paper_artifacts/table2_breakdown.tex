@@ -1,5 +1,5 @@
 \begin{table*}[t]
-\caption{초기 실패 유형별 해결률 분포. 각 버그는 첫 시도(iter 0)의 실패 유형으로 분류되었다.}
+\caption{초기 실패 유형별 해결률 분포. 분류 기준은 error_aware 전략의 iter 0 실패 유형이며, 세 전략 모두 동일한 분할로 비교된다. Infra-fail은 Defects4J 체크아웃 실패로 어느 전략도 시도하지 못한 버그.}
 \label{tab:breakdown}
 \centering
 \small
@@ -16,6 +16,7 @@ Compile: type-mismatch & 3 & 2 (66.7\%) & 1 (33.3\%) & \textbf{1 (33.3\%)} \\
 Compile: method-signature & 3 & 0 (0.0\%) & 0 (0.0\%) & \textbf{0 (0.0\%)} \\
 Compile: other & 5 & 0 (0.0\%) & 1 (20.0\%) & \textbf{1 (20.0\%)} \\
 Timeout & 2 & 0 (0.0\%) & 1 (50.0\%) & \textbf{0 (0.0\%)} \\
+Infra-fail (체크아웃 실패) & 2 & 0 (0.0\%) & 0 (0.0\%) & \textbf{0 (0.0\%)} \\
 \midrule
 전체 & 255 & 33 (12.9\%) & 40 (15.7\%) & \textbf{44 (17.3\%)} \\
 \bottomrule

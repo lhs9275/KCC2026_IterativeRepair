@@ -318,6 +318,45 @@ Undo unnecessary changes from the wrong code.
 Output the COMPLETE fixed function."""
 
 
+def _build_test_feedback_no_meta(previous_code: str, eval_result: Dict[str, Any],
+                                  prom_row: Dict[str, Any]) -> str:
+    """ABLATION variant: Test-aware feedback WITHOUT failing-test metadata.
+
+    Removes (vs full TA): failing test count, names, first failing test,
+    failure message, stack frames, test detail output, fail_count-conditioned
+    header, and "Use the FIRST FAILURE MESSAGE" instruction.
+
+    Keeps (identical to full TA): buggy line hint, ORIGINAL BUGGY CODE block,
+    "Start from the ORIGINAL BUGGY CODE, minimal semantic fix" instructions.
+    """
+    buggy_line = prom_row.get("buggy_line_content", "")
+    buggy_code = _get_buggy_code(prom_row)
+
+    sections = []
+    if buggy_line:
+        sections.append(
+            f"HINT: The original bug is likely on or near this line:\n  {buggy_line}"
+        )
+    if buggy_code:
+        sections.append(f"ORIGINAL BUGGY CODE:\n{buggy_code[:700]}")
+    joined_sections = "\n\n".join(sections)
+
+    header = "Your code compiled but FAILED TESTS — the logic is wrong."
+
+    return f"""{header}
+
+{joined_sections}
+
+YOUR WRONG CODE:
+{previous_code}
+
+FIX: The previous attempt failed tests. Repair the logic.
+Start from the ORIGINAL BUGGY CODE, not your previous rewrite.
+Make a MINIMAL semantic fix near the buggy line.
+Undo unnecessary changes from the wrong code.
+Output the COMPLETE fixed function."""
+
+
 def _build_simplify_feedback(previous_code: str, eval_result: Dict[str, Any],
                              prom_row: Dict[str, Any]) -> str:
     buggy_code = _get_buggy_code(prom_row)
@@ -374,9 +413,12 @@ def build_feedback_prompt(
     prom_row: Dict[str, Any],
     iteration: int,
     blind: bool = False,
+    ablation_no_meta: bool = False,
 ) -> str:
     if blind:
         feedback_section = _build_blind_feedback(previous_code, eval_result, prom_row)
+    elif ablation_no_meta and strategy.strategy_name == "test_feedback":
+        feedback_section = _build_test_feedback_no_meta(previous_code, eval_result, prom_row)
     else:
         builder = _FEEDBACK_BUILDERS.get(strategy.strategy_name, _build_generic_compile_feedback)
         feedback_section = builder(previous_code, eval_result, prom_row)

@@ -36,14 +36,21 @@ test-fail 서브그룹에서 뚜렷하지만 전체 유의성은 단일 seed 한
 
 ### Table 2: 초기 실패 유형별 해결률 (킬러 표)
 
+분류 기준: **error_aware 전략의 iter 0 실패 유형** (세 전략 동일 분할로 비교).
+
 | 초기 실패 유형 | N | one_shot | blind_retry | **error_aware** |
 |---|---|---|---|---|
 | 1-shot 통과 (쉬움) | 17 | 17 (100%) | 17 (100%) | 17 (100%) |
 | **Test-fail** | **139** | 11 (7.9%) | 14 (10.1%) | **19 (13.7%)** |
 | Parse-fail | 55 | 1 (1.8%) | 4 (7.3%) | **5 (9.1%)** |
 | Compile: cannot-find-symbol | 18 | 2 (11.1%) | 2 (11.1%) | 1 (5.6%) ⚠️ |
-| Compile: 기타 (syntax/type/sig 등) | 22 | 2 | 2 | 2 |
-| Timeout | 2 | 0 | 1 | 0 |
+| Compile: syntax/parse | 11 | 0 | 0 | 0 |
+| Compile: type-mismatch | 3 | 2 (66.7%) | 1 (33.3%) | 1 (33.3%) |
+| Compile: method-signature | 3 | 0 | 0 | 0 |
+| Compile: other | 5 | 0 | 1 (20%) | 1 (20%) |
+| Timeout | 2 | 0 | 1 (50%) | 0 |
+| Infra-fail (Defects4J 체크아웃 실패) | 2 | 0 | 0 | 0 |
+| **전체** | **255** | **33 (12.9%)** | **40 (15.7%)** | **44 (17.3%)** |
 
 ### 핵심 발견
 
@@ -108,16 +115,19 @@ test-fail 서브그룹에서 뚜렷하지만 전체 유의성은 단일 seed 한
                   다음 iteration으로 (최대 3회)
 ```
 
-## 에러 유형 분류 체계
+## 에러 유형 분류 체계 (error_aware 피드백 라우팅)
 
-| 에러 유형 | 피드백에 포함하는 컨텍스트 | Recovery Rate |
-|---|---|---|
-| test_fail | buggy line location + "최소 수정" | 13.7% (139개 중 19개) |
-| cannot_find_symbol | sibling methods (5개) | 23.1% |
-| no_valid_candidates | (재생성) | 12.0% |
-| other_compile_fail | compiler stderr | 7.7% |
-| method_signature | sibling signatures | 6.7% |
-| syntax_or_parse | compiler stderr | 1.3% |
+각 에러 유형마다 **다른 피드백 프롬프트**를 사용해 LLM에 컨텍스트를 선별적으로 제공한다.
+유형별 정량 결과는 위 Table 2를 참고.
+
+| 에러 유형 | 피드백에 포함하는 컨텍스트 |
+|---|---|
+| test_fail | 실패 테스트 이름 + buggy line + "원본에서 최소 수정" 지시 |
+| cannot_find_symbol | sibling methods (동일 클래스의 다른 메서드 시그니처) |
+| no_valid_candidates | 파싱 실패 → 재생성 요청 (포맷 강조) |
+| other_compile_fail | compiler stderr 첫 N줄 |
+| method_signature | sibling method signatures |
+| syntax_or_parse | compiler stderr |
 
 ## 실행 방법
 
