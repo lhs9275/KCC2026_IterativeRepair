@@ -163,10 +163,92 @@ bash run.sh --config config/ablation_error_aware.yaml --bug_id_list 1,2,3,4,5,6,
 
 ## 환경 요구사항
 
-- GPU: VRAM 28GB+ (Qwen 7B + vLLM)
-- Java 11 (Defects4J 요구, `run.sh`에서 자동 설정)
-- Python 3.10+, vLLM, transformers, torch (conda env: `kcc`)
-- Defects4J v3 (초기화 필요: `cd ICSE/defects4j && bash init.sh`)
+- GPU: VRAM 28GB+ (Qwen2.5-Coder-7B + vLLM KV cache 포함)
+- CUDA 12.x 이상
+- Java 11 (Defects4J 필수)
+- Python 3.10+
+- Defects4J v3
+
+## 설치 가이드 (다른 컴퓨터에서 처음 세팅)
+
+### 1. 레포 클론
+
+```bash
+git clone git@github.com:lhs9275/KCC2026_IterativeRepair.git
+cd KCC2026_IterativeRepair
+```
+
+### 2. Java 11 설치
+
+```bash
+sudo apt-get install -y openjdk-11-jdk
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+```
+
+### 3. Defects4J 설치
+
+```bash
+git clone https://github.com/rjust/defects4j.git ~/defects4j
+cd ~/defects4j
+cpanm --installdeps .   # Perl 의존성
+bash init.sh
+export PATH="$HOME/defects4j/framework/bin:$PATH"
+cd -
+```
+
+### 4. conda 환경 생성 및 패키지 설치
+
+```bash
+conda create -n kcc python=3.10 -y
+conda activate kcc
+
+# PyTorch (CUDA 버전에 맞게 선택)
+pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cu124
+
+# vLLM
+pip install vllm==0.15.0
+
+# 나머지 패키지
+pip install -r requirements.txt
+```
+
+### 5. 모델 다운로드
+
+```bash
+# 레포 상위 폴더에 models/ 디렉토리 생성 (config 기본 경로)
+mkdir -p ../models
+huggingface-cli download Qwen/Qwen2.5-Coder-7B-Instruct \
+    --local-dir ../models/Qwen2.5-Coder-7B-Instruct
+```
+
+> 다른 경로에 다운로드했다면 `config/*.yaml`의 `model_name` 항목을 수정하세요.
+
+### 6. run.sh 경로 설정
+
+`run.sh`의 아래 두 줄을 실제 경로로 수정:
+
+```bash
+# run.sh 상단
+source /home/YOUR_USER/miniconda3/etc/profile.d/conda.sh   # conda 경로
+export PATH="$JAVA_HOME/bin:/home/YOUR_USER/defects4j/framework/bin:$PATH"  # defects4j 경로
+```
+
+### 7. 동작 확인 (소규모 테스트)
+
+```bash
+conda activate kcc
+bash run.sh --config config/ablation_error_aware.yaml --bug_id_list 1,2,3
+```
+
+### 빠른 체크리스트
+
+```
+[ ] Java 11 설치 확인: java -version
+[ ] defects4j 확인: defects4j info -p Chart -b 1
+[ ] 모델 경로 확인: ls ../models/Qwen2.5-Coder-7B-Instruct/
+[ ] GPU 확인: python -c "import torch; print(torch.cuda.is_available())"
+[ ] vLLM 확인: python -c "import vllm; print(vllm.__version__)"
+```
 
 ## 디렉토리 구조
 

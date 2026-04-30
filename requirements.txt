@@ -1,0 +1,26 @@
+# Core LLM
+torch==2.9.1
+transformers==4.57.6
+tokenizers==0.22.2
+huggingface_hub==0.36.2
+sentencepiece==0.2.1
+accelerate
+
+# vLLM inference (CUDA required)
+# Install separately: pip install vllm==0.15.0
+# flashinfer-python==0.6.1 (installed automatically by vllm)
+
+# Code parsing
+tree-sitter==0.25.2
+tree-sitter-java==0.23.5
+tree-sitter-python==0.25.0
+
+# Utilities
+numpy==2.2.6
+scipy
+tqdm==4.67.2
+requests==2.32.5
+aiohttp==3.13.3
+pyyaml
+einops==0.8.2
+packaging==25.0
